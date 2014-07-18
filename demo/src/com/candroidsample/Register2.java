@@ -2,6 +2,7 @@ package com.candroidsample;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +36,9 @@ public class Register2 extends Activity
             @Override
 			public void onClick(View arg0)
 			{
-            
+            	Intent intent = new Intent();
+				intent.setClass(Register2.this, HomePage.class);
+				startActivity(intent);
 			}
         });
 		bt3 = (Button)findViewById(R.id.button3);

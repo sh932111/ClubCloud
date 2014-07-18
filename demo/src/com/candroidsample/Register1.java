@@ -1,6 +1,11 @@
 package com.candroidsample;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +28,7 @@ public class Register1 extends Activity
 	private Spinner spinner;
 	String EID;
 	private EditText idNumberEdit;
-	
+
 	private Handler mHandler = new Handler()
 	{
 		public void handleMessage(Message msg)
@@ -51,6 +56,13 @@ public class Register1 extends Activity
 							if (resString.equals("1"))
 							{
 								Intent intent = new Intent();
+								
+								Bundle bundle = new Bundle();
+								
+								bundle.putString("user_id", EID + idNumberEdit.getText().toString());
+
+								intent.putExtras(bundle);
+								
 								intent.setClass(Register1.this, Register2.class);
 								startActivity(intent);
 							}
@@ -77,7 +89,14 @@ public class Register1 extends Activity
 			// TODO Auto-generated method stub
 			GetServerMessage demo = new GetServerMessage();
 
-			Dictionary<String, String> dic = demo.stringQuery(URL, ID);
+			List<NameValuePair> parems = new ArrayList<NameValuePair>();
+
+			if (ID.length() > 0)
+			{
+				parems.add(new BasicNameValuePair("user_id", ID));
+			}
+
+			Dictionary<String, String> dic = demo.stringQuery(URL, parems);
 
 			String message = dic.get("Message");
 			String result = dic.get("result");
@@ -100,8 +119,8 @@ public class Register1 extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register1);
 		spinner = (Spinner) findViewById(R.id.spinnner);
-		idNumberEdit = (EditText)findViewById(R.id.editText1);
-		
+		idNumberEdit = (EditText) findViewById(R.id.editText1);
+
 		ArrayAdapter<CharSequence> adapterBalls = ArrayAdapter
 				.createFromResource(this, R.array.EID,
 						android.R.layout.simple_spinner_item);
@@ -111,15 +130,15 @@ public class Register1 extends Activity
 		spinner.setAdapter(adapterBalls);
 
 		spinner.setOnItemSelectedListener(spnPerferListener);
-		
+
 		Button bt1 = (Button) findViewById(R.id.button1);
 		bt1.setOnClickListener(new Button.OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0)
 			{
-				String user_id = EID + idNumberEdit.getText().toString(); 
-				
+				String user_id = EID + idNumberEdit.getText().toString();
+
 				sendPostRunnable post = new sendPostRunnable(
 						"http://192.168.1.31:8888/ClubCloud/Register1.php",
 						user_id);
@@ -141,27 +160,27 @@ public class Register1 extends Activity
 		getMenuInflater().inflate(R.menu.register1, menu);
 		return true;
 	}
-	private Spinner.OnItemSelectedListener spnPerferListener = 
-			new Spinner.OnItemSelectedListener()
+
+	private Spinner.OnItemSelectedListener spnPerferListener = new Spinner.OnItemSelectedListener()
 	{
-		
+
 		@Override
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) 
+				long arg3)
 		{
 			if (spinner == arg0)
 			{
 				EID = arg0.getSelectedItem().toString();
 			}
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0)
 		{
 			// TODO Auto-generated method stub
-			
+
 		}
 	};
 }

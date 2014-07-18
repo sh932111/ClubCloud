@@ -16,18 +16,12 @@ import org.json.JSONObject;
 public class GetServerMessage
 {
 
-	public Dictionary<String, String> stringQuery(String url, String user_id) 
+	public Dictionary<String, String> stringQuery(String url, List<NameValuePair>parems) 
 	{
 		try
         {
             HttpPost method = new HttpPost(url);
             
-            List<NameValuePair>parems = new ArrayList<NameValuePair>();
-            
-            if (user_id.length() > 0) 
-            {
-                parems.add(new BasicNameValuePair("user_id", user_id));
-            }
             method.setEntity(new UrlEncodedFormEntity(parems,HTTP.UTF_8));
             
             HttpResponse response = new DefaultHttpClient().execute(method);
@@ -100,4 +94,5 @@ public class GetServerMessage
              return dict;
          }
 	}
+	
 }

@@ -11,17 +11,22 @@ import static com.candroidsample.CommonUtilities.SENDER_ID;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Contacts.Settings;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
 public class StartActivity extends Activity
 {
+	public static final String PREF = "get_pref";
+	public static final String GET_ID = "get_id";
+	
 	GoogleCloudMessaging gcm;
 	private Context context;
 	private String strRegId;
@@ -84,8 +89,10 @@ public class StartActivity extends Activity
 					
 					strRegId = gcm.register(SENDER_ID);
 					
-					System.out.println("id"+strRegId);
-				    
+					SharedPreferences get_pref = getSharedPreferences(PREF, 0);
+					
+					get_pref.edit().putString(GET_ID, strRegId).commit();
+					
 					msg = "Device registered, registration id=" + strRegId;
 
 					// send id to our server

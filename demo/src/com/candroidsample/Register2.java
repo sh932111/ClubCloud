@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,16 @@ import android.widget.TextView;
 
 public class Register2 extends Activity
 {
+	Button bt1;
+	Button bt2;
+	Button bt3;
+
+	EditText edit_text1;
+	EditText edit_text2;
+	EditText edit_text3;
+	EditText edit_text4;
+	
+	String user_id;
 	private Handler mHandler = new Handler()
 	{
 		public void handleMessage(Message msg)
@@ -34,8 +45,6 @@ public class Register2 extends Activity
 			final String resString = msg.getData().getString("result");
 			String messageString = msg.getData().getString("Message");
 
-			System.out.println(resString);
-			
 			AlertDialog.Builder dialog = new AlertDialog.Builder(Register2.this);
 			dialog.setTitle("訊息"); // 設定dialog 的title顯示內容
 			dialog.setIcon(android.R.drawable.ic_dialog_alert);// 設定dialog 的ICO
@@ -49,6 +58,18 @@ public class Register2 extends Activity
 						{
 							if (resString.equals("1"))
 							{
+								UserDB mDbHelper = new UserDB(Register2.this);
+								
+								mDbHelper.open();
+								
+								String str1 = edit_text1.getText().toString();
+				            	String str2 = edit_text2.getText().toString();
+				            	String str3 = edit_text3.getText().toString();
+				            	
+				            	mDbHelper.create(str2, str3, str1, user_id, device_token, "android");
+				            	
+								mDbHelper.close();
+								
 								Intent intent = new Intent();
 								intent.setClass(Register2.this, HomePage.class);
 								startActivity(intent);
@@ -94,20 +115,30 @@ public class Register2 extends Activity
 
 	}
 
+	public static final String PREF = "get_pref";
+	public static final String GET_ID = "get_id";
+	String device_token;
 	
 	ScrollView scrollView;
-	Button bt1;
-	Button bt2;
-	Button bt3;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register2);
 		
+		SharedPreferences get_pref = getSharedPreferences(PREF, 0);
+		
+		String get_id = get_pref.getString(GET_ID, "");
+		
+		if (!"".equals(get_id))
+		{
+			device_token = get_id;
+		}
+		
 		Bundle bundle = getIntent().getExtras();
 		
-		final String user_id = bundle.getString("user_id");
+		user_id = bundle.getString("user_id");
 		
 		TextView txt1 = (TextView)findViewById(R.id.txt1);
 		
@@ -139,13 +170,13 @@ public class Register2 extends Activity
             @Override
 			public void onClick(View arg0)
 			{
-            	EditText edit_text1 = (EditText)findViewById(R.id.editText1);
+            	edit_text1 = (EditText)findViewById(R.id.editText1);
             	String str1 = edit_text1.getText().toString();
-            	EditText edit_text2 = (EditText)findViewById(R.id.editText2);
+            	edit_text2 = (EditText)findViewById(R.id.editText2);
             	String str2 = edit_text2.getText().toString();
-            	EditText edit_text3 = (EditText)findViewById(R.id.editText3);
+            	edit_text3 = (EditText)findViewById(R.id.editText3);
             	String str3 = edit_text3.getText().toString();
-            	EditText edit_text4 = (EditText)findViewById(R.id.editText4);
+            	edit_text4 = (EditText)findViewById(R.id.editText4);
             	String str4 = edit_text4.getText().toString();
             	
             	if (str3.equals(str4) && str1.length() > 0 && str2.length() > 0 && str3.length() > 0 && str4.length() > 0)
@@ -156,6 +187,8 @@ public class Register2 extends Activity
             		parems.add(new BasicNameValuePair("username", str2));
             		parems.add(new BasicNameValuePair("password", str3));
             		parems.add(new BasicNameValuePair("user_id", user_id));
+            		parems.add(new BasicNameValuePair("device_token", device_token));
+            		parems.add(new BasicNameValuePair("device_os", "android"));
             		
             		sendPostRunnable post = new sendPostRunnable(
     						"http://192.168.1.31:8888/ClubCloud/Register2.php",
@@ -184,11 +217,7 @@ public class Register2 extends Activity
         					});
         			dialog.show();
 				}
-            	
 
-//            	Intent intent = new Intent();
-//				intent.setClass(Register2.this, HomePage.class);
-//				startActivity(intent);
 			}
         });
 	}

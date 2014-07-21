@@ -77,7 +77,8 @@
             <EditText
                 android:id="@+id/pass"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" >
             </EditText>
         </LinearLayout>
     </LinearLayout>

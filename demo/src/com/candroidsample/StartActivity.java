@@ -63,7 +63,10 @@ public class StartActivity extends Activity
 			public void onClick(View arg0)
 			{
 				// TODO Auto-generated method stub
-            	
+            	Intent intent = new Intent();
+				intent.setClass(StartActivity.this,
+						LoginPage.class);
+				startActivity(intent);
 			}         
 
         }); 

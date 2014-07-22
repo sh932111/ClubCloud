@@ -41,6 +41,23 @@ public class StartActivity extends Activity
 		gcm = GoogleCloudMessaging.getInstance(this);
 
 		setGCM_RegID();
+
+		UserDB mDbHelper = new UserDB(StartActivity.this);
+
+		mDbHelper.open();
+		
+		int count = mDbHelper.isTableExists();
+		
+		mDbHelper.close();
+
+		if (count != 0)
+		{
+			HomeUtil mSysUtil= new HomeUtil(StartActivity.this);  
+            
+			mSysUtil.exit();
+		}
+		
+		
 		Button bt1 = (Button)findViewById(R.id.button1);
 		bt1.setOnClickListener(new Button.OnClickListener()
         { 

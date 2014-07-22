@@ -18,7 +18,7 @@ public class HomeUtil
 	{
 		Intent mIntent = new Intent();
 		mIntent.setClass(mContext, HomePage.class);
-		mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		mIntent.putExtra("flag", EXIT_APPLICATION);
 		mContext.startActivity(mIntent);
 	}

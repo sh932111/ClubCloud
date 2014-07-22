@@ -77,6 +77,20 @@ public class HomePage extends Activity
 			}
 			
 		});
+		Button bt5 = (Button)findViewById(R.id.bt5);
+		bt5.setOnClickListener(new Button.OnClickListener()
+        { 
+            @Override
+			public void onClick(View arg0)
+			{
+				// TODO Auto-generated method stub
+            	Intent intent = new Intent();
+				intent.setClass(HomePage.this,
+						FriendManagement.class);
+				startActivity(intent);
+			}         
+
+        }); 
 	}
 	public void setGCM_RegID() 
 	{

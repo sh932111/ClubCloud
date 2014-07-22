@@ -108,30 +108,32 @@ public final class R {
         public static final int weekday_gridview=0x7f0a0024;
     }
     public static final class layout {
-        public static final int activity_home_page=0x7f030000;
-        public static final int activity_login_page=0x7f030001;
-        public static final int activity_main=0x7f030002;
-        public static final int activity_register1=0x7f030003;
-        public static final int activity_register2=0x7f030004;
-        public static final int activity_show_travel_detail=0x7f030005;
-        public static final int activity_show_travel_list=0x7f030006;
-        public static final int activity_start=0x7f030007;
-        public static final int calendar_view=0x7f030008;
-        public static final int custom_cell=0x7f030009;
-        public static final int date_cell=0x7f03000a;
-        public static final int date_grid_fragment=0x7f03000b;
-        public static final int mylist=0x7f03000c;
+        public static final int activity_friend_management=0x7f030000;
+        public static final int activity_home_page=0x7f030001;
+        public static final int activity_login_page=0x7f030002;
+        public static final int activity_main=0x7f030003;
+        public static final int activity_register1=0x7f030004;
+        public static final int activity_register2=0x7f030005;
+        public static final int activity_show_travel_detail=0x7f030006;
+        public static final int activity_show_travel_list=0x7f030007;
+        public static final int activity_start=0x7f030008;
+        public static final int calendar_view=0x7f030009;
+        public static final int custom_cell=0x7f03000a;
+        public static final int date_cell=0x7f03000b;
+        public static final int date_grid_fragment=0x7f03000c;
+        public static final int mylist=0x7f03000d;
     }
     public static final class menu {
-        public static final int home_page=0x7f090000;
-        public static final int login_page=0x7f090001;
-        public static final int one=0x7f090002;
-        public static final int register1=0x7f090003;
-        public static final int register2=0x7f090004;
-        public static final int set_travel=0x7f090005;
-        public static final int show_travel_detail=0x7f090006;
-        public static final int show_travel_list=0x7f090007;
-        public static final int start=0x7f090008;
+        public static final int friend_management=0x7f090000;
+        public static final int home_page=0x7f090001;
+        public static final int login_page=0x7f090002;
+        public static final int one=0x7f090003;
+        public static final int register1=0x7f090004;
+        public static final int register2=0x7f090005;
+        public static final int set_travel=0x7f090006;
+        public static final int show_travel_detail=0x7f090007;
+        public static final int show_travel_list=0x7f090008;
+        public static final int start=0x7f090009;
     }
     public static final class string {
         public static final int action_settings=0x7f050003;
@@ -155,6 +157,7 @@ public final class R {
         public static final int server_registering=0x7f050011;
         public static final int server_unregister_error=0x7f050015;
         public static final int server_unregistered=0x7f050013;
+        public static final int title_activity_friend_management=0x7f05001e;
         public static final int title_activity_home_page=0x7f050008;
         public static final int title_activity_login_page=0x7f05001d;
         public static final int title_activity_one=0x7f050002;

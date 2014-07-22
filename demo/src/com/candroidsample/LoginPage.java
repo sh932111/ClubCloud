@@ -61,7 +61,6 @@ public class LoginPage extends Activity
 					{
 						public void onClick(DialogInterface dialog, int which)
 						{
-							// 按下"收到"以後要做的事情
 
 							if (resString.equals("1"))
 							{
@@ -73,11 +72,16 @@ public class LoginPage extends Activity
 					        	
 								mDbHelper.close();
 								
-								Intent intent = new Intent();
+								HomeUtil mSysUtil= new HomeUtil(LoginPage.this);  
+					            
+								mSysUtil.exit();
 								
-								intent.setClass(LoginPage.this, HomePage.class);
-
-								startActivity(intent);
+								
+//								Intent intent = new Intent();
+//								
+//								intent.setClass(LoginPage.this, HomePage.class);
+//
+//								startActivity(intent);
 							}
 						}
 					});
@@ -154,8 +158,6 @@ public class LoginPage extends Activity
 		if (!"".equals(get_id))
 		{
 			device_token = get_id;
-			
-			System.out.println("dev"+device_token);
 		}
 		
 		loginButton = (Button)findViewById(R.id.loginbt);

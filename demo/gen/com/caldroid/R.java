@@ -40,9 +40,9 @@ public final class R {
 		public static final int weekday_gridview = 0x7f0a0024;
 	}
 	public static final class layout {
-		public static final int calendar_view = 0x7f030008;
-		public static final int date_cell = 0x7f03000a;
-		public static final int date_grid_fragment = 0x7f03000b;
+		public static final int calendar_view = 0x7f030009;
+		public static final int date_cell = 0x7f03000b;
+		public static final int date_grid_fragment = 0x7f03000c;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f050000;

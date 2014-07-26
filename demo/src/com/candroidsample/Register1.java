@@ -1,5 +1,7 @@
 package com.candroidsample;
 
+import getfunction.GetServerMessage;
+
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;

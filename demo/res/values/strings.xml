@@ -62,5 +62,6 @@
 
     <string name="title_activity_login_page">LoginPage</string>
     <string name="title_activity_friend_management">FriendManagement</string>
+    <string name="title_activity_show_push_detail">ShowPushDetail</string>
 
 </resources>

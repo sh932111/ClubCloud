@@ -19,7 +19,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -77,8 +79,12 @@
             android:label="@string/title_activity_login_page" >
         </activity>
         <activity
-            android:name="com.candroidsample.FriendManagement"
+            android:name="homedetail.FriendManagement"
             android:label="@string/title_activity_friend_management" >
+        </activity>
+        <activity
+            android:name="com.candroidsample.ShowPushDetail"
+            android:label="@string/title_activity_show_push_detail" >
         </activity>
     </application>
 

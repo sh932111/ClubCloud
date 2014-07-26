@@ -1,6 +1,15 @@
 package com.candroidsample;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.List;
 
@@ -9,33 +18,57 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.candroidsample.Register1.sendPostRunnable;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class Register2 extends Activity
 {
+	private String srcPath = "/storage/sdcard0/myFile.png";
+	private String actionUrl = "http://192.168.1.31:8888/ClubCloud/upload.php";
+	
 	Button bt1;
 	Button bt2;
 	Button bt3;
+
+	private final static int CAMERA = 66;
+	private final static int Album = 67;
+
+	Button cameraButton;
 
 	EditText edit_text1;
 	EditText edit_text2;
 	EditText edit_text3;
 	EditText edit_text4;
 
+	ImageView mImg;
+
+	private DisplayMetrics mPhone;
+
+	Bitmap resImage;
+
 	String user_id;
+	String image_path;
 	private Handler mHandler = new Handler()
 	{
 		public void handleMessage(Message msg)
@@ -46,12 +79,12 @@ public class Register2 extends Activity
 			String messageString = msg.getData().getString("Message");
 
 			AlertDialog.Builder dialog = new AlertDialog.Builder(Register2.this);
-			dialog.setTitle("∞TÆß"); // ≥]©wdialog ™∫title≈„•‹§∫Æe
-			dialog.setIcon(android.R.drawable.ic_dialog_alert);// ≥]©wdialog ™∫ICO
+			dialog.setTitle("Ë®äÊÅØ"); // Ë®≠ÂÆödialog ÁöÑtitleÈ°ØÁ§∫ÂÖßÂÆπ
+			dialog.setIcon(android.R.drawable.ic_dialog_alert);// Ë®≠ÂÆödialog ÁöÑICO
 			String mesString = messageString;
 			dialog.setMessage(mesString);
-			dialog.setCancelable(false); // √ˆ≥¨ Android ®t≤Œ™∫•D≠n•\Ø‡¡‰(menu,homeµ•...)
-			dialog.setPositiveButton("ΩT©w",
+			dialog.setCancelable(false); // ÈóúÈñâ Android Á≥ªÁµ±ÁöÑ‰∏ªË¶ÅÂäüËÉΩÈçµ(menu,homeÁ≠â...)
+			dialog.setPositiveButton("Á¢∫ÂÆö",
 					new DialogInterface.OnClickListener()
 					{
 						public void onClick(DialogInterface dialog, int which)
@@ -74,11 +107,6 @@ public class Register2 extends Activity
 								HomeUtil mSysUtil = new HomeUtil(Register2.this);
 
 								mSysUtil.exit();
-
-								// Intent intent = new Intent();
-								// intent.setClass(Register2.this,
-								// HomePage.class);
-								// startActivity(intent);
 							}
 						}
 					});
@@ -103,7 +131,12 @@ public class Register2 extends Activity
 		{
 			// TODO Auto-generated method stub
 			GetServerMessage demo = new GetServerMessage();
-
+			
+			if (image_path.length() > 0)
+			{
+				uploadFile(actionUrl);
+					
+			}
 			Dictionary<String, String> dic = demo.stringQuery(URL, parems);
 
 			String message = dic.get("Message");
@@ -146,11 +179,74 @@ public class Register2 extends Activity
 
 		user_id = bundle.getString("user_id");
 
+		findView();
+	}
+
+	public void findView()
+	{
+
 		TextView txt1 = (TextView) findViewById(R.id.txt1);
 
-		txt1.setText("®≠§¿√“°G" + user_id);
+		txt1.setText("Ë∫´ÂàÜË≠âÔºö" + user_id);
+		
+		cameraButton = (Button) findViewById(R.id.cameraBt);
+		cameraButton.setOnClickListener(new Button.OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				AlertDialog.Builder dialog = new AlertDialog.Builder(
+						Register2.this);
+				dialog.setTitle("Ë®äÊÅØ"); // Ë®≠ÂÆödialog ÁöÑtitleÈ°ØÁ§∫ÂÖßÂÆπ
+				dialog.setIcon(android.R.drawable.ic_dialog_alert);// Ë®≠ÂÆödialog
+																	// ÁöÑICO
+				String mesString = "Ë´ãÈÅ∏ÊìáÂúñÁâá‰æÜÊ∫ê";
+				dialog.setMessage(mesString);
+				dialog.setCancelable(false); // ÈóúÈñâ Android
+												// Á≥ªÁµ±ÁöÑ‰∏ªË¶ÅÂäüËÉΩÈçµ(menu,homeÁ≠â...)
+				dialog.setPositiveButton("ÂèñÊ∂à",
+						new DialogInterface.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog,
+									int which)
+							{
+							
+							}
+						});
+				dialog.setNegativeButton("Áõ∏Êú¨",
+						new DialogInterface.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog,
+									int which)
+							{
+								// TODO Auto-generated method stub
+								Intent intent = new Intent(
+										Intent.ACTION_GET_CONTENT, null);
+								intent.setType("image/*");
+								startActivityForResult(intent, Album);
+							}
+						});
+				dialog.setNeutralButton("ÁÖßÁõ∏",
+						new DialogInterface.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog,
+									int which)
+							{
+								// TODO Auto-generated method stub
+							
+								Intent intent = new Intent(
+										"android.media.action.IMAGE_CAPTURE");
+								startActivityForResult(intent, CAMERA);
+							}
+						});
+				dialog.show();
+
+			}
+		});
 
 		scrollView = (ScrollView) findViewById(R.id.scrollView1);
+
+		mImg = (ImageView) findViewById(R.id.img);
 
 		bt1 = (Button) findViewById(R.id.button1);
 		bt1.setOnClickListener(new Button.OnClickListener()
@@ -211,14 +307,14 @@ public class Register2 extends Activity
 				{
 					AlertDialog.Builder dialog = new AlertDialog.Builder(
 							Register2.this);
-					dialog.setTitle("∞TÆß"); // ≥]©wdialog ™∫title≈„•‹§∫Æe
-					dialog.setIcon(android.R.drawable.ic_dialog_alert);// ≥]©wdialog
-																		// ™∫ICO
-					String mesString = "±KΩX®‚¶∏øÈ§Jø˘ª~©Œ¨O∏ÍÆ∆¶≥øÚ∫|";
+					dialog.setTitle("Ë®äÊÅØ"); // Ë®≠ÂÆödialog ÁöÑtitleÈ°ØÁ§∫ÂÖßÂÆπ
+					dialog.setIcon(android.R.drawable.ic_dialog_alert);// Ë®≠ÂÆödialog
+																		// ÁöÑICO
+					String mesString = "ÂØÜÁ¢ºÂÖ©Ê¨°Ëº∏ÂÖ•ÈåØË™§ÊàñÊòØË≥áÊñôÊúâÈÅ∫Êºè";
 					dialog.setMessage(mesString);
-					dialog.setCancelable(false); // √ˆ≥¨ Android
-													// ®t≤Œ™∫•D≠n•\Ø‡¡‰(menu,homeµ•...)dialog.setPositiveButton("ΩT©w",
-					dialog.setPositiveButton("ΩT©w",
+					dialog.setCancelable(false); // ÈóúÈñâ Android
+													// Á≥ªÁµ±ÁöÑ‰∏ªË¶ÅÂäüËÉΩÈçµ(menu,homeÁ≠â...)dialog.setPositiveButton("Á¢∫ÂÆö",
+					dialog.setPositiveButton("Á¢∫ÂÆö",
 							new DialogInterface.OnClickListener()
 							{
 								public void onClick(DialogInterface dialog,
@@ -232,9 +328,13 @@ public class Register2 extends Activity
 
 			}
 		});
-	}
+		mPhone = new DisplayMetrics();
 
+		getWindowManager().getDefaultDisplay().getMetrics(mPhone);
+	}
+	
 	@Override
+	
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -242,4 +342,130 @@ public class Register2 extends Activity
 		return true;
 	}
 
+	protected void onActivityResult(int rsquestCode, int resultCode, Intent data)
+	{
+		
+		if ((CAMERA == rsquestCode || Album == rsquestCode) && data != null)
+		{
+			Uri uri = data.getData();
+			
+			ContentResolver cr = this.getContentResolver();
+
+			Cursor cursor = cr.query(uri, null, null, null, null);
+            cursor.moveToFirst();
+            
+            image_path = cursor.getString(1); //ÂõæÁâáÊñá‰ª∂Ë∑ØÂæÑ
+            
+			try
+			{
+
+				Bitmap bitmap = BitmapFactory.decodeStream(cr
+						.openInputStream(uri));
+
+				if (bitmap.getWidth() > bitmap.getHeight())
+					resImage = ScalePic(bitmap, mPhone.widthPixels);
+
+				else
+					resImage = ScalePic(bitmap, mPhone.widthPixels);
+
+				mImg.setImageBitmap(resImage);
+			}
+			catch (FileNotFoundException e)
+			{
+
+			}
+			// super.onActivityResult(rsquestCode, resultCode, data);
+		}
+
+	}
+
+	public Bitmap ScalePic(Bitmap bitmap, int phone)
+	{
+		// TODO Auto-generated method stub
+		float mScale = 1;
+
+		if (bitmap.getWidth() > phone)
+		{
+			mScale = (float) phone / (float) bitmap.getWidth();
+
+			Matrix mMat = new Matrix();
+			mMat.setScale(mScale, mScale);
+
+			Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+					bitmap.getWidth(), bitmap.getHeight(), mMat, false);
+			return mScaleBitmap;
+
+		}
+		else
+			return bitmap;
+	}
+	private void uploadFile(String uploadUrl)
+	{
+		String end = "\r\n";
+		String twoHyphens = "--";
+		String boundary = "******";
+		
+		try
+		{
+			URL url = new URL(uploadUrl);
+			HttpURLConnection httpURLConnection = (HttpURLConnection) url
+					.openConnection();
+			
+			httpURLConnection.setChunkedStreamingMode(128 * 1024);// 128K
+			// ÂÖÅËÆ∏ËæìÂÖ•ËæìÂá∫ÊµÅ
+			httpURLConnection.setDoInput(true);
+			httpURLConnection.setDoOutput(true);
+			httpURLConnection.setUseCaches(false);
+			// ‰ΩøÁî®POSTÊñπÊ≥ï
+			httpURLConnection.setRequestMethod("POST");
+			httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
+			httpURLConnection.setRequestProperty("Charset", "UTF-8");
+			httpURLConnection.setRequestProperty("Content-Type",
+					"multipart/form-data;boundary=" + boundary);
+
+			String str2 = edit_text2.getText().toString();
+			
+			DataOutputStream dos = new DataOutputStream(
+					httpURLConnection.getOutputStream());
+			
+			dos.writeBytes(twoHyphens + boundary + end);
+			
+			dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\""
+					+ str2+".png"
+					+ "\""
+					+ end);
+
+			dos.writeBytes(end);
+
+			FileInputStream fis = new FileInputStream(image_path);
+
+			byte[] buffer = new byte[8192]; // 8k
+			int count = 0;
+			// ËØªÂèñÊñá‰ª∂
+			while ((count = fis.read(buffer)) != -1)
+			{
+				dos.write(buffer, 0, count);
+			}
+			fis.close();
+
+			dos.writeBytes(end);
+			dos.writeBytes(twoHyphens + boundary + twoHyphens + end);
+			dos.flush();
+
+			InputStream is = httpURLConnection.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is, "utf-8");
+			BufferedReader br = new BufferedReader(isr);
+			String result = br.readLine();
+			
+			//Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+			dos.close();
+			is.close();
+
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			setTitle(e.getMessage());
+		}
+	}
 }

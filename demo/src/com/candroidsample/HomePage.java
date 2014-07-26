@@ -5,6 +5,8 @@ import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 
+import homedetail.FriendManagement;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 

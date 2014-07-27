@@ -18,7 +18,7 @@ package com.candroidsample;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 import static com.candroidsample.CommonUtilities.displayMessage;
 
-import getfunction.PushDB;
+import getdb.PushDB;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

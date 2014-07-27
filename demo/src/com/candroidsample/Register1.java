@@ -1,5 +1,6 @@
 package com.candroidsample;
 
+import getdb.DBManager;
 import getfunction.GetServerMessage;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,9 +28,21 @@ import android.widget.Spinner;
 
 public class Register1 extends Activity
 {
+	private Cursor mCursor;
+	private Cursor dCursor;
+	
+	CharSequence[] cs1;
+	CharSequence[] cs2;
 
 	private Spinner spinner;
+	private Spinner city_spinner;
+	private Spinner city_detail_spinner;
+
 	String EID;
+	
+	String CITY;
+	String DETAILCITY;
+	
 	private EditText idNumberEdit;
 
 	private Handler mHandler = new Handler()
@@ -58,13 +72,17 @@ public class Register1 extends Activity
 							if (resString.equals("1"))
 							{
 								Intent intent = new Intent();
-								
+
 								Bundle bundle = new Bundle();
-								
-								bundle.putString("user_id", EID + idNumberEdit.getText().toString());
+
+								bundle.putString("user_id", EID
+										+ idNumberEdit.getText().toString());
+
+								bundle.putString("city", CITY);
+								bundle.putString("city_detail", DETAILCITY);
 
 								intent.putExtras(bundle);
-								
+
 								intent.setClass(Register1.this, Register2.class);
 								startActivity(intent);
 							}
@@ -120,6 +138,15 @@ public class Register1 extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register1);
+
+		findView();
+	}
+
+	public void findView()
+	{
+		loadData();
+		CITY = "花蓮縣";
+		DETAILCITY = "花蓮市";
 		spinner = (Spinner) findViewById(R.id.spinnner);
 		idNumberEdit = (EditText) findViewById(R.id.editText1);
 
@@ -153,6 +180,7 @@ public class Register1 extends Activity
 			}
 
 		});
+		setSpinner();
 	}
 
 	@Override
@@ -161,6 +189,26 @@ public class Register1 extends Activity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.register1, menu);
 		return true;
+	}
+
+	@Override
+	protected void onStop()
+	{
+		// TODO Auto-generated method stub
+		super.onStop();
+
+		stopManagingCursor(mCursor);
+		stopManagingCursor(dCursor);
+
+	}
+
+	public void loadData()
+	{
+		DBManager dbManager = new DBManager(Register1.this);
+
+		dbManager.openDatabase();
+
+		mCursor = dbManager.getCityAll();
 	}
 
 	private Spinner.OnItemSelectedListener spnPerferListener = new Spinner.OnItemSelectedListener()
@@ -173,7 +221,20 @@ public class Register1 extends Activity
 			if (spinner == arg0)
 			{
 				EID = arg0.getSelectedItem().toString();
+				System.out.println(EID);
 			}
+			else if (city_spinner == arg0) 
+			{
+				CITY = arg0.getSelectedItem().toString();
+				System.out.println(CITY);
+				setDetail();
+			}
+			else if (city_detail_spinner == arg0) 
+			{
+				DETAILCITY = arg0.getSelectedItem().toString();
+				
+			}
+			
 			// TODO Auto-generated method stub
 
 		}
@@ -185,4 +246,72 @@ public class Register1 extends Activity
 
 		}
 	};
+	
+	public void setSpinner()
+	{
+		ArrayList<String> columnArray1 = new ArrayList<String>();
+
+		int rows_num = mCursor.getCount(); // 取得資料表列數
+		if (rows_num != 0)
+		{
+			mCursor.moveToFirst(); // 將指標移至第一筆資料
+			for (int i = 0; i < rows_num; i++)
+			{
+				columnArray1.add(mCursor.getString(0));
+				
+				mCursor.moveToNext();
+			}
+		}
+		cs1 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
+
+		city_spinner = (Spinner) findViewById(R.id.city_spinnner);
+		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>
+		(this,android.R.layout.simple_spinner_dropdown_item,cs1);
+		
+		city_spinner.setAdapter(adapter);
+
+		city_spinner.setOnItemSelectedListener(spnPerferListener);
+		startManagingCursor(mCursor);
+				
+		setDetail();
+	}
+	public void setDetail()
+	{
+		DBManager dbManager = new DBManager(Register1.this);
+
+		dbManager.openDatabase();
+		
+		dCursor = dbManager.get(CITY);
+		
+		ArrayList<String> columnArray1 = new ArrayList<String>();
+
+		int rows_num = dCursor.getCount(); // 取得資料表列數
+		if (rows_num != 0)
+		{
+			dCursor.moveToFirst(); // 將指標移至第一筆資料
+			for (int i = 0; i < rows_num; i++)
+			{
+				columnArray1.add(dCursor.getString(1));
+				if (i==0)
+				{
+					DETAILCITY = dCursor.getString(1);	
+				}
+				dCursor.moveToNext();
+			}
+		}
+		
+		cs2 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
+
+		city_detail_spinner = (Spinner) findViewById(R.id.city_detail_spinnner);
+		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>
+		(this,android.R.layout.simple_spinner_dropdown_item,cs2);
+		
+		city_detail_spinner.setAdapter(adapter);
+
+		city_detail_spinner.setOnItemSelectedListener(spnPerferListener);
+		
+		startManagingCursor(dCursor);
+		
+	}
+	
 }

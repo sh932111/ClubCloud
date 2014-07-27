@@ -1,8 +1,8 @@
 package com.candroidsample;
 
 
-import getfunction.DB;
-import getfunction.PushDB;
+import getdb.DB;
+import getdb.PushDB;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;

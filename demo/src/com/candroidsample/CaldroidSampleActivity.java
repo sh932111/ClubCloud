@@ -1,7 +1,7 @@
 package com.candroidsample;
 
 //import java.text.SimpleDateFormat;
-import getfunction.DB;
+import getdb.DB;
 import getfunction.HomeUtil;
 
 import java.text.ParseException;

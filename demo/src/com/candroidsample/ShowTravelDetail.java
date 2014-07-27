@@ -1,6 +1,6 @@
 package com.candroidsample;
 
-import getfunction.DB;
+import getdb.DB;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

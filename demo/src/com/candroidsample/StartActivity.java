@@ -1,7 +1,8 @@
 package com.candroidsample;
 
-import getfunction.HomeUtil;
-import getfunction.UserDB;
+import getdb.DBManager;
+import getdb.UserDB;
+import getfunction.*;
 
 import java.io.IOException;
 
@@ -34,11 +35,25 @@ public class StartActivity extends Activity
 	private Context context;
 	private String strRegId;
 
+	public DBManager dbHelper;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
+		
+		ImageFunction setfolder = new ImageFunction();
+
+		setfolder.folderBuild("ClubCloud");
+		setfolder.folderBuild("ClubCloud/userphoto");
+		setfolder.folderBuild("ClubCloud/pushphoto");
+
+		dbHelper = new DBManager(StartActivity.this);
+		
+		dbHelper.openDatabase();
+		
+		dbHelper.closeDatabase();
 		
 		context = getApplicationContext();
 		gcm = GoogleCloudMessaging.getInstance(this);

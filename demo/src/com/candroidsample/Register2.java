@@ -1,5 +1,6 @@
 package com.candroidsample;
 
+import getdb.UserDB;
 import getfunction.*;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.candroidsample.Register1.sendPostRunnable;
 
+import android.R.string;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -71,6 +73,9 @@ public class Register2 extends Activity
 
 	String user_id;
 	String image_path;
+	String cityString;
+	String citydetailString;
+	
 	private Handler mHandler = new Handler()
 	{
 		public void handleMessage(Message msg)
@@ -182,6 +187,8 @@ public class Register2 extends Activity
 		Bundle bundle = getIntent().getExtras();
 
 		user_id = bundle.getString("user_id");
+		cityString = bundle.getString("city");
+		citydetailString = bundle.getString("city_detail");
 
 		findView();
 	}
@@ -192,6 +199,10 @@ public class Register2 extends Activity
 		TextView txt1 = (TextView) findViewById(R.id.txt1);
 
 		txt1.setText("身分證：" + user_id);
+		
+		TextView txt2 = (TextView) findViewById(R.id.txt2);
+
+		txt2.setText("地區：" + cityString + citydetailString);
 		
 		cameraButton = (Button) findViewById(R.id.cameraBt);
 		cameraButton.setOnClickListener(new Button.OnClickListener()
@@ -297,6 +308,8 @@ public class Register2 extends Activity
 					parems.add(new BasicNameValuePair("device_token",
 							device_token));
 					parems.add(new BasicNameValuePair("device_os", "android"));
+					parems.add(new BasicNameValuePair("user_city", cityString));
+					parems.add(new BasicNameValuePair("user_city_detail", citydetailString));
 
 					sendPostRunnable post = new sendPostRunnable(
 							"http://192.168.1.31:8888/ClubCloud/Register2.php",
@@ -365,12 +378,13 @@ public class Register2 extends Activity
 
 				Bitmap bitmap = BitmapFactory.decodeStream(cr
 						.openInputStream(uri));
-
+				ImageFunction getFunction = new ImageFunction();
+				
 				if (bitmap.getWidth() > bitmap.getHeight())
-					resImage = ScalePic(bitmap, mPhone.widthPixels);
+					resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
 
 				else
-					resImage = ScalePic(bitmap, mPhone.widthPixels);
+					resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
 
 				mImg.setImageBitmap(resImage);
 			}
@@ -383,25 +397,6 @@ public class Register2 extends Activity
 
 	}
 
-	public Bitmap ScalePic(Bitmap bitmap, int phone)
-	{
-		// TODO Auto-generated method stub
-		float mScale = 1;
-
-		if (bitmap.getWidth() > phone)
-		{
-			mScale = (float) phone / (float) bitmap.getWidth();
-
-			Matrix mMat = new Matrix();
-			mMat.setScale(mScale, mScale);
-
-			Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap, 0, 0,
-					bitmap.getWidth(), bitmap.getHeight(), mMat, false);
-			return mScaleBitmap;
-
-		}
-		else
-			return bitmap;
-	}
+	
 	
 }

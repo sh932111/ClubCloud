@@ -8,27 +8,7 @@ import android.os.Environment;
 
 public class ImageFunction
 {
-	public void folderBuild(String folder_name)
-	{
-		
-		File folder = new File(Environment.getExternalStorageDirectory() + "/" + folder_name);
-		boolean success = true;
-		
-	    if (!folder.exists()) 
-	    {
-	        //Toast.makeText(MainActivity.this, "Directory Does Not Exist, Create It", Toast.LENGTH_SHORT).show();
-	        success = folder.mkdir();
-	    }
-	    
-	    if (success) 
-	    {
-	        //Toast.makeText(StrokeShowPage.this, "Directory Created", Toast.LENGTH_SHORT).show();
-	    }
-	    else 
-	    {
-	      //  Toast.makeText(StrokeShowPage.this, "Failed - Error", Toast.LENGTH_SHORT).show();
-	    }
-	}
+	
 	public Bitmap ScalePic(Bitmap bitmap, int phone)
 	{
 		// TODO Auto-generated method stub

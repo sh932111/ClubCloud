@@ -33,6 +33,10 @@ public class Register1 extends Activity
 	
 	CharSequence[] cs1;
 	CharSequence[] cs2;
+	
+	CharSequence[] cs1_id;
+	CharSequence[] cs2_id;
+	
 
 	private Spinner spinner;
 	private Spinner city_spinner;
@@ -42,6 +46,9 @@ public class Register1 extends Activity
 	
 	String CITY;
 	String DETAILCITY;
+	
+	String CITY_id;
+	String DETAILCITY_id;
 	
 	private EditText idNumberEdit;
 
@@ -80,6 +87,8 @@ public class Register1 extends Activity
 
 								bundle.putString("city", CITY);
 								bundle.putString("city_detail", DETAILCITY);
+								bundle.putString("city_id", CITY_id);
+								bundle.putString("city_detail_id", DETAILCITY_id);
 
 								intent.putExtras(bundle);
 
@@ -147,6 +156,8 @@ public class Register1 extends Activity
 		loadData();
 		CITY = "花蓮縣";
 		DETAILCITY = "花蓮市";
+		CITY_id = "U";
+		DETAILCITY_id = "970";
 		spinner = (Spinner) findViewById(R.id.spinnner);
 		idNumberEdit = (EditText) findViewById(R.id.editText1);
 
@@ -226,12 +237,16 @@ public class Register1 extends Activity
 			else if (city_spinner == arg0) 
 			{
 				CITY = arg0.getSelectedItem().toString();
-				System.out.println(CITY);
+				
+				CITY_id = cs1_id[arg2].toString();
+				
 				setDetail();
 			}
 			else if (city_detail_spinner == arg0) 
 			{
 				DETAILCITY = arg0.getSelectedItem().toString();
+
+				DETAILCITY_id = cs2_id[arg2].toString();
 				
 			}
 			
@@ -250,6 +265,7 @@ public class Register1 extends Activity
 	public void setSpinner()
 	{
 		ArrayList<String> columnArray1 = new ArrayList<String>();
+		ArrayList<String> columnArray2 = new ArrayList<String>();
 
 		int rows_num = mCursor.getCount(); // 取得資料表列數
 		if (rows_num != 0)
@@ -258,11 +274,13 @@ public class Register1 extends Activity
 			for (int i = 0; i < rows_num; i++)
 			{
 				columnArray1.add(mCursor.getString(0));
+				columnArray2.add(mCursor.getString(1));
 				
 				mCursor.moveToNext();
 			}
 		}
 		cs1 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
+		cs1_id = columnArray2.toArray(new CharSequence[columnArray2.size()]);
 
 		city_spinner = (Spinner) findViewById(R.id.city_spinnner);
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>
@@ -284,6 +302,7 @@ public class Register1 extends Activity
 		dCursor = dbManager.get(CITY);
 		
 		ArrayList<String> columnArray1 = new ArrayList<String>();
+		ArrayList<String> columnArray2 = new ArrayList<String>();
 
 		int rows_num = dCursor.getCount(); // 取得資料表列數
 		if (rows_num != 0)
@@ -292,15 +311,18 @@ public class Register1 extends Activity
 			for (int i = 0; i < rows_num; i++)
 			{
 				columnArray1.add(dCursor.getString(1));
+				columnArray2.add(dCursor.getString(2));
 				if (i==0)
 				{
-					DETAILCITY = dCursor.getString(1);	
+					DETAILCITY = dCursor.getString(1);
+					DETAILCITY_id = dCursor.getString(2);	
 				}
 				dCursor.moveToNext();
 			}
 		}
 		
 		cs2 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
+		cs2_id = columnArray2.toArray(new CharSequence[columnArray2.size()]);
 
 		city_detail_spinner = (Spinner) findViewById(R.id.city_detail_spinnner);
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>

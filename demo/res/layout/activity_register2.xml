@@ -194,7 +194,10 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
+                android:layout_height="fill_parent" 
+                
+        		android:src="@drawable/user"
+                />
 
             <Button
                 android:id="@+id/cameraBt"

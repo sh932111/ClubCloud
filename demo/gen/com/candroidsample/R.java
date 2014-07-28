@@ -56,6 +56,7 @@ public final class R {
         public static final int red_border=0x7f020006;
         public static final int red_border_gray_bg=0x7f020007;
         public static final int right_arrow=0x7f020008;
+        public static final int user=0x7f020009;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f0b0000;

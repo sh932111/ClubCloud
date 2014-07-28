@@ -24,6 +24,7 @@ import com.candroidsample.Register1.sendPostRunnable;
 import android.R.string;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -48,7 +49,7 @@ import android.widget.TextView;
 
 public class Register2 extends Activity
 {
-	private String srcPath = "/storage/sdcard0/myFile.png";
+	//private String srcPath = "/storage/sdcard0/myFile.png";
 	private String actionUrl = "http://192.168.1.31:8888/ClubCloud/upload.php";
 	
 	Button bt1;
@@ -75,6 +76,8 @@ public class Register2 extends Activity
 	String image_path;
 	String cityString;
 	String citydetailString;
+	String city_id;
+	String citydetail_id;
 	
 	private Handler mHandler = new Handler()
 	{
@@ -139,13 +142,21 @@ public class Register2 extends Activity
 			// TODO Auto-generated method stub
 			GetServerMessage demo = new GetServerMessage();
 			
-			if (image_path.length() > 0)
-			{
-				UploadImage uploadImage = new UploadImage();
-				String str2 = edit_text2.getText().toString();
-				uploadImage.uploadFile(actionUrl,image_path,str2);
-					
-			}
+			String str2 = edit_text2.getText().toString();
+			
+			FolderFunction setfolder = new FolderFunction();
+
+			String extStorage = Environment.getExternalStorageDirectory()
+					.toString();
+			
+			String locaction = "ClubCloud/userphoto/" + str2 +".PNG";
+			
+			setfolder.saveImage(resImage, extStorage, locaction);
+			
+			UploadImage uploadImage = new UploadImage();
+			
+			uploadImage.uploadFile(actionUrl,image_path,str2);
+			
 			Dictionary<String, String> dic = demo.stringQuery(URL, parems);
 
 			String message = dic.get("Message");
@@ -189,7 +200,20 @@ public class Register2 extends Activity
 		user_id = bundle.getString("user_id");
 		cityString = bundle.getString("city");
 		citydetailString = bundle.getString("city_detail");
+		city_id = bundle.getString("city_id");
+		citydetail_id = bundle.getString("city_detail_id");
+		
+		String extStorage = Environment.getExternalStorageDirectory()
+				.toString() + "/ClubCloud/user.PNG";
+		
+		System.out.println(extStorage);
+		
+		image_path = extStorage;
+		
+		resImage = BitmapFactory.decodeResource(getResources(),
+				R.drawable.user);
 
+		
 		findView();
 	}
 
@@ -310,6 +334,8 @@ public class Register2 extends Activity
 					parems.add(new BasicNameValuePair("device_os", "android"));
 					parems.add(new BasicNameValuePair("user_city", cityString));
 					parems.add(new BasicNameValuePair("user_city_detail", citydetailString));
+					parems.add(new BasicNameValuePair("city_id", city_id));
+					parems.add(new BasicNameValuePair("city_detail_id", citydetail_id));
 
 					sendPostRunnable post = new sendPostRunnable(
 							"http://192.168.1.31:8888/ClubCloud/Register2.php",

@@ -81,7 +81,7 @@ public class DBManager
 	{
 	    return database.query("city_table", //Which table to Select
 //	         strCols,// Which columns to return
-	    	 new String[] {"territory_name"},
+	    	 new String[] {"territory_name","city_id"},
 	         null, // WHERE clause
 	         null, // WHERE arguments
 	         null, // GROUP BY clause
@@ -93,7 +93,7 @@ public class DBManager
 		public Cursor get(String rowId) throws SQLException
 		{
 			Cursor mCursor = database.query("city_detail_table", new String[]
-			{ "territory_name","district_name" }, "territory_name" + " = ?", new String[]
+			{ "territory_name","district_name" ,"district_id"}, "territory_name" + " = ?", new String[]
 			{ "" + rowId + "" }, null, null, null, null);
 
 			if (mCursor != null)

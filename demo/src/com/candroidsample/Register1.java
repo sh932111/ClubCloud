@@ -180,7 +180,7 @@ public class Register1 extends Activity
 				String user_id = EID + idNumberEdit.getText().toString();
 
 				sendPostRunnable post = new sendPostRunnable(
-						"http://192.168.1.31:8888/ClubCloud/Register1.php",
+						"http://192.168.1.31/ClubCloud/Register1.php",
 						user_id);
 
 				Thread t = new Thread(post);

@@ -50,7 +50,7 @@ import android.widget.TextView;
 public class Register2 extends Activity
 {
 	//private String srcPath = "/storage/sdcard0/myFile.png";
-	private String actionUrl = "http://192.168.1.31:8888/ClubCloud/upload.php";
+	private String actionUrl = "http://192.168.1.31/ClubCloud/upload.php";
 	
 	Button bt1;
 	Button bt2;
@@ -338,7 +338,7 @@ public class Register2 extends Activity
 					parems.add(new BasicNameValuePair("city_detail_id", citydetail_id));
 
 					sendPostRunnable post = new sendPostRunnable(
-							"http://192.168.1.31:8888/ClubCloud/Register2.php",
+							"http://192.168.1.31/ClubCloud/Register2.php",
 							parems);
 
 					Thread t = new Thread(post);

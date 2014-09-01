@@ -20,7 +20,7 @@
     <Button
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="社群互動"
+	    android:text="個人資料"
 	    android:id="@+id/bt1"/>
     <Button
 	    android:layout_width="fill_parent"
@@ -35,12 +35,12 @@
     <Button
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="給村長的話"
+	    android:text="訊息傳達"
 	    android:id="@+id/bt4"/>
     <Button
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="好友管理"
+	    android:text="緊急事件"
 	    android:id="@+id/bt5"/>
     
 

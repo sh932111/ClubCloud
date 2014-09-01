@@ -42,31 +42,17 @@ public class StartActivity extends Activity
 	private Context context;
 	private String strRegId;
 
-	public DBManager dbHelper;
+	//public DBManager dbHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
-
-		FolderFunction setfolder = new FolderFunction();
-
-		setfolder.folderBuild("ClubCloud");
-		setfolder.folderBuild("ClubCloud/userphoto");
-		setfolder.folderBuild("ClubCloud/pushphoto");
 		
-		Bitmap bmImage = BitmapFactory.decodeResource(getResources(),
-				R.drawable.user);
-
-		String extStorage = Environment.getExternalStorageDirectory()
-				.toString();
+		buildFolder();
 		
-		String locaction = "ClubCloud/" + "user.PNG";
-		
-		setfolder.saveImage(bmImage, extStorage, locaction);
-		
-		dbHelper = new DBManager(StartActivity.this);
+		DBManager dbHelper = new DBManager(StartActivity.this);
 
 		dbHelper.openDatabase();
 
@@ -92,6 +78,30 @@ public class StartActivity extends Activity
 			mSysUtil.exit();
 		}
 
+		setUI();
+	}
+
+	public void buildFolder()
+	{
+		FolderFunction setfolder = new FolderFunction();
+
+		setfolder.folderBuild("ClubCloud");
+		setfolder.folderBuild("ClubCloud/userphoto");
+		setfolder.folderBuild("ClubCloud/pushphoto");
+		
+		Bitmap bmImage = BitmapFactory.decodeResource(getResources(),
+				R.drawable.user);
+
+		String extStorage = Environment.getExternalStorageDirectory()
+				.toString();
+		
+		String locaction = "ClubCloud/" + "user.PNG";
+		
+		setfolder.saveImage(bmImage, extStorage, locaction);
+	}
+	
+	public void setUI()
+	{
 		Button bt1 = (Button) findViewById(R.id.button1);
 		bt1.setOnClickListener(new Button.OnClickListener()
 		{
@@ -120,7 +130,7 @@ public class StartActivity extends Activity
 
 		});
 	}
-
+	
 	public void setGCM_RegID()
 	{
 		registerReceiver(mHandleMessageReceiver, new IntentFilter(

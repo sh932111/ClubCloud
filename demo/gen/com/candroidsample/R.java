@@ -115,7 +115,7 @@ public final class R {
         public static final int weekday_gridview=0x7f0b002a;
     }
     public static final class layout {
-        public static final int activity_friend_management=0x7f030000;
+        public static final int activity_event_delivery=0x7f030000;
         public static final int activity_home_page=0x7f030001;
         public static final int activity_login_page=0x7f030002;
         public static final int activity_main=0x7f030003;
@@ -132,7 +132,7 @@ public final class R {
         public static final int mylist=0x7f03000e;
     }
     public static final class menu {
-        public static final int friend_management=0x7f0a0000;
+        public static final int event_delivery=0x7f0a0000;
         public static final int home_page=0x7f0a0001;
         public static final int login_page=0x7f0a0002;
         public static final int one=0x7f0a0003;
@@ -148,6 +148,11 @@ public final class R {
         public static final int city=0x7f040000;
     }
     public static final class string {
+        public static final int Login=0x7f060022;
+        public static final int Register1=0x7f060020;
+        public static final int Register2=0x7f060021;
+        public static final int Request=0x7f060024;
+        public static final int Request_upload=0x7f060025;
         public static final int action_settings=0x7f060003;
         public static final int already_registered=0x7f06000a;
         public static final int app_name=0x7f060000;
@@ -169,6 +174,7 @@ public final class R {
         public static final int server_registering=0x7f060011;
         public static final int server_unregister_error=0x7f060015;
         public static final int server_unregistered=0x7f060013;
+        public static final int title_activity_event_delivery=0x7f060026;
         public static final int title_activity_friend_management=0x7f06001e;
         public static final int title_activity_home_page=0x7f060008;
         public static final int title_activity_login_page=0x7f06001d;
@@ -180,6 +186,7 @@ public final class R {
         public static final int title_activity_show_travel_detail=0x7f060007;
         public static final int title_activity_show_travel_list=0x7f060006;
         public static final int title_activity_start=0x7f06001a;
+        public static final int uploadUserImage=0x7f060023;
     }
     public static final class style {
         /** 

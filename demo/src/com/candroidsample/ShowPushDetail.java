@@ -62,14 +62,13 @@ public class ShowPushDetail extends Activity
 
 				AlertDialog.Builder dialog = new AlertDialog.Builder(
 						ShowPushDetail.this);
-				dialog.setTitle("°T®§"); // ³]©wdialog ªºtitleÅã¥Ü¤º®e
-				dialog.setIcon(android.R.drawable.ic_dialog_alert);// ³]©wdialog
-																	// ªºICO
-				String mesString = "·s¼W¦¨¥\¡I¬O§_­n§R°£¦¹±À¼·°T®§¡H";
+				dialog.setTitle("ï¿½Tï¿½ï¿½"); // ï¿½]ï¿½wdialog ï¿½ï¿½titleï¿½ï¿½Ü¤ï¿½ï¿½e
+				dialog.setIcon(android.R.drawable.ic_dialog_alert);// ï¿½]ï¿½wdialog
+																	// ï¿½ï¿½ICO
+				String mesString = "é †ä¾¿åˆªé™¤æ­¤è³‡æ–™?";
 				dialog.setMessage(mesString);
-				dialog.setCancelable(false); // Ãö³¬ Android
-												// ¨t²Îªº¥D­n¥\¯àÁä(menu,homeµ¥...)
-				dialog.setNegativeButton("¤£§R°£",
+				dialog.setCancelable(false);
+				dialog.setNegativeButton("ï¿½ï¿½ï¿½Rï¿½ï¿½",
 						new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,
@@ -80,7 +79,7 @@ public class ShowPushDetail extends Activity
 							}
 
 						});
-				dialog.setPositiveButton("§R°£",
+				dialog.setPositiveButton("ï¿½Rï¿½ï¿½",
 						new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,
@@ -127,7 +126,7 @@ public class ShowPushDetail extends Activity
 	{
 		Intent intent = this.getIntent();
 
-		Bundle bundle = intent.getExtras();// ¨ú±oBundle
+		Bundle bundle = intent.getExtras();// ï¿½ï¿½oBundle
 
 		Id = bundle.getLong("ID");
 
@@ -136,10 +135,10 @@ public class ShowPushDetail extends Activity
 		Time = bundle.getString("Time");
 		Date = bundle.getString("Date");
 
-		titletext.setText("¼ÐÃD : " + Title);
+		titletext.setText("ï¿½ï¿½ï¿½D : " + Title);
 		detailtext.setText(Detail);
-		timetext.setText("®É¶¡ : " + Time);
-		datetext.setText("¤é´Á : " + Date);
+		timetext.setText("ï¿½É¶ï¿½ : " + Time);
+		datetext.setText("ï¿½ï¿½ï¿½ : " + Date);
 
 		PushDB mDbHelper = new PushDB(ShowPushDetail.this);
 

@@ -5,7 +5,8 @@ import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 
-import homedetail.FriendManagement;
+
+import homedetail.EventDelivery;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,11 +39,27 @@ public class HomePage extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home_page);
-		
+
 		context = getApplicationContext();
 		gcm = GoogleCloudMessaging.getInstance(this);
 
 		setGCM_RegID();
+		
+		setUI();
+	}
+	
+	public void setUI()
+	{
+		Button bt1 = (Button)findViewById(R.id.bt1);
+		bt1.setOnClickListener(new Button.OnClickListener()
+        { 
+            @Override
+			public void onClick(View arg0)
+			{
+				
+			}         
+
+        }); 
 		
 		Button bt2 = (Button)findViewById(R.id.bt2);
 		bt2.setOnClickListener(new Button.OnClickListener()
@@ -79,6 +96,22 @@ public class HomePage extends Activity
 			}
 			
 		});
+		Button bt4 = (Button)findViewById(R.id.bt4);
+		bt4.setOnClickListener(new Button.OnClickListener()
+        { 
+            @Override
+			public void onClick(View arg0)
+			{
+            	Intent intent = new Intent();
+            	
+				intent.setClass(HomePage.this,
+						EventDelivery.class);
+				
+				startActivity(intent);
+				// TODO Auto-generated method stub
+			}         
+
+        });
 		Button bt5 = (Button)findViewById(R.id.bt5);
 		bt5.setOnClickListener(new Button.OnClickListener()
         { 
@@ -86,14 +119,12 @@ public class HomePage extends Activity
 			public void onClick(View arg0)
 			{
 				// TODO Auto-generated method stub
-            	Intent intent = new Intent();
-				intent.setClass(HomePage.this,
-						FriendManagement.class);
-				startActivity(intent);
+            	
 			}         
 
         }); 
 	}
+	
 	public void setGCM_RegID() 
 	{
 		registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));

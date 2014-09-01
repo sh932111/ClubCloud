@@ -172,7 +172,7 @@ public class LoginPage extends Activity
 			{
 				// TODO Auto-generated method stub
             	sendPostRunnable post = new sendPostRunnable(
-						"http://192.168.1.31/ClubCloud/Login.php",
+						getString(R.string.Login),
 						usernameText.getText().toString(),passwordText.getText().toString());
 
 				Thread t = new Thread(post);

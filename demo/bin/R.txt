@@ -78,7 +78,7 @@ int id txt1 0x7f0b0016
 int id txt2 0x7f0b0017
 int id user 0x7f0b0006
 int id weekday_gridview 0x7f0b002a
-int layout activity_friend_management 0x7f030000
+int layout activity_event_delivery 0x7f030000
 int layout activity_home_page 0x7f030001
 int layout activity_login_page 0x7f030002
 int layout activity_main 0x7f030003
@@ -93,7 +93,7 @@ int layout custom_cell 0x7f03000b
 int layout date_cell 0x7f03000c
 int layout date_grid_fragment 0x7f03000d
 int layout mylist 0x7f03000e
-int menu friend_management 0x7f0a0000
+int menu event_delivery 0x7f0a0000
 int menu home_page 0x7f0a0001
 int menu login_page 0x7f0a0002
 int menu one 0x7f0a0003
@@ -105,6 +105,11 @@ int menu show_travel_detail 0x7f0a0008
 int menu show_travel_list 0x7f0a0009
 int menu start 0x7f0a000a
 int raw city 0x7f040000
+int string Login 0x7f060022
+int string Register1 0x7f060020
+int string Register2 0x7f060021
+int string Request 0x7f060024
+int string Request_upload 0x7f060025
 int string action_settings 0x7f060003
 int string already_registered 0x7f06000a
 int string app_name 0x7f060000
@@ -126,6 +131,7 @@ int string server_registered 0x7f060012
 int string server_registering 0x7f060011
 int string server_unregister_error 0x7f060015
 int string server_unregistered 0x7f060013
+int string title_activity_event_delivery 0x7f060026
 int string title_activity_friend_management 0x7f06001e
 int string title_activity_home_page 0x7f060008
 int string title_activity_login_page 0x7f06001d
@@ -137,5 +143,6 @@ int string title_activity_show_push_detail 0x7f06001f
 int string title_activity_show_travel_detail 0x7f060007
 int string title_activity_show_travel_list 0x7f060006
 int string title_activity_start 0x7f06001a
+int string uploadUserImage 0x7f060023
 int style AppBaseTheme 0x7f070000
 int style AppTheme 0x7f070001

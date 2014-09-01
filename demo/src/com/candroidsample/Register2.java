@@ -50,7 +50,8 @@ import android.widget.TextView;
 public class Register2 extends Activity
 {
 	//private String srcPath = "/storage/sdcard0/myFile.png";
-	private String actionUrl = "http://192.168.1.31/ClubCloud/upload.php";
+	//private String actionUrl = getString(R.string.uploadUserImage);
+	//private String Register2_url = getString(R.string.Register2);
 	
 	Button bt1;
 	Button bt2;
@@ -155,7 +156,7 @@ public class Register2 extends Activity
 			
 			UploadImage uploadImage = new UploadImage();
 			
-			uploadImage.uploadFile(actionUrl,image_path,str2);
+			uploadImage.uploadFile(getString(R.string.uploadUserImage),image_path,str2);
 			
 			Dictionary<String, String> dic = demo.stringQuery(URL, parems);
 
@@ -205,8 +206,6 @@ public class Register2 extends Activity
 		
 		String extStorage = Environment.getExternalStorageDirectory()
 				.toString() + "/ClubCloud/user.PNG";
-		
-		System.out.println(extStorage);
 		
 		image_path = extStorage;
 		
@@ -338,7 +337,7 @@ public class Register2 extends Activity
 					parems.add(new BasicNameValuePair("city_detail_id", citydetail_id));
 
 					sendPostRunnable post = new sendPostRunnable(
-							"http://192.168.1.31/ClubCloud/Register2.php",
+							getString(R.string.Register2),
 							parems);
 
 					Thread t = new Thread(post);

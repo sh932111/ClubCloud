@@ -8,6 +8,7 @@ import getfunction.SendPostRunnable;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -179,23 +180,38 @@ public class LoginPage extends Activity
     			parems.add(new BasicNameValuePair("device_token", device_token));
     			parems.add(new BasicNameValuePair("device_os", "android"));
             	
-//            	SendPostRunnable post = new SendPostRunnable(
-//						getString(R.string.Login), parems,
-//						new SendPostRunnable.Callback()
-//						{
-//							@Override
-//							public void service_result(Message msg)
-//							{
-//								// TODO Auto-generated method stub
-//								final String resString = msg.getData().getString("result");
-//								String messageString = msg.getData().getString("Message");
-//											
-//							}
-//						});
-//				
-//				 Thread t = new Thread(post);
-//					
-//				 t.start();
+            	SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)+
+						getString(R.string.Login), parems,
+						new SendPostRunnable.Callback()
+						{
+							@Override
+							public void service_result(Message msg)
+							{
+								// TODO Auto-generated method stub
+								Bundle countBundle = msg.getData();
+
+								@SuppressWarnings("unchecked")
+								HashMap<String, String> resultData = (HashMap<String, String>) countBundle.getSerializable("resultData");
+								
+								String messageString = resultData.get("Message");
+								final String resString = resultData.get("result");
+
+								final String username = resultData.get("username");
+								final String password = resultData.get("password");
+								final String name = resultData.get("name");
+								final String user_id = resultData.get("user_id");
+								final String device_os = resultData.get("device_os");
+								final String device_t = resultData.get("device_token");
+								final String user_city = resultData.get("user_city");
+								final String user_city_detail = resultData.get("user_city_detail");
+								final String city_id = resultData.get("city_id");
+								final String city_detail_id = resultData.get("city_detail_id");
+							}
+						});
+				
+				 Thread t = new Thread(post);
+					
+				 t.start();
   
 			}         
 

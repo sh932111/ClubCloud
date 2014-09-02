@@ -105,11 +105,12 @@ int menu show_travel_detail 0x7f0a0008
 int menu show_travel_list 0x7f0a0009
 int menu start 0x7f0a000a
 int raw city 0x7f040000
-int string Login 0x7f060046
-int string Register1 0x7f060044
-int string Register2 0x7f060045
-int string Request 0x7f060048
-int string Request_upload 0x7f060049
+int string IP 0x7f060044
+int string Login 0x7f060047
+int string Register1 0x7f060045
+int string Register2 0x7f060046
+int string Request 0x7f060049
+int string Request_upload 0x7f06004a
 int string action_settings 0x7f060014
 int string addtocaldroid 0x7f060040
 int string already_registered 0x7f060002
@@ -177,7 +178,7 @@ int string title_activity_show_push_list 0x7f060017
 int string title_activity_show_travel_detail 0x7f060018
 int string title_activity_show_travel_list 0x7f060016
 int string title_activity_start 0x7f06001a
-int string uploadUserImage 0x7f060047
+int string uploadUserImage 0x7f060048
 int string verify 0x7f06002c
 int style AppBaseTheme 0x7f070000
 int style AppTheme 0x7f070001

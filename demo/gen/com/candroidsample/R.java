@@ -148,11 +148,12 @@ public final class R {
         public static final int city=0x7f040000;
     }
     public static final class string {
-        public static final int Login=0x7f060046;
-        public static final int Register1=0x7f060044;
-        public static final int Register2=0x7f060045;
-        public static final int Request=0x7f060048;
-        public static final int Request_upload=0x7f060049;
+        public static final int IP=0x7f060044;
+        public static final int Login=0x7f060047;
+        public static final int Register1=0x7f060045;
+        public static final int Register2=0x7f060046;
+        public static final int Request=0x7f060049;
+        public static final int Request_upload=0x7f06004a;
         public static final int action_settings=0x7f060014;
         public static final int addtocaldroid=0x7f060040;
         public static final int already_registered=0x7f060002;
@@ -220,7 +221,7 @@ public final class R {
         public static final int title_activity_show_travel_detail=0x7f060018;
         public static final int title_activity_show_travel_list=0x7f060016;
         public static final int title_activity_start=0x7f06001a;
-        public static final int uploadUserImage=0x7f060047;
+        public static final int uploadUserImage=0x7f060048;
         public static final int verify=0x7f06002c;
     }
     public static final class style {

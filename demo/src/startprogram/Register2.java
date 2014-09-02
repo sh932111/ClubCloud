@@ -5,6 +5,7 @@ import getfunction.*;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -343,49 +344,52 @@ public class Register2 extends Activity
 
 		setfolder.saveImage(resImage, extStorage, locaction);
 
-		UploadImage uploadImage = new UploadImage(getString(R.string.uploadUserImage),
+		UploadImage uploadImage = new UploadImage(getString(R.string.IP)+getString(R.string.uploadUserImage),
 				image_path, str2);
 
-//		SendPostRunnable post = new SendPostRunnable(
-//				getString(R.string.Register2), parems,
-//				new SendPostRunnable.Callback()
-//				{
-//					@Override
-//					public void service_result(Message msg)
-//					{
-//						// TODO Auto-generated method stub
-//						final String resString = msg.getData()
-//								.getString("result");
-//						String messageString = msg.getData()
-//								.getString("Message");
-//						DialogShow show = new DialogShow();
-//						
-//						show.showStyle1(Register2.this,
-//								getString(R.string.dialog_title1),messageString,
-//								getString(R.string.dialog_check),
-//								new DialogShow.Callback()
-//								{
-//									@Override
-//									public void work()
-//									{
-//										if (resString.equals("1"))
-//										{
-//											creatDB();
-//										}
-//									}
-//									@Override
-//									public void cancel()
-//									{
-//										// TODO Auto-generated method stub
-//									}
-//								});	
-//						
-//					}
-//				});
-//
-//		Thread t = new Thread(post);
-//
-//		t.start();
+		SendPostRunnable post = new SendPostRunnable(
+				getString(R.string.IP)+getString(R.string.Register2), parems,
+				new SendPostRunnable.Callback()
+				{
+					@Override
+					public void service_result(Message dic)
+					{
+						Bundle countBundle = dic.getData();
+
+						@SuppressWarnings("unchecked")
+						HashMap<String, String> resultData = (HashMap<String, String>) countBundle.getSerializable("resultData");
+						
+						String messageString = resultData.get("Message");
+						final String resString = resultData.get("result");
+						
+						DialogShow show = new DialogShow();
+						
+						show.showStyle1(Register2.this,
+								getString(R.string.dialog_title1),messageString,
+								getString(R.string.dialog_check),
+								new DialogShow.Callback()
+								{
+									@Override
+									public void work()
+									{
+										if (resString.equals("1"))
+										{
+											creatDB();
+										}
+									}
+									@Override
+									public void cancel()
+									{
+										// TODO Auto-generated method stub
+									}
+								});	
+						
+					}
+				});
+
+		Thread t = new Thread(post);
+
+		t.start();
 
 		Thread t2 = new Thread(uploadImage);
 

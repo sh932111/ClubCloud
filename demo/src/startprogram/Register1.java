@@ -5,7 +5,6 @@ import getfunction.DialogShow;
 import getfunction.SendPostRunnable;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 
@@ -99,7 +98,7 @@ public class Register1 extends Activity
 					parems.add(new BasicNameValuePair("user_id", user_id));
 				}
 
-				SendPostRunnable post = new SendPostRunnable(
+				SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)+
 						getString(R.string.Register1), parems,
 						new SendPostRunnable.Callback()
 						{
@@ -108,31 +107,32 @@ public class Register1 extends Activity
 							{
 								Bundle countBundle = dic.getData();
 
+								@SuppressWarnings("unchecked")
 								HashMap<String, String> resultData = (HashMap<String, String>) countBundle.getSerializable("resultData");
-								// 9/2
-//								String messageString = dic.get("Message");
-//								final String resString = dic.get("result");
-//								
-//								DialogShow show = new DialogShow();
-//								show.showStyle1(Register1.this,
-//										getString(R.string.dialog_title1),messageString,
-//										getString(R.string.dialog_check),
-//										new DialogShow.Callback()
-//										{
-//											@Override
-//											public void work()
-//											{
-//												if (resString.equals("1"))
-//												{
-//													goNextPage();
-//												}
-//											}
-//											@Override
-//											public void cancel()
-//											{
-//												// TODO Auto-generated method stub
-//											}
-//										});								
+								
+								String messageString = resultData.get("Message");
+								final String resString = resultData.get("result");
+								
+								DialogShow show = new DialogShow();
+								show.showStyle1(Register1.this,
+										getString(R.string.dialog_title1),messageString,
+										getString(R.string.dialog_check),
+										new DialogShow.Callback()
+										{
+											@Override
+											public void work()
+											{
+												if (resString.equals("1"))
+												{
+													goNextPage();
+												}
+											}
+											@Override
+											public void cancel()
+											{
+												// TODO Auto-generated method stub
+											}
+										});								
 							}
 						});
 				

@@ -1,28 +1,22 @@
 package startprogram;
 
 import getdb.DBManager;
-import getfunction.GetServerMessage;
+import getfunction.DialogShow;
+import getfunction.SendPostRunnable;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.candroidsample.R;
-import com.candroidsample.R.array;
-import com.candroidsample.R.id;
-import com.candroidsample.R.layout;
-import com.candroidsample.R.menu;
-import com.candroidsample.R.string;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
@@ -37,115 +31,27 @@ public class Register1 extends Activity
 {
 	private Cursor mCursor;
 	private Cursor dCursor;
-	
+
 	CharSequence[] cs1;
 	CharSequence[] cs2;
-	
+
 	CharSequence[] cs1_id;
 	CharSequence[] cs2_id;
-	
 
 	private Spinner spinner;
 	private Spinner city_spinner;
 	private Spinner city_detail_spinner;
 
 	String EID;
-	
+
 	String CITY;
 	String DETAILCITY;
-	
+
 	String CITY_id;
 	String DETAILCITY_id;
-	
+
 	private EditText idNumberEdit;
 
-	private Handler mHandler = new Handler()
-	{
-		public void handleMessage(Message msg)
-		{
-			super.handleMessage(msg);
-
-			final String resString = msg.getData().getString("result");
-			String messageString = msg.getData().getString("Message");
-
-			AlertDialog.Builder dialog = new AlertDialog.Builder(Register1.this);
-			dialog.setTitle(getString(R.string.dialog_title1));
-			dialog.setIcon(android.R.drawable.ic_dialog_alert);
-			String mesString = messageString;
-
-			dialog.setMessage(mesString);
-
-			dialog.setCancelable(false);
-			dialog.setPositiveButton(getString(R.string.dialog_check),
-					new DialogInterface.OnClickListener()
-					{
-						public void onClick(DialogInterface dialog, int which)
-						{
-							if (resString.equals("1"))
-							{
-								Intent intent = new Intent();
-
-								Bundle bundle = new Bundle();
-
-								bundle.putString("user_id", EID
-										+ idNumberEdit.getText().toString());
-
-								bundle.putString("city", CITY);
-								bundle.putString("city_detail", DETAILCITY);
-								bundle.putString("city_id", CITY_id);
-								bundle.putString("city_detail_id", DETAILCITY_id);
-
-								intent.putExtras(bundle);
-
-								intent.setClass(Register1.this, Register2.class);
-								startActivity(intent);
-							}
-						}
-					});
-			dialog.show();
-		}
-	};
-
-	public class sendPostRunnable implements Runnable
-	{
-		String URL = null;
-		String ID = null;
-
-		public sendPostRunnable(String url, String id)
-		{
-			this.URL = url;
-			this.ID = id;
-		}
-
-		@Override
-		public void run()
-		{
-			// TODO Auto-generated method stub
-			GetServerMessage demo = new GetServerMessage();
-
-			List<NameValuePair> parems = new ArrayList<NameValuePair>();
-
-			if (ID.length() > 0)
-			{
-				parems.add(new BasicNameValuePair("user_id", ID));
-			}
-
-			Dictionary<String, String> dic = demo.stringQuery(URL, parems);
-
-			String message = dic.get("Message");
-			String result = dic.get("result");
-
-			Bundle countBundle = new Bundle();
-			countBundle.putString("Message", message);
-			countBundle.putString("result", result);
-
-			Message msg = new Message();
-			msg.setData(countBundle);
-
-			mHandler.sendMessage(msg);
-		}
-
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -159,10 +65,12 @@ public class Register1 extends Activity
 	public void findView()
 	{
 		loadData();
+		
 		CITY = getString(R.string.default_city);
 		DETAILCITY = getString(R.string.default_area);
 		CITY_id = "U";
 		DETAILCITY_id = "970";
+		
 		spinner = (Spinner) findViewById(R.id.spinnner);
 		idNumberEdit = (EditText) findViewById(R.id.editText1);
 
@@ -184,16 +92,54 @@ public class Register1 extends Activity
 			{
 				String user_id = EID + idNumberEdit.getText().toString();
 
+				List<NameValuePair> parems = new ArrayList<NameValuePair>();
+
+				if (user_id.length() > 0)
+				{
+					parems.add(new BasicNameValuePair("user_id", user_id));
+				}
+
+				SendPostRunnable post = new SendPostRunnable(
+						getString(R.string.Register1), parems,
+						new SendPostRunnable.Callback()
+						{
+							@Override
+							public void service_result(Message dic)
+							{
+								Bundle countBundle = dic.getData();
+
+								HashMap<String, String> resultData = (HashMap<String, String>) countBundle.getSerializable("resultData");
+								// 9/2
+//								String messageString = dic.get("Message");
+//								final String resString = dic.get("result");
+//								
+//								DialogShow show = new DialogShow();
+//								show.showStyle1(Register1.this,
+//										getString(R.string.dialog_title1),messageString,
+//										getString(R.string.dialog_check),
+//										new DialogShow.Callback()
+//										{
+//											@Override
+//											public void work()
+//											{
+//												if (resString.equals("1"))
+//												{
+//													goNextPage();
+//												}
+//											}
+//											@Override
+//											public void cancel()
+//											{
+//												// TODO Auto-generated method stub
+//											}
+//										});								
+							}
+						});
 				
-				sendPostRunnable post = new sendPostRunnable(
-						getString(R.string.Register1),
-						user_id);
+				 Thread t = new Thread(post);
+					
+				 t.start();
 
-				Thread t = new Thread(post);
-
-				t.start();
-
-				// TODO Auto-generated method stub
 			}
 
 		});
@@ -230,7 +176,6 @@ public class Register1 extends Activity
 
 	private Spinner.OnItemSelectedListener spnPerferListener = new Spinner.OnItemSelectedListener()
 	{
-
 		@Override
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
@@ -240,24 +185,23 @@ public class Register1 extends Activity
 				EID = arg0.getSelectedItem().toString();
 				System.out.println(EID);
 			}
-			else if (city_spinner == arg0) 
+			else if (city_spinner == arg0)
 			{
 				CITY = arg0.getSelectedItem().toString();
-				
+
 				CITY_id = cs1_id[arg2].toString();
-				
+
 				setDetail();
 			}
-			else if (city_detail_spinner == arg0) 
+			else if (city_detail_spinner == arg0)
 			{
 				DETAILCITY = arg0.getSelectedItem().toString();
 
 				DETAILCITY_id = cs2_id[arg2].toString();
-				
-			}
-			
-			// TODO Auto-generated method stub
 
+			}
+
+			// TODO Auto-generated method stub
 		}
 
 		@Override
@@ -267,7 +211,7 @@ public class Register1 extends Activity
 
 		}
 	};
-	
+
 	public void setSpinner()
 	{
 		ArrayList<String> columnArray1 = new ArrayList<String>();
@@ -281,7 +225,7 @@ public class Register1 extends Activity
 			{
 				columnArray1.add(mCursor.getString(0));
 				columnArray2.add(mCursor.getString(1));
-				
+
 				mCursor.moveToNext();
 			}
 		}
@@ -289,57 +233,77 @@ public class Register1 extends Activity
 		cs1_id = columnArray2.toArray(new CharSequence[columnArray2.size()]);
 
 		city_spinner = (Spinner) findViewById(R.id.city_spinnner);
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>
-		(this,android.R.layout.simple_spinner_dropdown_item,cs1);
-		
+		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+				this, android.R.layout.simple_spinner_dropdown_item, cs1);
+
 		city_spinner.setAdapter(adapter);
 
 		city_spinner.setOnItemSelectedListener(spnPerferListener);
 		startManagingCursor(mCursor);
-				
+
 		setDetail();
 	}
+
 	public void setDetail()
 	{
 		DBManager dbManager = new DBManager(Register1.this);
 
 		dbManager.openDatabase();
-		
+
 		dCursor = dbManager.get(CITY);
-		
+
 		ArrayList<String> columnArray1 = new ArrayList<String>();
 		ArrayList<String> columnArray2 = new ArrayList<String>();
 
 		int rows_num = dCursor.getCount();
 		if (rows_num != 0)
 		{
-			dCursor.moveToFirst(); 
+			dCursor.moveToFirst();
 			for (int i = 0; i < rows_num; i++)
 			{
 				columnArray1.add(dCursor.getString(1));
 				columnArray2.add(dCursor.getString(2));
-				if (i==0)
+				if (i == 0)
 				{
 					DETAILCITY = dCursor.getString(1);
-					DETAILCITY_id = dCursor.getString(2);	
+					DETAILCITY_id = dCursor.getString(2);
 				}
 				dCursor.moveToNext();
 			}
 		}
-		
+
 		cs2 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
 		cs2_id = columnArray2.toArray(new CharSequence[columnArray2.size()]);
 
 		city_detail_spinner = (Spinner) findViewById(R.id.city_detail_spinnner);
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>
-		(this,android.R.layout.simple_spinner_dropdown_item,cs2);
-		
+		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+				this, android.R.layout.simple_spinner_dropdown_item, cs2);
+
 		city_detail_spinner.setAdapter(adapter);
 
 		city_detail_spinner.setOnItemSelectedListener(spnPerferListener);
-		
+
 		startManagingCursor(dCursor);
-		
+
 	}
-	
+
+	public void goNextPage()
+	{
+		Intent intent = new Intent();
+
+		Bundle bundle = new Bundle();
+
+		bundle.putString("user_id", EID + idNumberEdit.getText().toString());
+
+		bundle.putString("city", CITY);
+		bundle.putString("city_detail", DETAILCITY);
+		bundle.putString("city_id", CITY_id);
+		bundle.putString("city_detail_id", DETAILCITY_id);
+
+		intent.putExtras(bundle);
+
+		intent.setClass(Register1.this, Register2.class);
+		startActivity(intent);
+	}
+
 }

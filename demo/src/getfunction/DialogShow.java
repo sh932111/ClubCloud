@@ -14,6 +14,27 @@ public class DialogShow
 		public abstract void cancel();
 	}
 
+	public void showStyle1(Context context, String title, String mesString,
+			String checkString,Callback callback)
+	{
+		this.mCallback = callback;
+		
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		dialog.setTitle(title);
+		dialog.setIcon(android.R.drawable.ic_dialog_alert);
+		dialog.setMessage(mesString);
+		dialog.setCancelable(false);
+		dialog.setPositiveButton(checkString,
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog, int which)
+					{
+						mCallback.work();
+					}	
+				});
+		dialog.show();
+	}
+	
 	public void show(Context context, String title, String mesString,
 			String checkString, String cancelString ,Callback callback)
 	{

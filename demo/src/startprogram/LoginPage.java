@@ -1,8 +1,10 @@
 package startprogram;
 
 import getdb.UserDB;
+import getfunction.DialogShow;
 import getfunction.GetServerMessage;
 import getfunction.HomeUtil;
+import getfunction.SendPostRunnable;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -12,12 +14,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.candroidsample.R;
-import com.candroidsample.R.id;
-import com.candroidsample.R.layout;
-import com.candroidsample.R.menu;
-import com.candroidsample.R.string;
-
-
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,7 +21,6 @@ import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
@@ -107,40 +102,48 @@ public class LoginPage extends Activity
 		public void run()
 		{
 			// TODO Auto-generated method stub
-			GetServerMessage demo = new GetServerMessage();
-
-			List<NameValuePair> parems = new ArrayList<NameValuePair>();
-
-			parems.add(new BasicNameValuePair("username", userName));
-			parems.add(new BasicNameValuePair("password", passWord));
-			parems.add(new BasicNameValuePair("device_token", device_token));
-			parems.add(new BasicNameValuePair("device_os", "android"));
-			
-			Dictionary<String, String> dic = demo.LoginQuery(URL, parems);
-			
-			String message = dic.get("Message");
-			String result = dic.get("result");
-			String username = dic.get("username"); 
-			String password = dic.get("password"); 
-			String name = dic.get("name"); 
-			String user_id = dic.get("user_id"); 
-			String device_token = dic.get("device_token"); 
-			String device_os = dic.get("device_os"); 
-			
-			Bundle countBundle = new Bundle();
-			countBundle.putString("Message", message);
-			countBundle.putString("result", result);
-			countBundle.putString("username", username);
-			countBundle.putString("password", password);
-			countBundle.putString("name", name);
-			countBundle.putString("user_id", user_id);
-			countBundle.putString("device_token", device_token);
-			countBundle.putString("device_os", device_os);
-
-			Message msg = new Message();
-			msg.setData(countBundle);
-
-			mHandler.sendMessage(msg);
+//			GetServerMessage demo = new GetServerMessage();
+//
+//			List<NameValuePair> parems = new ArrayList<NameValuePair>();
+//
+//			parems.add(new BasicNameValuePair("username", userName));
+//			parems.add(new BasicNameValuePair("password", passWord));
+//			parems.add(new BasicNameValuePair("device_token", device_token));
+//			parems.add(new BasicNameValuePair("device_os", "android"));
+//			
+//			Dictionary<String, String> dic = demo.LoginQuery(URL, parems);
+//			
+//			String message = dic.get("Message");
+//			String result = dic.get("result");
+//			String username = dic.get("username"); 
+//			String password = dic.get("password"); 
+//			String name = dic.get("name"); 
+//			String user_id = dic.get("user_id"); 
+//			String device_token = dic.get("device_token"); 
+//			String device_os = dic.get("device_os"); 
+//			String user_city = dic.get("user_city"); 
+//			String user_city_detail = dic.get("user_city_detail"); 
+//			String city_id = dic.get("city_id"); 
+//			String city_detail_id = dic.get("city_detail_id"); 
+//			
+//			Bundle countBundle = new Bundle();
+//			countBundle.putString("Message", message);
+//			countBundle.putString("result", result);
+//			countBundle.putString("username", username);
+//			countBundle.putString("password", password);
+//			countBundle.putString("name", name);
+//			countBundle.putString("user_id", user_id);
+//			countBundle.putString("device_token", device_token);
+//			countBundle.putString("device_os", device_os);
+//			countBundle.putString("user_city", user_city);
+//			countBundle.putString("user_city_detail", user_city_detail);
+//			countBundle.putString("city_id", city_id);
+//			countBundle.putString("city_detail_id", city_detail_id);
+//
+//			Message msg = new Message();
+//			msg.setData(countBundle);
+//
+//			mHandler.sendMessage(msg);
 		}
 
 	}
@@ -169,13 +172,31 @@ public class LoginPage extends Activity
 			public void onClick(View arg0)
 			{
 				// TODO Auto-generated method stub
-            	sendPostRunnable post = new sendPostRunnable(
-						getString(R.string.Login),
-						usernameText.getText().toString(),passwordText.getText().toString());
+            	List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
-				Thread t = new Thread(post);
-
-				t.start();
+    			parems.add(new BasicNameValuePair("username", usernameText.getText().toString()));
+    			parems.add(new BasicNameValuePair("password", passwordText.getText().toString()));
+    			parems.add(new BasicNameValuePair("device_token", device_token));
+    			parems.add(new BasicNameValuePair("device_os", "android"));
+            	
+//            	SendPostRunnable post = new SendPostRunnable(
+//						getString(R.string.Login), parems,
+//						new SendPostRunnable.Callback()
+//						{
+//							@Override
+//							public void service_result(Message msg)
+//							{
+//								// TODO Auto-generated method stub
+//								final String resString = msg.getData().getString("result");
+//								String messageString = msg.getData().getString("Message");
+//											
+//							}
+//						});
+//				
+//				 Thread t = new Thread(post);
+//					
+//				 t.start();
+  
 			}         
 
         });

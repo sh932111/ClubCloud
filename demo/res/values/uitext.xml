@@ -34,6 +34,7 @@
     <string name="addtocaldroid">新增到行事曆</string>
     <string name="dialogmsg1">順便刪除此資料?</string>
     <string name="dialogmsg2">刪除此資料?</string>
+    <string name="input_address">活動地址:</string>
     
     <string-array name="EID">
         <item>A</item>

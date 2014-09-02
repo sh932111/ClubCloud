@@ -1,17 +1,12 @@
 package homedetail;
 
 import com.candroidsample.R;
-import com.candroidsample.R.id;
-import com.candroidsample.R.layout;
-import com.candroidsample.R.menu;
 
 import getdb.DB;
 import getdb.PushDB;
 import getfunction.DialogShow;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -57,52 +52,29 @@ public class ShowPushDetail extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				DB mDbHelper = new DB(ShowPushDetail.this);
-
-				mDbHelper.open();
-
-				mDbHelper.create(Id, Title, Detail, Date, Time, "1");
-
-				mDbHelper.close();
-
-				AlertDialog.Builder dialog = new AlertDialog.Builder(
-						ShowPushDetail.this);
-				dialog.setTitle(getString(R.string.dialog_title1));
-				dialog.setIcon(android.R.drawable.ic_dialog_alert);
-				String mesString = getString(R.string.dialogmsg1);
-				dialog.setMessage(mesString);
-				dialog.setCancelable(false);
-				dialog.setNegativeButton(getString(R.string.nodelete),
-						new DialogInterface.OnClickListener()
+				creatDB();
+				
+				DialogShow show = new DialogShow();
+				show.show(ShowPushDetail.this,
+						getString(R.string.dialog_title1),
+						getString(R.string.dialogmsg1),
+						getString(R.string.nodelete),
+						getString(R.string.delete),
+						new DialogShow.Callback()
 						{
-							public void onClick(DialogInterface dialog,
-									int which)
+							@Override
+							public void work()
 							{
-								// TODO Auto-generated method stub
 								
 							}
 
-						});
-				dialog.setPositiveButton(getString(R.string.delete),
-						new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog,
-									int which)
+							@Override
+							public void cancel()
 							{
-								PushDB mDbHelper = new PushDB(
-										ShowPushDetail.this);
-
-								mDbHelper.open();
-
-								mDbHelper.delete(Id);
-
-								mDbHelper.close();
-
-								finish();
+								// TODO Auto-generated method stub
+								deleteDB();
 							}
 						});
-				dialog.show();
-
 			}
 		});
 
@@ -113,29 +85,25 @@ public class ShowPushDetail extends Activity
 			public void onClick(View arg0)
 			{
 				DialogShow show = new DialogShow();
-				show.show(ShowPushDetail.this, getString(R.string.dialog_title1), getString(R.string.dialogmsg2), getString(R.string.dialog_check), getString(R.string.dialog_cancel), 
-						new  DialogShow.Callback() 
-						{  
-				            @Override  
-				            public void work() 
-				            {  
-								PushDB mDbHelper = new PushDB(ShowPushDetail.this);
-
-								mDbHelper.open();
-
-								mDbHelper.delete(Id);
-
-								mDbHelper.close();
-
-								finish();  
-				            }
+				show.show(ShowPushDetail.this,
+						getString(R.string.dialog_title1),
+						getString(R.string.dialogmsg2),
+						getString(R.string.dialog_check),
+						getString(R.string.dialog_cancel),
+						new DialogShow.Callback()
+						{
+							@Override
+							public void work()
+							{
+								deleteDB();
+							}
 
 							@Override
 							public void cancel()
 							{
 								// TODO Auto-generated method stub
-				                System.out.println("cancel");
-							}  
+								System.out.println("cancel");
+							}
 						});
 			}
 		});
@@ -160,13 +128,7 @@ public class ShowPushDetail extends Activity
 		timetext.setText(getString(R.string.text_time) + Time);
 		datetext.setText(getString(R.string.text_date) + Date);
 
-		PushDB mDbHelper = new PushDB(ShowPushDetail.this);
-
-		mDbHelper.open();
-
-		mDbHelper.updateLook(Id, "0");
-
-		mDbHelper.close();
+		updateDBLook();
 	}
 
 	@Override
@@ -176,5 +138,42 @@ public class ShowPushDetail extends Activity
 		getMenuInflater().inflate(R.menu.show_push_detail, menu);
 		return true;
 	}
+	
+	//db function
+	public void deleteDB()
+	{
+		PushDB mDbHelper = new PushDB(
+				ShowPushDetail.this);
 
+		mDbHelper.open();
+
+		mDbHelper.delete(Id);
+
+		mDbHelper.close();
+
+		finish();
+	}
+	public void updateDBLook()
+	{
+
+		PushDB mDbHelper = new PushDB(ShowPushDetail.this);
+
+		mDbHelper.open();
+
+		mDbHelper.updateLook(Id, "0");
+
+		mDbHelper.close();
+	}
+	public void creatDB()
+	{
+		DB mDbHelper = new DB(ShowPushDetail.this);
+
+		mDbHelper.open();
+
+		mDbHelper.create(Id, Title, Detail, Date, Time, "1");
+
+		mDbHelper.close();
+		
+	}
+	
 }

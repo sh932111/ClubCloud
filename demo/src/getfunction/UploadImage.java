@@ -8,17 +8,31 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class UploadImage
+public class UploadImage implements Runnable
 {
-	public void uploadFile(String uploadUrl,String image_path ,String image_name)
+	String UploadUrl = null;
+	String ImagePath = null;
+	String ImageName = null;
+	
+	public UploadImage(String uploadUrl,String image_path ,String image_name)
 	{
+		this.UploadUrl = uploadUrl;
+		this.ImagePath = image_path;
+		this.ImageName = image_name;
+
+	}
+
+	@Override
+	public void run()
+	{
+		// TODO Auto-generated method stub
 		String end = "\r\n";
 		String twoHyphens = "--";
 		String boundary = "******";
 		
 		try
 		{
-			URL url = new URL(uploadUrl);
+			URL url = new URL(UploadUrl);
 			HttpURLConnection httpURLConnection = (HttpURLConnection) url
 					.openConnection();
 			
@@ -40,13 +54,13 @@ public class UploadImage
 			dos.writeBytes(twoHyphens + boundary + end);
 			
 			dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\""
-					+ image_name+".png"
+					+ ImageName+".png"
 					+ "\""
 					+ end);
 
 			dos.writeBytes(end);
 
-			FileInputStream fis = new FileInputStream(image_path);
+			FileInputStream fis = new FileInputStream(ImagePath);
 
 			byte[] buffer = new byte[8192]; // 8k
 			int count = 0;

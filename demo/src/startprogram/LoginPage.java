@@ -59,14 +59,12 @@ public class LoginPage extends Activity
 			String messageString = msg.getData().getString("Message");
 
 			AlertDialog.Builder dialog = new AlertDialog.Builder(LoginPage.this);
-			dialog.setTitle("�T��"); // �]�wdialog ��title��ܤ��e
-			dialog.setIcon(android.R.drawable.ic_dialog_alert);// �]�wdialog ��ICO
+			dialog.setTitle(getString(R.string.dialog_title1)); 
+			dialog.setIcon(android.R.drawable.ic_dialog_alert);
 			String mesString = messageString;
-
 			dialog.setMessage(mesString);
-
-			dialog.setCancelable(false); // ���� Android �t�Ϊ��D�n�\����(menu,home��...)
-			dialog.setPositiveButton("�T�w",
+			dialog.setCancelable(false);
+			dialog.setPositiveButton(getString(R.string.dialog_check),
 					new DialogInterface.OnClickListener()
 					{
 						public void onClick(DialogInterface dialog, int which)
@@ -85,13 +83,6 @@ public class LoginPage extends Activity
 								HomeUtil mSysUtil= new HomeUtil(LoginPage.this);  
 					            
 								mSysUtil.exit();
-								
-								
-//								Intent intent = new Intent();
-//								
-//								intent.setClass(LoginPage.this, HomePage.class);
-//
-//								startActivity(intent);
 							}
 						}
 					});

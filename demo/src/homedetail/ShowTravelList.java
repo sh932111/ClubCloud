@@ -54,7 +54,7 @@ public class ShowTravelList extends Activity
 
 		Intent intent = this.getIntent();
 
-		Bundle bundle = intent.getExtras();// ��oBundle
+		Bundle bundle = intent.getExtras();
 
 		list_index = bundle.getInt("Index");
 		TextView txt_1 = (TextView) findViewById(R.id.datetext);
@@ -67,7 +67,7 @@ public class ShowTravelList extends Activity
 		}
 		else
 		{
-			txt_1.setText("�T���d��");
+			txt_1.setText(getString(R.string.title_activity_show_push_list));
 		}
 
 		Button bt = (Button) findViewById(R.id.addbutton);
@@ -160,10 +160,10 @@ public class ShowTravelList extends Activity
 		ArrayList<String> columnArray4 = new ArrayList<String>();
 		ArrayList<String> columnArray5 = new ArrayList<String>();
 
-		int rows_num = mCursor.getCount(); // ��o��ƪ�C��
+		int rows_num = mCursor.getCount();
 		if (rows_num != 0)
 		{
-			mCursor.moveToFirst(); // �N��в��ܲĤ@�����
+			mCursor.moveToFirst();
 			for (int i = 0; i < rows_num; i++)
 			{
 				columnArray1.add(mCursor.getString(1));

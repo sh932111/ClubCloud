@@ -1,76 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Candroid Sample</string>
+    <string name="app_name">社區雲</string>
     <string name="newtravel">新增行程</string>
     <string name="title_activity_one">OneActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_set_travel">SetTravel</string>
-    <string name="title_activity_show_travel_list">ShowTravelList</string>
-    <string name="title_activity_show_travel_detail">ShowTravelDetail</string>
-    <string name="title_activity_home_page">HomePage</string>
-    <string name="error_config">Please set the %1$s constant and recompile the app.</string>
-    <string name="already_registered">Device is already registered on server.</string>
-    <string name="gcm_registered">From GCM: device successfully registered!</string>
-    <string name="gcm_unregistered">From GCM: device successfully unregistered!</string>
-    <string name="gcm_message">From GCM: you got message!</string>
-    <string name="gcm_error">From GCM: error (%1$s).</string>
-    <string name="gcm_recoverable_error">From GCM: recoverable error (%1$s).</string>
-    <string name="gcm_deleted">From GCM: server deleted %1$d pending messages!</string>
-    <string name="server_registering">Trying (attempt %1$d/%2$d) to register device on Demo Server.</string>
-    <string name="server_registered">From Demo Server: successfully added device!</string>
-    <string name="server_unregistered">From Demo Server: successfully removed device!</string>
-    <string name="server_register_error">Could not register device on Demo Server after %1$d attempts.</string>
-    <string name="server_unregister_error">Could not unregister device on Demo Server (%1$s).</string>
-    <string name="options_register">Register</string>
-    <string name="options_unregister">Unregister</string>
-    <string name="options_clear">Clear</string>
-    <string name="options_exit">Exit</string>
-    <string name="title_activity_start">StartActivity</string>
-    <string name="title_activity_register1">Register1</string>
-    <string name="title_activity_register2">Register2</string>
-
-    <string-array name="EID">
-        <item>A</item>
-        <item>B</item>
-        <item>C</item>
-        <item>D</item>
-        <item>E</item>
-        <item>F</item>
-        <item>G</item>
-        <item>H</item>
-        <item>I</item>
-        <item>J</item>
-        <item>K</item>
-        <item>L</item>
-        <item>M</item>
-        <item>N</item>
-        <item>O</item>
-        <item>P</item>
-        <item>Q</item>
-        <item>R</item>
-        <item>S</item>
-        <item>T</item>
-        <item>R</item>
-        <item>U</item>
-        <item>V</item>
-        <item>W</item>
-        <item>X</item>
-        <item>Y</item>
-        <item>Z</item>
-    </string-array>
-
-    <string name="title_activity_login_page">LoginPage</string>
-    <string name="title_activity_friend_management">FriendManagement</string>
-    <string name="title_activity_show_push_detail">ShowPushDetail</string>
-    <string name="Register1">http://192.168.20.119/ClubCloud/userServer/Register/Register1.php</string>
-    <string name="Register2">http://192.168.20.119/ClubCloud/userServer/Register/Register2.php</string>
-    <string name="Login">http://192.168.20.119/ClubCloud/userServer/Login/Login.php</string>
-    <string name="uploadUserImage">http://192.168.20.119/ClubCloud/userServer/Register/User_upload.php</string>
-    <string name="Request">http://192.168.20.119/ClubCloud/userServer/Request/Request.php</string>
-    <string name="Request_upload">http://192.168.20.119/ClubCloud/userServer/Request/Request_upload.php</string>
-    
-    <string name="title_activity_event_delivery">EventDelivery</string>
+    <string name="title_activity_show_travel_list">行程查詢</string>
+    <string name="title_activity_show_push_list">訊息查詢</string>
+    <string name="title_activity_show_travel_detail">行程資料</string>
+    <string name="title_activity_home_page">主要頁面</string>
+    <string name="title_activity_start">開始頁面</string>
+    <string name="title_activity_register1">註冊第一階段</string>
+    <string name="title_activity_register2">註冊第二階段</string>
+    <string name="title_activity_event_delivery">訊息傳達</string> 
+    <string name="title_activity_login_page">登入頁面</string>
+    <string name="title_activity_show_push_detail">訊息資料</string>
+    <string name="title_activity_caldroid">社區行事曆</string>
 
 </resources>

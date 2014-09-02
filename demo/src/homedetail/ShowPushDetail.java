@@ -1,6 +1,5 @@
 package homedetail;
 
-
 import com.candroidsample.R;
 import com.candroidsample.R.id;
 import com.candroidsample.R.layout;
@@ -8,6 +7,7 @@ import com.candroidsample.R.menu;
 
 import getdb.DB;
 import getdb.PushDB;
+import getfunction.DialogShow;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -67,13 +67,12 @@ public class ShowPushDetail extends Activity
 
 				AlertDialog.Builder dialog = new AlertDialog.Builder(
 						ShowPushDetail.this);
-				dialog.setTitle("�T��"); // �]�wdialog ��title��ܤ��e
-				dialog.setIcon(android.R.drawable.ic_dialog_alert);// �]�wdialog
-																	// ��ICO
-				String mesString = "順便刪除此資料?";
+				dialog.setTitle(getString(R.string.dialog_title1));
+				dialog.setIcon(android.R.drawable.ic_dialog_alert);
+				String mesString = getString(R.string.dialogmsg1);
 				dialog.setMessage(mesString);
 				dialog.setCancelable(false);
-				dialog.setNegativeButton("���R��",
+				dialog.setNegativeButton(getString(R.string.nodelete),
 						new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,
@@ -84,7 +83,7 @@ public class ShowPushDetail extends Activity
 							}
 
 						});
-				dialog.setPositiveButton("�R��",
+				dialog.setPositiveButton(getString(R.string.delete),
 						new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,
@@ -113,15 +112,31 @@ public class ShowPushDetail extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				PushDB mDbHelper = new PushDB(ShowPushDetail.this);
+				DialogShow show = new DialogShow();
+				show.show(ShowPushDetail.this, getString(R.string.dialog_title1), getString(R.string.dialogmsg2), getString(R.string.dialog_check), getString(R.string.dialog_cancel), 
+						new  DialogShow.Callback() 
+						{  
+				            @Override  
+				            public void work() 
+				            {  
+								PushDB mDbHelper = new PushDB(ShowPushDetail.this);
 
-				mDbHelper.open();
+								mDbHelper.open();
 
-				mDbHelper.delete(Id);
+								mDbHelper.delete(Id);
 
-				mDbHelper.close();
+								mDbHelper.close();
 
-				finish();
+								finish();  
+				            }
+
+							@Override
+							public void cancel()
+							{
+								// TODO Auto-generated method stub
+				                System.out.println("cancel");
+							}  
+						});
 			}
 		});
 		setValue();
@@ -131,7 +146,7 @@ public class ShowPushDetail extends Activity
 	{
 		Intent intent = this.getIntent();
 
-		Bundle bundle = intent.getExtras();// ��oBundle
+		Bundle bundle = intent.getExtras();
 
 		Id = bundle.getLong("ID");
 
@@ -140,10 +155,10 @@ public class ShowPushDetail extends Activity
 		Time = bundle.getString("Time");
 		Date = bundle.getString("Date");
 
-		titletext.setText("���D : " + Title);
+		titletext.setText(getString(R.string.input_title) + Title);
 		detailtext.setText(Detail);
-		timetext.setText("�ɶ� : " + Time);
-		datetext.setText("��� : " + Date);
+		timetext.setText(getString(R.string.text_time) + Time);
+		datetext.setText(getString(R.string.text_date) + Date);
 
 		PushDB mDbHelper = new PushDB(ShowPushDetail.this);
 

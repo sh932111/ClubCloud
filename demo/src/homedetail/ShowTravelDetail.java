@@ -50,7 +50,7 @@ public class ShowTravelDetail extends Activity
 		
 		Intent intent = this.getIntent();
 
-		Bundle bundle = intent.getExtras();// ��oBundle
+		Bundle bundle = intent.getExtras();
 
 		final String timeString = bundle.getString("Date");
 
@@ -58,7 +58,7 @@ public class ShowTravelDetail extends Activity
 		
 		TextView txt_1 = (TextView) findViewById(R.id.datetext);
 
-		txt_1.setText("��� : " + timeString);
+		txt_1.setText(getString(R.string.text_date) + timeString);
 		
 		timeTextView = (TextView) findViewById(R.id.timetext);
 
@@ -81,7 +81,7 @@ public class ShowTravelDetail extends Activity
 		{
 			titleText.setText(bundle.getString("Title"));
 			detailText.setText(bundle.getString("Message"));
-			timeTextView.setText("�ɶ� : " + bundle.getString("Time"));
+			timeTextView.setText(getString(R.string.text_time) + bundle.getString("Time"));
 	    	
 			String checkString = bundle.getString("Check");
 			
@@ -96,7 +96,7 @@ public class ShowTravelDetail extends Activity
 				mDbHelper.close();
 			}
 			
-			check.setText("��s");
+			check.setText(getString(R.string.edit));
 			
 			check.setOnClickListener(new Button.OnClickListener()
 			{
@@ -124,7 +124,7 @@ public class ShowTravelDetail extends Activity
 		
 		if (IDString != 0)
 		{
-			cancel.setText("�R��");
+			cancel.setText(getString(R.string.delete));
 		
 			cancel.setOnClickListener(new Button.OnClickListener()
 			{
@@ -173,7 +173,7 @@ public class ShowTravelDetail extends Activity
 			mHour = arg1;
 			mMinute = arg2;
 			
-			timeTextView.setText("�ɶ� : " + arg1 + " :" + arg2);
+			timeTextView.setText(getString(R.string.text_time) + arg1 + " :" + arg2);
 		}
 	};
 

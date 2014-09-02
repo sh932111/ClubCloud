@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="主要頁面"
+        android:text="@string/title_activity_home_page"
         android:layout_gravity="center"
         android:textSize="30sp" />
     
@@ -25,17 +25,17 @@
     <Button
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="社區行事曆"
+	    android:text="@string/title_activity_caldroid"
 	    android:id="@+id/bt2"/>
     <Button
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="訊息查詢"
+	    android:text="@string/title_activity_show_push_list"
 	    android:id="@+id/bt3"/>
     <Button
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="訊息傳達"
+	    android:text="@string/title_activity_event_delivery"
 	    android:id="@+id/bt4"/>
     <Button
 	    android:layout_width="fill_parent"

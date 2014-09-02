@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   
+    <string name="Register1">http://192.168.20.119/ClubCloud/userServer/Register/Register1.php</string>
+    <string name="Register2">http://192.168.20.119/ClubCloud/userServer/Register/Register2.php</string>
+    <string name="Login">http://192.168.20.119/ClubCloud/userServer/Login/Login.php</string>
+    <string name="uploadUserImage">http://192.168.20.119/ClubCloud/userServer/Register/User_upload.php</string>
+    <string name="Request">http://192.168.20.119/ClubCloud/userServer/Request/Request.php</string>
+    <string name="Request_upload">http://192.168.20.119/ClubCloud/userServer/Request/Request_upload.php</string>
+</resources>

@@ -1,31 +1,47 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/datetext"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignParentTop="true"
-        android:gravity="center_vertical"
-    			android:textSize = "30sp"  />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/addbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-    	android:textSize = "30sp" 
-        android:text="+" />
-    
-    <ListView  
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/datetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/addbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textSize="30sp"        
+                android:layout_gravity="right"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
         android:id="@+id/listView"
-    />
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
-</RelativeLayout >
+</LinearLayout>

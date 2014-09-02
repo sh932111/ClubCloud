@@ -59,8 +59,8 @@ public class Register2 extends Activity
 	//private String actionUrl = getString(R.string.uploadUserImage);
 	//private String Register2_url = getString(R.string.Register2);
 	
-	Button bt1;
-	Button bt2;
+//	Button bt1;
+//	Button bt2;
 	Button bt3;
 
 	private final static int CAMERA = 66;
@@ -96,12 +96,12 @@ public class Register2 extends Activity
 			String messageString = msg.getData().getString("Message");
 
 			AlertDialog.Builder dialog = new AlertDialog.Builder(Register2.this);
-			dialog.setTitle("訊息"); // 設定dialog 的title顯示內容
-			dialog.setIcon(android.R.drawable.ic_dialog_alert);// 設定dialog 的ICO
+			dialog.setTitle(getString(R.string.dialog_title1));
+			dialog.setIcon(android.R.drawable.ic_dialog_alert);
 			String mesString = messageString;
 			dialog.setMessage(mesString);
-			dialog.setCancelable(false); // 關閉 Android 系統的主要功能鍵(menu,home等...)
-			dialog.setPositiveButton("確定",
+			dialog.setCancelable(false); 
+			dialog.setPositiveButton(getString(R.string.dialog_check),
 					new DialogInterface.OnClickListener()
 					{
 						public void onClick(DialogInterface dialog, int which)
@@ -226,12 +226,12 @@ public class Register2 extends Activity
 	{
 
 		TextView txt1 = (TextView) findViewById(R.id.txt1);
-
-		txt1.setText("身分證：" + user_id);
+		
+		txt1.setText(getString(R.string.input_ID) + user_id);
 		
 		TextView txt2 = (TextView) findViewById(R.id.txt2);
 
-		txt2.setText("地區：" + cityString + citydetailString);
+		txt2.setText(getString(R.string.text_city2) + cityString + citydetailString);
 		
 		cameraButton = (Button) findViewById(R.id.cameraBt);
 		cameraButton.setOnClickListener(new Button.OnClickListener()
@@ -241,14 +241,12 @@ public class Register2 extends Activity
 			{
 				AlertDialog.Builder dialog = new AlertDialog.Builder(
 						Register2.this);
-				dialog.setTitle("訊息"); // 設定dialog 的title顯示內容
-				dialog.setIcon(android.R.drawable.ic_dialog_alert);// 設定dialog
-																	// 的ICO
-				String mesString = "請選擇圖片來源";
+				dialog.setTitle(getString(R.string.dialog_title1));
+				dialog.setIcon(android.R.drawable.ic_dialog_alert);
+				String mesString = getString(R.string.check_img_src);
 				dialog.setMessage(mesString);
-				dialog.setCancelable(false); // 關閉 Android
-												// 系統的主要功能鍵(menu,home等...)
-				dialog.setPositiveButton("取消",
+				dialog.setCancelable(false); 
+				dialog.setPositiveButton(getString(R.string.dialog_cancel),
 						new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,
@@ -257,7 +255,7 @@ public class Register2 extends Activity
 							
 							}
 						});
-				dialog.setNegativeButton("相本",
+				dialog.setNegativeButton(getString(R.string.dialog_album),
 						new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,
@@ -270,7 +268,7 @@ public class Register2 extends Activity
 								startActivityForResult(intent, Album);
 							}
 						});
-				dialog.setNeutralButton("照相",
+				dialog.setNeutralButton(getString(R.string.dialog_camera),
 						new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,
@@ -292,24 +290,24 @@ public class Register2 extends Activity
 
 		mImg = (ImageView) findViewById(R.id.img);
 
-		bt1 = (Button) findViewById(R.id.button1);
-		bt1.setOnClickListener(new Button.OnClickListener()
-		{
-			@Override
-			public void onClick(View arg0)
-			{
-				scrollView.setVisibility(View.VISIBLE);
-			}
-		});
-		bt2 = (Button) findViewById(R.id.button2);
-		bt2.setOnClickListener(new Button.OnClickListener()
-		{
-			@Override
-			public void onClick(View arg0)
-			{
-				scrollView.setVisibility(View.VISIBLE);
-			}
-		});
+//		bt1 = (Button) findViewById(R.id.button1);
+//		bt1.setOnClickListener(new Button.OnClickListener()
+//		{
+//			@Override
+//			public void onClick(View arg0)
+//			{
+//				scrollView.setVisibility(View.VISIBLE);
+//			}
+//		});
+//		bt2 = (Button) findViewById(R.id.button2);
+//		bt2.setOnClickListener(new Button.OnClickListener()
+//		{
+//			@Override
+//			public void onClick(View arg0)
+//			{
+//				scrollView.setVisibility(View.VISIBLE);
+//			}
+//		});
 		bt3 = (Button) findViewById(R.id.button3);
 		bt3.setOnClickListener(new Button.OnClickListener()
 		{
@@ -355,14 +353,12 @@ public class Register2 extends Activity
 				{
 					AlertDialog.Builder dialog = new AlertDialog.Builder(
 							Register2.this);
-					dialog.setTitle("訊息"); // 設定dialog 的title顯示內容
-					dialog.setIcon(android.R.drawable.ic_dialog_alert);// 設定dialog
-																		// 的ICO
-					String mesString = "密碼兩次輸入錯誤或是資料有遺漏";
+					dialog.setTitle(getString(R.string.dialog_title1));
+					dialog.setIcon(android.R.drawable.ic_dialog_alert);
+					String mesString = getString(R.string.dialog_password_msg);
 					dialog.setMessage(mesString);
-					dialog.setCancelable(false); // 關閉 Android
-													// 系統的主要功能鍵(menu,home等...)dialog.setPositiveButton("確定",
-					dialog.setPositiveButton("確定",
+					dialog.setCancelable(false);
+					dialog.setPositiveButton(getString(R.string.dialog_check),
 							new DialogInterface.OnClickListener()
 							{
 								public void onClick(DialogInterface dialog,
@@ -402,8 +398,7 @@ public class Register2 extends Activity
 			Cursor cursor = cr.query(uri, null, null, null, null);
             cursor.moveToFirst();
             
-            image_path = cursor.getString(1); //图片文件路径
-            
+            image_path = cursor.getString(1);
 			try
 			{
 

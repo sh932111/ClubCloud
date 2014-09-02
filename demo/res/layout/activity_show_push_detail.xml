@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="村長訊息"
+        android:text="@string/title_activity_show_push_detail"
         android:textSize="30sp" />
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="日期: "
+        android:text="@string/text_date"
         android:textSize="30sp" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="時間: "
+        android:text="@string/text_time"
         android:textSize="30sp" />
     
     <TextView
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="標題: "
+        android:text="@string/input_title"
         android:textSize="30sp" />
     
     <TextView
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="3.0dip"
-                android:text="新增到行事曆" />
+                android:text="@string/addtocaldroid" />
         </LinearLayout>
 
         <LinearLayout
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="3.0dip"
-                android:text="刪除訊息" />
+                android:text="@string/delete" />
         </LinearLayout>
     </LinearLayout>
     

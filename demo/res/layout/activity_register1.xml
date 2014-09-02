@@ -13,7 +13,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="註冊階段一" />
+        android:text="@string/title_activity_register1" 
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -32,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginLeft="3.0dip"
-                android:text="身分證:"
+                android:text="@string/input_ID"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginLeft="3.0dip"
-                android:text="選擇區域:"
+                android:text="@string/choose_city"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -112,6 +113,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:text="驗證" />
+        android:text="@string/verify" />
 
 </LinearLayout>

@@ -3,4 +3,65 @@
     <string name="start_page_title">開始社區雲服務</string>
     <string name="register">註冊</string>
     <string name="login">登入</string>
+    <string name="input_ID">身分證:</string>
+    <string name="text_ID">身分證</string>
+    <string name="choose_city">選擇區域:</string>
+    <string name="text_city">區域</string>
+    <string name="text_city2">區域:</string>
+    <string name="text_date">日期:</string>
+    <string name="text_time">時間:</string>
+    <string name="choosetime">選擇時間</string>
+    <string name="verify">驗證</string>
+    <string name="default_city">花蓮縣</string>
+    <string name="default_area">花蓮市</string>
+    <string name="dialog_title1">訊息</string>
+    <string name="dialog_check">確定</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_camera">拍照</string>
+    <string name="dialog_password_msg">密碼兩次輸入錯誤或是資料有遺漏</string>
+    <string name="dialog_album">相簿</string>
+    <string name="input_name">名稱:</string>
+    <string name="input_username">帳號:</string>
+    <string name="input_password">密碼:</string>
+    <string name="check_input_password">確認密碼:</string>
+    <string name="input_title">標題:</string>
+    <string name="check_img">選圖片</string>
+    <string name="send">送出</string>
+    <string name="check_img_src">請選擇圖片來源</string>
+    <string name="edit">修改</string>
+    <string name="delete">刪除</string>
+    <string name="nodelete">不刪除</string>
+    <string name="addtocaldroid">新增到行事曆</string>
+    <string name="dialogmsg1">順便刪除此資料?</string>
+    <string name="dialogmsg2">刪除此資料?</string>
+    
+    <string-array name="EID">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+        <item>G</item>
+        <item>H</item>
+        <item>I</item>
+        <item>J</item>
+        <item>K</item>
+        <item>L</item>
+        <item>M</item>
+        <item>N</item>
+        <item>O</item>
+        <item>P</item>
+        <item>Q</item>
+        <item>R</item>
+        <item>S</item>
+        <item>T</item>
+        <item>R</item>
+        <item>U</item>
+        <item>V</item>
+        <item>W</item>
+        <item>X</item>
+        <item>Y</item>
+        <item>Z</item>
+    </string-array>
 </resources>

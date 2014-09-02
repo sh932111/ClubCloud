@@ -69,20 +69,18 @@ public class Register1 extends Activity
 			String messageString = msg.getData().getString("Message");
 
 			AlertDialog.Builder dialog = new AlertDialog.Builder(Register1.this);
-			dialog.setTitle("�T��"); // �]�wdialog ��title��ܤ��e
-			dialog.setIcon(android.R.drawable.ic_dialog_alert);// �]�wdialog ��ICO
+			dialog.setTitle(getString(R.string.dialog_title1));
+			dialog.setIcon(android.R.drawable.ic_dialog_alert);
 			String mesString = messageString;
 
 			dialog.setMessage(mesString);
 
-			dialog.setCancelable(false); // ���� Android �t�Ϊ��D�n�\����(menu,home��...)
-			dialog.setPositiveButton("�T�w",
+			dialog.setCancelable(false);
+			dialog.setPositiveButton(getString(R.string.dialog_check),
 					new DialogInterface.OnClickListener()
 					{
 						public void onClick(DialogInterface dialog, int which)
 						{
-							// ���U"����"�H��n�����Ʊ�
-
 							if (resString.equals("1"))
 							{
 								Intent intent = new Intent();
@@ -161,8 +159,8 @@ public class Register1 extends Activity
 	public void findView()
 	{
 		loadData();
-		CITY = "�Ὤ��";
-		DETAILCITY = "�Ὤ��";
+		CITY = getString(R.string.default_city);
+		DETAILCITY = getString(R.string.default_area);
 		CITY_id = "U";
 		DETAILCITY_id = "970";
 		spinner = (Spinner) findViewById(R.id.spinnner);
@@ -275,10 +273,10 @@ public class Register1 extends Activity
 		ArrayList<String> columnArray1 = new ArrayList<String>();
 		ArrayList<String> columnArray2 = new ArrayList<String>();
 
-		int rows_num = mCursor.getCount(); // ��o��ƪ�C��
+		int rows_num = mCursor.getCount();
 		if (rows_num != 0)
 		{
-			mCursor.moveToFirst(); // �N��в��ܲĤ@�����
+			mCursor.moveToFirst();
 			for (int i = 0; i < rows_num; i++)
 			{
 				columnArray1.add(mCursor.getString(0));
@@ -312,10 +310,10 @@ public class Register1 extends Activity
 		ArrayList<String> columnArray1 = new ArrayList<String>();
 		ArrayList<String> columnArray2 = new ArrayList<String>();
 
-		int rows_num = dCursor.getCount(); // ��o��ƪ�C��
+		int rows_num = dCursor.getCount();
 		if (rows_num != 0)
 		{
-			dCursor.moveToFirst(); // �N��в��ܲĤ@�����
+			dCursor.moveToFirst(); 
 			for (int i = 0; i < rows_num; i++)
 			{
 				columnArray1.add(dCursor.getString(1));

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="start_page_title">開始社區雲服務</string>
+    <string name="register">註冊</string>
+    <string name="login">登入</string>
+</resources>

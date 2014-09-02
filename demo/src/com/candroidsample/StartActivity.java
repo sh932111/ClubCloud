@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import startprogram.LoginPage;
+import startprogram.Register1;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;

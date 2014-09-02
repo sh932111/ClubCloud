@@ -3,6 +3,7 @@ package com.candroidsample;
 //import java.text.SimpleDateFormat;
 import getdb.DB;
 import getfunction.HomeUtil;
+import homedetail.ShowTravelList;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -102,13 +103,13 @@ public class CaldroidSampleActivity extends FragmentActivity
 			@Override
 			public void onChangeMonth(int month, int year)
 			{
-				// ´«¤ë¥÷®É±Ò°Ê
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É±Ò°ï¿½
 			}
 
 			@Override
 			public void onLongClickDate(Date date, View view)
 			{
-				// ªø«ö·|±Ò°Ê
+				// ï¿½ï¿½ï¿½ï¿½|ï¿½Ò°ï¿½
 			}
 
 			@Override
@@ -116,7 +117,7 @@ public class CaldroidSampleActivity extends FragmentActivity
 			{
 				if (caldroidFragment.getLeftArrowButton() != null)
 				{
-					// ·s¼W§¹¦¨«á±Ò°Ê
+					// ï¿½sï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½
 				}
 			}
 
@@ -142,14 +143,14 @@ public class CaldroidSampleActivity extends FragmentActivity
 
 		if (rows_num != 0)
 		{
-			mCursor.moveToFirst(); // ±N«ü¼Ð²¾¦Ü²Ä¤@µ§¸ê®Æ
+			mCursor.moveToFirst(); // ï¿½Nï¿½ï¿½Ð²ï¿½ï¿½Ü²Ä¤@ï¿½ï¿½ï¿½ï¿½ï¿½
 
 			for (int i = 0; i < rows_num; i++)
 			{
 				String get_date_string = mCursor.getString(0);
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-				// ¶i¦æÂà´«
+				// ï¿½iï¿½ï¿½ï¿½à´«
 
 				Date date = null;
 				try
@@ -205,7 +206,7 @@ public class CaldroidSampleActivity extends FragmentActivity
 					}
 				}
 
-				mCursor.moveToNext(); // ±N«ü¼Ð²¾¦Ü¤U¤@µ§¸ê®Æ
+				mCursor.moveToNext(); // ï¿½Nï¿½ï¿½Ð²ï¿½ï¿½Ü¤Uï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½
 			}
 		}
 		mDbHelper.close();

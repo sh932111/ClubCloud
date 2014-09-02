@@ -40,11 +40,11 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.candroidsample.ShowTravelList"
+            android:name="homedetail.ShowTravelList"
             android:label="@string/title_activity_show_travel_list" >
         </activity>
         <activity
-            android:name="com.candroidsample.ShowTravelDetail"
+            android:name="homedetail.ShowTravelDetail"
             android:label="@string/title_activity_show_travel_detail" >
         </activity>
 
@@ -66,15 +66,15 @@
             android:label="@string/title_activity_start" >
         </activity>
         <activity
-            android:name="com.candroidsample.Register1"
+            android:name="startprogram.Register1"
             android:label="@string/title_activity_register1" >
         </activity>
         <activity
-            android:name="com.candroidsample.Register2"
+            android:name="startprogram.Register2"
             android:label="@string/title_activity_register2" >
         </activity>
         <activity
-            android:name="com.candroidsample.LoginPage"
+            android:name="startprogram.LoginPage"        
             android:label="@string/title_activity_login_page" >
         </activity>
         <activity
@@ -82,7 +82,7 @@
             android:label="@string/title_activity_friend_management" >
         </activity>
         <activity
-            android:name="com.candroidsample.ShowPushDetail"
+            android:name="homedetail.ShowPushDetail"
             android:label="@string/title_activity_show_push_detail" >
         </activity>
         <activity

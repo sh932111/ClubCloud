@@ -234,7 +234,10 @@ public class LoginPage extends Activity
 
 					String locaction = "ClubCloud/userphoto/" + set_img_name + ".PNG";
 
-					setfolder.saveImage(loadPic.getImg(), extStorage, locaction);
+					if (loadPic.getImg() != null)
+					{
+						setfolder.saveImage(loadPic.getImg(), extStorage, locaction);	
+					}
 					
 					break;
 				}

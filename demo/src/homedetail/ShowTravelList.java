@@ -8,11 +8,6 @@ import getfunction.SysUtil;
 import java.util.ArrayList;
 
 import com.candroidsample.R;
-import com.candroidsample.R.id;
-import com.candroidsample.R.layout;
-import com.candroidsample.R.menu;
-
-import android.R.integer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

@@ -1,6 +1,8 @@
 package startprogram;
 
 import getdb.UserDB;
+import getfunction.DownloadWebPicture;
+import getfunction.FolderFunction;
 import getfunction.HomeUtil;
 import getfunction.SendPostRunnable;
 
@@ -16,7 +18,10 @@ import org.json.JSONObject;
 import com.candroidsample.R;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -34,16 +39,16 @@ public class LoginPage extends Activity
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
 	String device_token;
-	
+	DownloadWebPicture loadPic;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login_page);
 
-		usernameText = (EditText)findViewById(R.id.user);
-		passwordText = (EditText)findViewById(R.id.pass);
-		
+		usernameText = (EditText) findViewById(R.id.user);
+		passwordText = (EditText) findViewById(R.id.pass);
+
 		SharedPreferences get_pref = getSharedPreferences(PREF, 0);
 
 		String get_id = get_pref.getString(GET_ID, "");
@@ -52,24 +57,26 @@ public class LoginPage extends Activity
 		{
 			device_token = get_id;
 		}
-		
-		loginButton = (Button)findViewById(R.id.loginbt);
+
+		loginButton = (Button) findViewById(R.id.loginbt);
 		loginButton.setOnClickListener(new Button.OnClickListener()
-        { 
-            @Override
+		{
+			@Override
 			public void onClick(View arg0)
 			{
 				// TODO Auto-generated method stub
-            	List<NameValuePair> parems = new ArrayList<NameValuePair>();
+				List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
-    			parems.add(new BasicNameValuePair("username", usernameText.getText().toString()));
-    			parems.add(new BasicNameValuePair("password", passwordText.getText().toString()));
-    			parems.add(new BasicNameValuePair("device_token", device_token));
-    			parems.add(new BasicNameValuePair("device_os", "android"));
-            	
-            	SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)+
-						getString(R.string.Login), parems,
-						new SendPostRunnable.Callback()
+				parems.add(new BasicNameValuePair("username", usernameText
+						.getText().toString()));
+				parems.add(new BasicNameValuePair("password", passwordText
+						.getText().toString()));
+				parems.add(new BasicNameValuePair("device_token", device_token));
+				parems.add(new BasicNameValuePair("device_os", "android"));
+
+				SendPostRunnable post = new SendPostRunnable(
+						getString(R.string.IP) + getString(R.string.Login),
+						parems, new SendPostRunnable.Callback()
 						{
 							@Override
 							public void service_result(Message msg)
@@ -78,33 +85,38 @@ public class LoginPage extends Activity
 								Bundle countBundle = msg.getData();
 
 								@SuppressWarnings("unchecked")
-								HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle.getSerializable("resultData");
-								
-								final JSONObject result = (JSONObject) resultData.get("Data");
-								
+								HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle
+										.getSerializable("resultData");
+
+								final JSONObject result = (JSONObject) resultData
+										.get("Data");
+
 								String messageString = null;
 
 								try
 								{
 									messageString = result.getString("Message");
-
 								}
 								catch (JSONException e)
 								{
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-//								
-								AlertDialog.Builder dialog = new AlertDialog.Builder(LoginPage.this);
-								dialog.setTitle(getString(R.string.dialog_title1)); 
+								//
+								AlertDialog.Builder dialog = new AlertDialog.Builder(
+										LoginPage.this);
+								dialog.setTitle(getString(R.string.dialog_title1));
 								dialog.setIcon(android.R.drawable.ic_dialog_alert);
 								String mesString = messageString;
 								dialog.setMessage(mesString);
 								dialog.setCancelable(false);
-								dialog.setPositiveButton(getString(R.string.dialog_check),
+								dialog.setPositiveButton(
+										getString(R.string.dialog_check),
 										new DialogInterface.OnClickListener()
 										{
-											public void onClick(DialogInterface dialog, int which)
+											public void onClick(
+													DialogInterface dialog,
+													int which)
 											{
 												String username = null;
 												String password = null;
@@ -117,54 +129,78 @@ public class LoginPage extends Activity
 												String city_id = null;
 												String city_detail_id = null;
 												boolean resString = false;
-												
+
 												try
 												{
-													resString = result.getBoolean("result");
-													username = result.getString("username");
-													password = result.getString("password");
-													name = result.getString("name");
-													user_id = result.getString("user_id");
-													device_os = result.getString("device_os");
-													device_t = result.getString("device_token");
-													user_city = result.getString("user_city");
-													user_city_detail = result.getString("user_city_detail");
-													city_id = result.getString("city_id");
-													city_detail_id = result.getString("city_detail_id");
+													resString = result
+															.getBoolean("result");
+													username = result
+															.getString("username");
+													password = result
+															.getString("password");
+													name = result
+															.getString("name");
+													user_id = result
+															.getString("user_id");
+													device_os = result
+															.getString("device_os");
+													device_t = result
+															.getString("device_token");
+													user_city = result
+															.getString("user_city");
+													user_city_detail = result
+															.getString("user_city_detail");
+													city_id = result
+															.getString("city_id");
+													city_detail_id = result
+															.getString("city_detail_id");
 												}
 												catch (JSONException e)
 												{
-													// TODO Auto-generated catch block
+													// TODO Auto-generated catch
+													// block
 													e.printStackTrace();
 												}
 
 												if (resString)
 												{
-													UserDB mDbHelper = new UserDB(LoginPage.this);
-					
+													downLoadImage(username);
+													
+													UserDB mDbHelper = new UserDB(
+															LoginPage.this);
+
 													mDbHelper.open();
-													
-													mDbHelper.create(username, password, name, user_id, device_t, device_os,user_city,user_city_detail,city_id,city_detail_id);
-										        	
+
+													mDbHelper.create(username,
+															password, name,
+															user_id, device_t,
+															device_os,
+															user_city,
+															user_city_detail,
+															city_id,
+															city_detail_id);
+
 													mDbHelper.close();
-													
-													HomeUtil mSysUtil= new HomeUtil(LoginPage.this);  
-										            
+
+													HomeUtil mSysUtil = new HomeUtil(
+															LoginPage.this);
+
 													mSysUtil.exit();
+													
 												}
 											}
 										});
 								dialog.show();
 							}
 						});
-				
-				 Thread t = new Thread(post);
-					
-				 t.start();
-  
-			}         
 
-        });
+				Thread t = new Thread(post);
+
+				t.start();
+
+			}
+
+		});
 	}
 
 	@Override
@@ -175,4 +211,39 @@ public class LoginPage extends Activity
 		return true;
 	}
 
+	@SuppressLint("HandlerLeak")
+	public void downLoadImage(String get_img_name)
+	{
+		loadPic = new DownloadWebPicture();
+
+		final String set_img_name = get_img_name;
+		
+		Handler mHandler = new Handler()
+		{
+			@Override
+			public void handleMessage(Message msg)
+			{
+				switch (msg.what)
+				{
+				case 1:
+
+					FolderFunction setfolder = new FolderFunction();
+
+					String extStorage = Environment
+							.getExternalStorageDirectory().toString();
+
+					String locaction = "ClubCloud/userphoto/" + set_img_name + ".PNG";
+
+					setfolder.saveImage(loadPic.getImg(), extStorage, locaction);
+					
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
+		
+		loadPic.handleWebPic(getString(R.string.IP)
+				+ getString(R.string.downloadUserImage) + get_img_name + ".png",
+				mHandler);
+	}
 }

@@ -42,7 +42,8 @@ public class DBManager
 			if (!(new File(dbfile).exists()))
 			{
 				InputStream is = this.context.getResources().openRawResource(
-						R.raw.city); // 欲导入的数据库
+						R.raw.city); 
+				
 				FileOutputStream fos = new FileOutputStream(dbfile);
 
 				byte[] buffer = new byte[BUFFER_SIZE];

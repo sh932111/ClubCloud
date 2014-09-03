@@ -7,11 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.candroidsample.R;
-import com.candroidsample.R.id;
-import com.candroidsample.R.layout;
-import com.candroidsample.R.menu;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -190,6 +188,7 @@ public class ShowTravelDetail extends Activity
 		return null;
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	public void saveDB(String date_string)
 	{
 		String timeString = mHour + ":" + mMinute;

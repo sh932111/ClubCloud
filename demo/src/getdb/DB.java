@@ -60,8 +60,6 @@ public class DB {
 		public DatabaseHelper(Context context) 
 	    {
 	    	super(context, context.getExternalFilesDir(null).getAbsolutePath() + "/" +  DATABASE_NAME, null, DATABASE_VERSION);
-	    
-	    	System.out.println(context.getExternalFilesDir(null).getAbsolutePath() + "/" +  DATABASE_NAME);
 	    }
 
 		@Override

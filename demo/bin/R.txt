@@ -109,8 +109,8 @@ int string IP 0x7f060044
 int string Login 0x7f060047
 int string Register1 0x7f060045
 int string Register2 0x7f060046
-int string Request 0x7f060049
-int string Request_upload 0x7f06004a
+int string Request 0x7f06004a
+int string Request_upload 0x7f06004b
 int string action_settings 0x7f060014
 int string addtocaldroid 0x7f060040
 int string already_registered 0x7f060002
@@ -131,6 +131,7 @@ int string dialog_password_msg 0x7f060033
 int string dialog_title1 0x7f06002f
 int string dialogmsg1 0x7f060041
 int string dialogmsg2 0x7f060042
+int string downloadUserImage 0x7f060049
 int string edit 0x7f06003d
 int string error_config 0x7f060001
 int string gcm_deleted 0x7f060008

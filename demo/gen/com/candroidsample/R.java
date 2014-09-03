@@ -152,8 +152,8 @@ public final class R {
         public static final int Login=0x7f060047;
         public static final int Register1=0x7f060045;
         public static final int Register2=0x7f060046;
-        public static final int Request=0x7f060049;
-        public static final int Request_upload=0x7f06004a;
+        public static final int Request=0x7f06004a;
+        public static final int Request_upload=0x7f06004b;
         public static final int action_settings=0x7f060014;
         public static final int addtocaldroid=0x7f060040;
         public static final int already_registered=0x7f060002;
@@ -174,6 +174,7 @@ public final class R {
         public static final int dialog_title1=0x7f06002f;
         public static final int dialogmsg1=0x7f060041;
         public static final int dialogmsg2=0x7f060042;
+        public static final int downloadUserImage=0x7f060049;
         public static final int edit=0x7f06003d;
         public static final int error_config=0x7f060001;
         public static final int gcm_deleted=0x7f060008;

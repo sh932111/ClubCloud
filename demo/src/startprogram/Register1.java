@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.candroidsample.R;
 
@@ -108,11 +110,23 @@ public class Register1 extends Activity
 								Bundle countBundle = dic.getData();
 
 								@SuppressWarnings("unchecked")
-								HashMap<String, String> resultData = (HashMap<String, String>) countBundle.getSerializable("resultData");
+								HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle.getSerializable("resultData");
 								
-								String messageString = resultData.get("Message");
-								final String resString = resultData.get("result");
+								final JSONObject result = (JSONObject) resultData.get("Data");
 								
+								String messageString = null;
+
+								try
+								{
+									messageString = result.getString("Message");
+
+								}
+								catch (JSONException e)
+								{
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+//								
 								DialogShow show = new DialogShow();
 								show.showStyle1(Register1.this,
 										getString(R.string.dialog_title1),messageString,
@@ -122,7 +136,19 @@ public class Register1 extends Activity
 											@Override
 											public void work()
 											{
-												if (resString.equals("1"))
+												boolean resString = false;
+												try
+												{
+													resString = result.getBoolean("result");
+													
+												}
+												catch (JSONException e)
+												{
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+												
+												if (resString)
 												{
 													goNextPage();
 												}

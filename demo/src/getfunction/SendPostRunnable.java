@@ -1,13 +1,11 @@
 package getfunction;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.NameValuePair;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -37,7 +35,7 @@ public class SendPostRunnable implements Runnable
 		// TODO Auto-generated method stub
 		GetServerMessage demo = new GetServerMessage();
 
-		HashMap<String, String> map = demo.stringQuery(URL, parems);
+		HashMap<String, Object> map = demo.stringQuery(URL, parems);
 		
 		Bundle countBundle = new Bundle();
 		
@@ -50,6 +48,7 @@ public class SendPostRunnable implements Runnable
 		mHandler.sendMessage(msg);
 	}
 
+	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler()
 	{
 		public void handleMessage(Message msg)

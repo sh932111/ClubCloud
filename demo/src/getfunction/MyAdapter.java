@@ -1,8 +1,6 @@
 package getfunction;
 
 import com.candroidsample.R;
-import com.candroidsample.R.id;
-import com.candroidsample.R.layout;
 
 import android.content.Context;
 import android.graphics.Color;

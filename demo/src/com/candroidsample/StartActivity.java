@@ -1,15 +1,10 @@
 package com.candroidsample;
 
+import java.io.IOException;
+
 import getdb.DBManager;
 import getdb.UserDB;
 import getfunction.*;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import startprogram.LoginPage;
 import startprogram.Register1;
@@ -17,13 +12,13 @@ import startprogram.Register1;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
-import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
+//import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Contacts.Settings;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -162,8 +157,8 @@ public class StartActivity extends Activity
 					msg = "Device registered, registration id=" + strRegId;
 
 					// send id to our server
-					boolean registered = ServerUtilities.register(context,
-							strRegId);
+					//boolean registered = ServerUtilities.register(context,
+							//strRegId);
 
 				}
 				catch (IOException ex)
@@ -202,8 +197,8 @@ public class StartActivity extends Activity
 
 			if (MY_MESSAGE.equals(intent.getAction()))
 			{
-				final String newMessage = intent.getExtras().getString(
-						EXTRA_MESSAGE);
+//				final String newMessage = intent.getExtras().getString(
+//						EXTRA_MESSAGE);
 
 			}
 		}

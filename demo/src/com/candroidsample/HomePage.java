@@ -2,7 +2,7 @@ package com.candroidsample;
 
 
 import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
-import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
+//import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 
 
@@ -10,7 +10,6 @@ import homedetail.EventDelivery;
 import homedetail.ShowTravelList;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 import com.candroidsample.CaldroidSampleActivity;
 import com.candroidsample.R;
@@ -24,7 +23,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -151,8 +149,8 @@ public class HomePage extends Activity
 					msg = "Device registered, registration id=" + strRegId;
 
 					// send id to our server
-					boolean registered = ServerUtilities.register(context,
-							strRegId);
+//					boolean registered = ServerUtilities.register(context,
+//							strRegId);
 
 				} 
 				catch (IOException ex) 
@@ -190,7 +188,7 @@ public class HomePage extends Activity
 
 			if (MY_MESSAGE.equals(intent.getAction())) 
 			{
-				final String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
+//				final String newMessage = intent.getExtras().getString(EXTRA_MESSAGE);
 				
 			}
 		}

@@ -8,181 +8,195 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GetServerMessage
 {
 
-	public HashMap<String, String> stringQuery(String url, List<NameValuePair>parems) 
+	public HashMap<String, Object> stringQuery(String url,
+			List<NameValuePair> parems)
 	{
 		try
-        {
-            HttpPost method = new HttpPost(url);
-            
-            method.setEntity(new UrlEncodedFormEntity(parems,HTTP.UTF_8));
-            
-            HttpResponse response = new DefaultHttpClient().execute(method);
-            
-            HttpEntity entity = response.getEntity();
-            
-            if(entity != null)
-            {
-            	JSONObject result = new JSONObject(EntityUtils.toString(entity));
-            	
-            	if (result != null && result.has("result"))
-            	{
-            	      if(result.optBoolean("result", false))
-            	      {
-            	    	  String res_mseeage = (String) result.get("Message");
-            	    	  
-            	    	  HashMap<String, String> transcript = new HashMap<String, String>();
-            	    	  
-                          transcript.put("result","1");
-                          transcript.put("Message",res_mseeage);
-                          
-                          return transcript;
-            	              // Now parse and get all your data
-            	      }
-            	      else
-            	      {
-            	    	  String res_errorMessage = (String) result.get("Message");
-                          
-                          HashMap<String, String> transcript = new HashMap<String, String>();
-            	    	  
-                          transcript.put("result","0");
-                          transcript.put("Message",res_errorMessage);
-                          
-                          return transcript;
-            	    	  
-            	    	  //System.out.println("error");
-            	         // If you are running is thread, then run on UI thread and show Toast
-            	     }
-            	 }
-                
-                else 
-                {
-                    HashMap<String, String> transcript = new HashMap<String, String>();
-      	    	  
-                    transcript.put("result","0");
-                    transcript.put("Message","json error");
-                    
-                    return transcript;
-      	    	  
-				}
-            }
-            
-            else
-            {
+		{
+			HttpPost method = new HttpPost(url);
 
-                HashMap<String, String> transcript = new HashMap<String, String>();
-    	    	  
-                transcript.put("result","0");
-                transcript.put("Message","service error");
-                
-                return transcript;
-            }
-         }
-         catch(Exception e)
-         {
-             HashMap<String, String> transcript = new HashMap<String, String>();
- 	    	  
-             transcript.put("result","0");
-             transcript.put("Message","internet error");
-             
-             return transcript;
-         }
+			method.setEntity(new UrlEncodedFormEntity(parems, HTTP.UTF_8));
+
+			HttpResponse response = new DefaultHttpClient().execute(method);
+
+			HttpEntity entity = response.getEntity();
+
+			if (entity != null)
+			{
+				JSONObject result = new JSONObject(EntityUtils.toString(entity));
+
+				if (result != null && result.has("result"))
+				{
+					if (result.optBoolean("result", false))
+					{
+						HashMap<String, Object> transcript = new HashMap<String, Object>();
+
+						transcript.put("Data", result);
+
+						return transcript;
+						// Now parse and get all your data
+					}
+					else
+					{
+						HashMap<String, Object> transcript = new HashMap<String, Object>();
+
+						transcript.put("Data", result);
+
+						return transcript;
+
+					}
+				}
+
+				else
+				{
+					JSONObject jsonObject = new JSONObject();
+					
+					jsonObject.put("result", false);
+					jsonObject.put("Message", "json error");
+
+					HashMap<String, Object> transcript = new HashMap<String, Object>();
+
+					transcript.put("Data", jsonObject);
+
+					return transcript;
+
+				}
+			}
+
+			else
+			{
+				JSONObject jsonObject = new JSONObject();
+				
+				jsonObject.put("result", false);
+				jsonObject.put("Message", "service error");
+
+				HashMap<String, Object> transcript = new HashMap<String, Object>();
+
+				transcript.put("Data", jsonObject);
+
+				return transcript;
+			}
+		}
+		catch (Exception e)
+		{
+			JSONObject jsonObject = new JSONObject();
+			
+			try
+			{
+				jsonObject.put("result", false);
+				jsonObject.put("Message", "internet error");
+			}
+			catch (JSONException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			HashMap<String, Object> transcript = new HashMap<String, Object>();
+
+			transcript.put("Data", jsonObject);
+
+			return transcript;
+		}
 	}
-//	public Dictionary<String, String> LoginQuery(String url, List<NameValuePair>parems) 
-//	{
-//		try
-//        {
-//            HttpPost method = new HttpPost(url);
-//            
-//            method.setEntity(new UrlEncodedFormEntity(parems,HTTP.UTF_8));
-//            
-//            HttpResponse response = new DefaultHttpClient().execute(method);
-//            
-//            HttpEntity entity = response.getEntity();
-//            
-//            if(entity != null)
-//            {
-//            	JSONObject result = new JSONObject(EntityUtils.toString(entity));
-//            	
-//            	if (result != null && result.has("result"))
-//            	{
-//            	      if(result.optBoolean("result", false))
-//            	      {
-//            	    	  String res_mseeage = (String) result.get("Message");
-//            	    	  String username = (String) result.get("username");
-//            	    	  String password = (String) result.get("password");
-//            	    	  String name = (String) result.get("name");
-//            	    	  String user_id = (String) result.get("user_id");
-//            	    	  String device_token = (String) result.get("device_token");
-//            	    	  String device_os = (String) result.get("device_os");
-//                          
-//                          Dictionary<String, String> dict =  new Hashtable<String, String>();
-//                          
-//                          dict.put("result","1");
-//                          dict.put("Message",res_mseeage);
-//                          dict.put("username",username);
-//                          dict.put("password",password);
-//                          dict.put("name",name);
-//                          dict.put("user_id",user_id);
-//                          dict.put("device_token",device_token);
-//                          dict.put("device_os",device_os);
-//                          
-//                          return dict;
-//            	              // Now parse and get all your data
-//            	      }
-//            	      else
-//            	      {
-//            	    	  String res_errorMessage = (String) result.get("Message");
-//                          
-//                          Dictionary<String, String> dict =  new Hashtable<String, String>();
-//                          
-//                          dict.put("result","0");
-//                          dict.put("Message",res_errorMessage);
-//                          
-//                          return dict;
-//            	    	  
-//            	    	  //System.out.println("error");
-//            	         // If you are running is thread, then run on UI thread and show Toast
-//            	     }
-//            	 }
-//                
-//                else 
-//                {
-//                    Dictionary<String, String> dict =  new Hashtable<String, String>();
-//
-//                    dict.put("result","0");
-//                    dict.put("Message","json error");
-//                    
-//                    return dict;
-//      	    	  
-//				}
-//            }
-//            
-//            else
-//            {
-//            	Dictionary<String, String> dict =  new Hashtable<String, String>();
-//
-//                dict.put("result","0");
-//            	dict.put("Message", "service error");
-//                
-//                return dict;
-//            }
-//         }
-//         catch(Exception e)
-//         {
-//        	 Dictionary<String, String> dict =  new Hashtable<String, String>();
-//
-//             dict.put("result","0");
-//         	 dict.put("Message", "internet error");
-//             
-//             return dict;
-//         }
-//	}
+
+	// public Dictionary<String, String> LoginQuery(String url,
+	// List<NameValuePair>parems)
+	// {
+	// try
+	// {
+	// HttpPost method = new HttpPost(url);
+	//
+	// method.setEntity(new UrlEncodedFormEntity(parems,HTTP.UTF_8));
+	//
+	// HttpResponse response = new DefaultHttpClient().execute(method);
+	//
+	// HttpEntity entity = response.getEntity();
+	//
+	// if(entity != null)
+	// {
+	// JSONObject result = new JSONObject(EntityUtils.toString(entity));
+	//
+	// if (result != null && result.has("result"))
+	// {
+	// if(result.optBoolean("result", false))
+	// {
+	// String res_mseeage = (String) result.get("Message");
+	// String username = (String) result.get("username");
+	// String password = (String) result.get("password");
+	// String name = (String) result.get("name");
+	// String user_id = (String) result.get("user_id");
+	// String device_token = (String) result.get("device_token");
+	// String device_os = (String) result.get("device_os");
+	//
+	// Dictionary<String, String> dict = new Hashtable<String, String>();
+	//
+	// dict.put("result","1");
+	// dict.put("Message",res_mseeage);
+	// dict.put("username",username);
+	// dict.put("password",password);
+	// dict.put("name",name);
+	// dict.put("user_id",user_id);
+	// dict.put("device_token",device_token);
+	// dict.put("device_os",device_os);
+	//
+	// return dict;
+	// // Now parse and get all your data
+	// }
+	// else
+	// {
+	// String res_errorMessage = (String) result.get("Message");
+	//
+	// Dictionary<String, String> dict = new Hashtable<String, String>();
+	//
+	// dict.put("result","0");
+	// dict.put("Message",res_errorMessage);
+	//
+	// return dict;
+	//
+	// //System.out.println("error");
+	// // If you are running is thread, then run on UI thread and show Toast
+	// }
+	// }
+	//
+	// else
+	// {
+	// Dictionary<String, String> dict = new Hashtable<String, String>();
+	//
+	// dict.put("result","0");
+	// dict.put("Message","json error");
+	//
+	// return dict;
+	//
+	// }
+	// }
+	//
+	// else
+	// {
+	// Dictionary<String, String> dict = new Hashtable<String, String>();
+	//
+	// dict.put("result","0");
+	// dict.put("Message", "service error");
+	//
+	// return dict;
+	// }
+	// }
+	// catch(Exception e)
+	// {
+	// Dictionary<String, String> dict = new Hashtable<String, String>();
+	//
+	// dict.put("result","0");
+	// dict.put("Message", "internet error");
+	//
+	// return dict;
+	// }
+	// }
 }

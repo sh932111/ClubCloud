@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.candroidsample.R;
 
@@ -110,7 +112,6 @@ public class Register2 extends Activity
 
 	public void findView()
 	{
-
 		TextView txt1 = (TextView) findViewById(R.id.txt1);
 
 		txt1.setText(getString(R.string.input_ID) + user_id);
@@ -243,7 +244,7 @@ public class Register2 extends Activity
 		String str3 = edit_text3.getText().toString();
 
 		mDbHelper.create(str2, str3, str1, user_id,
-				device_token, "android");
+				device_token, "android",cityString,citydetailString,city_id,citydetail_id);
 
 		mDbHelper.close();
 
@@ -357,10 +358,22 @@ public class Register2 extends Activity
 						Bundle countBundle = dic.getData();
 
 						@SuppressWarnings("unchecked")
-						HashMap<String, String> resultData = (HashMap<String, String>) countBundle.getSerializable("resultData");
+						HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle.getSerializable("resultData");
 						
-						String messageString = resultData.get("Message");
-						final String resString = resultData.get("result");
+						final JSONObject result = (JSONObject) resultData.get("Data");
+						
+						String messageString = null;
+
+						try
+						{
+							messageString = result.getString("Message");
+
+						}
+						catch (JSONException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						
 						DialogShow show = new DialogShow();
 						
@@ -372,7 +385,18 @@ public class Register2 extends Activity
 									@Override
 									public void work()
 									{
-										if (resString.equals("1"))
+										boolean resString = false;
+										try
+										{
+											resString = result.getBoolean("result");
+											
+										}
+										catch (JSONException e)
+										{
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										if (resString)
 										{
 											creatDB();
 										}

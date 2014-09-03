@@ -23,6 +23,7 @@ import getdb.PushDB;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -37,10 +38,10 @@ import com.google.android.gcm.GCMRegistrar;
 /**
  * IntentService responsible for handling GCM messages.
  */
+@SuppressLint("SimpleDateFormat")
 public class GCMIntentService extends GCMBaseIntentService
 {
 
-	@SuppressWarnings("hiding")
 	private static final String TAG = "GCMIntentService";
 
 	public GCMIntentService()

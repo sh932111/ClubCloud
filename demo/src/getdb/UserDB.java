@@ -24,6 +24,11 @@ public class UserDB
 	public static final String KEY_USERID = "user_id";
 	public static final String KEY_DEVICETOKEN = "device_token";
 	public static final String KEY_OS = "device_os";
+	
+	public static final String KEY_USER_CITY = "user_city";
+	public static final String KEY_USER_CITY_DETAIL = "user_city_detail";
+	public static final String KEY_CITY_ID = "city_id";
+	public static final String KEY_CITY_DETAIL_ID = "city_detail_id";
 
 	/** Constructor */
 	@SuppressLint("SdCardPath")
@@ -51,7 +56,9 @@ public class UserDB
 				+ DATABASE_TABLE + "(" + KEY_USERNAME
 				+ " TEXT NOT NULL PRIMARY KEY," + KEY_PASSWORD
 				+ " TEXT NOT NULL," + KEY_NAME + " TEXT," + KEY_USERID
-				+ " TEXT," + KEY_DEVICETOKEN + " TEXT," + KEY_OS + " TEXT"
+				+ " TEXT," + KEY_DEVICETOKEN + " TEXT," + KEY_OS + " TEXT,"
+				+KEY_USER_CITY+" TEXT,"+KEY_USER_CITY_DETAIL+" TEXT,"
+				+KEY_CITY_ID+" TEXT,"+KEY_CITY_DETAIL_ID+" TEXT"
 				+ ");";
 
 		public DatabaseHelper(Context context)
@@ -78,12 +85,12 @@ public class UserDB
 			onCreate(db);
 		}
 
-		public SQLiteDatabase openOrCreateDatabase(String string,
-				int createIfNecessary, Object object)
-		{
-			// TODO Auto-generated method stub
-			return null;
-		}
+//		public SQLiteDatabase openOrCreateDatabase(String string,
+//				int createIfNecessary, Object object)
+//		{
+//			// TODO Auto-generated method stub
+//			return null;
+//		}
 
 	}
 
@@ -136,13 +143,9 @@ public class UserDB
 	// return mCursor;
 	// }
 
-	// add an entry
 	public long create(String username, String password, String name,
-			String user_id, String device_token, String device_os)
+			String user_id, String device_token, String device_os, String user_city, String user_city_detail, String city_id, String user_city_detail_id)
 	{
-		// SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm",
-		// Locale.ENGLISH);
-		// Date now = new Date();
 		ContentValues args = new ContentValues();
 
 		args.put(KEY_USERNAME, username);
@@ -153,6 +156,13 @@ public class UserDB
 		args.put(KEY_USERID, user_id);
 		// args.put(KEY_USERID, df.format(now.getTime()));
 		args.put(KEY_DEVICETOKEN, device_token);
+		
+		args.put(KEY_USER_CITY, user_city);
+		args.put(KEY_USER_CITY_DETAIL, user_city_detail);
+		args.put(KEY_CITY_ID, city_id);		
+		args.put(KEY_CITY_DETAIL_ID, user_city_detail_id);
+		
+		System.out.println(args);
 
 		return db.insert(DATABASE_TABLE, null, args);
 	}

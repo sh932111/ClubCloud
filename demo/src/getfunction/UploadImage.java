@@ -79,7 +79,7 @@ public class UploadImage implements Runnable
 			InputStreamReader isr = new InputStreamReader(is, "utf-8");
 			BufferedReader br = new BufferedReader(isr);
 			String result = br.readLine();
-			
+			System.out.println(result);
 			//Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 			dos.close();
 			is.close();

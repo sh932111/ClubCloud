@@ -6,10 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.candroidsample.R;
-
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.os.Environment;
 
 public class FolderFunction

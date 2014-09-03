@@ -1,10 +1,8 @@
 package getfunction;
 
-import java.io.File;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.os.Environment;
 
 public class ImageFunction
 {

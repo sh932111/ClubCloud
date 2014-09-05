@@ -1,5 +1,7 @@
 package homedetail;
 
+import getdb.UserDB;
+
 import com.candroidsample.R;
 
 import android.os.Bundle;
@@ -14,6 +16,8 @@ public class EventDelivery extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_delivery);
+		
+		getData();
 	}
 
 	@Override
@@ -24,4 +28,13 @@ public class EventDelivery extends Activity
 		return true;
 	}
 
+	public void getData()
+	{
+		UserDB userDB = new UserDB(EventDelivery.this);
+		
+		
+	}
+	
+	
+	
 }

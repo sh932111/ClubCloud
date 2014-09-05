@@ -7,6 +7,7 @@ import static com.candroidsample.CommonUtilities.SENDER_ID;
 
 
 import homedetail.EventDelivery;
+import homedetail.PersonalInformation;
 import homedetail.ShowTravelList;
 
 import java.io.IOException;
@@ -55,7 +56,11 @@ public class HomePage extends Activity
             @Override
 			public void onClick(View arg0)
 			{
-				
+            	Intent intent = new Intent();
+				intent.setClass(HomePage.this,
+						PersonalInformation.class);
+				startActivity(intent);
+				finish();
 			}         
 
         }); 

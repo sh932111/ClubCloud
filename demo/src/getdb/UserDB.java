@@ -24,7 +24,7 @@ public class UserDB
 	public static final String KEY_USERID = "user_id";
 	public static final String KEY_DEVICETOKEN = "device_token";
 	public static final String KEY_OS = "device_os";
-	
+
 	public static final String KEY_USER_CITY = "user_city";
 	public static final String KEY_USER_CITY_DETAIL = "user_city_detail";
 	public static final String KEY_CITY_ID = "city_id";
@@ -57,9 +57,8 @@ public class UserDB
 				+ " TEXT NOT NULL PRIMARY KEY," + KEY_PASSWORD
 				+ " TEXT NOT NULL," + KEY_NAME + " TEXT," + KEY_USERID
 				+ " TEXT," + KEY_DEVICETOKEN + " TEXT," + KEY_OS + " TEXT,"
-				+KEY_USER_CITY+" TEXT,"+KEY_USER_CITY_DETAIL+" TEXT,"
-				+KEY_CITY_ID+" TEXT,"+KEY_CITY_DETAIL_ID+" TEXT"
-				+ ");";
+				+ KEY_USER_CITY + " TEXT," + KEY_USER_CITY_DETAIL + " TEXT,"
+				+ KEY_CITY_ID + " TEXT," + KEY_CITY_DETAIL_ID + " TEXT" + ");";
 
 		public DatabaseHelper(Context context)
 		{
@@ -84,67 +83,27 @@ public class UserDB
 			db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
 			onCreate(db);
 		}
-
-//		public SQLiteDatabase openOrCreateDatabase(String string,
-//				int createIfNecessary, Object object)
-//		{
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
-
 	}
 
-	// public Cursor getAllDate()
-	// {
-	// return db.query(DATABASE_TABLE, //Which table to Select
-	// // strCols,// Which columns to return
-	// new String[] {KEY_USERID},
-	// null, // WHERE clause
-	// null, // WHERE arguments
-	// null, // GROUP BY clause
-	// null, // HAVING clause
-	// KEY_USERID + " DESC" //Order-by clause
-	// );
-	// }
-	//
-	// public Cursor getAll()
-	// {
-	// return db.query(DATABASE_TABLE, //Which table to Select
-	// // strCols,// Which columns to return
-	// new String[] {KEY_USERNAME,KEY_PASSWORD, KEY_NAME, KEY_USERID
-	// ,KEY_DEVICETOKEN ,KEY_OS},
-	// null, // WHERE clause
-	// null, // WHERE arguments
-	// null, // GROUP BY clause
-	// null, // HAVING clause
-	// KEY_USERID + " DESC" //Order-by clause
-	// );
-	// }
-	// //query single entry
-	// public Cursor get(String rowId) throws SQLException
-	// {
-	// System.out.println(rowId);
-	//
-	// Cursor mCursor = db.query( DATABASE_TABLE, new String[]
-	// {
-	// KEY_USERNAME,KEY_PASSWORD, KEY_NAME, KEY_USERID ,KEY_DEVICETOKEN ,KEY_OS
-	// },
-	// KEY_USERID + " = ?",
-	// new String[]{ ""+ rowId +"" },
-	// null,
-	// null,
-	// null,
-	// null);
-	//
-	// if (mCursor != null)
-	// {
-	// mCursor.moveToFirst();
-	// }
-	// return mCursor;
-	// }
+	public Cursor getAllDate()
+	{
+		return db.query(DATABASE_TABLE, // Which table to Select
+				// strCols,// Which columns to return
+				new String[]
+				{ KEY_USERNAME ,KEY_PASSWORD,KEY_NAME,KEY_OS,KEY_USERID,KEY_DEVICETOKEN,KEY_USER_CITY,KEY_USER_CITY_DETAIL,KEY_CITY_ID,KEY_CITY_DETAIL_ID }, null, // WHERE clause
+				null, // WHERE arguments
+				null, // GROUP BY clause
+				null, // HAVING clause
+				KEY_USERID + " DESC" // Order-by clause
+		);
+	}
+
+
 
 	public long create(String username, String password, String name,
-			String user_id, String device_token, String device_os, String user_city, String user_city_detail, String city_id, String user_city_detail_id)
+			String user_id, String device_token, String device_os,
+			String user_city, String user_city_detail, String city_id,
+			String user_city_detail_id)
 	{
 		ContentValues args = new ContentValues();
 
@@ -156,13 +115,12 @@ public class UserDB
 		args.put(KEY_USERID, user_id);
 		// args.put(KEY_USERID, df.format(now.getTime()));
 		args.put(KEY_DEVICETOKEN, device_token);
-		
+
 		args.put(KEY_USER_CITY, user_city);
 		args.put(KEY_USER_CITY_DETAIL, user_city_detail);
-		args.put(KEY_CITY_ID, city_id);		
+		args.put(KEY_CITY_ID, city_id);
 		args.put(KEY_CITY_DETAIL_ID, user_city_detail_id);
-		
-		System.out.println(args);
+
 
 		return db.insert(DATABASE_TABLE, null, args);
 	}
@@ -171,17 +129,16 @@ public class UserDB
 	{
 
 		Cursor c = null;
-		
+
 		try
 		{
-		    c = db.query(DATABASE_TABLE, null,
-		        null, null, null, null, null);
+			c = db.query(DATABASE_TABLE, null, null, null, null, null, null);
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
-		    /* fail */
+			/* fail */
 		}
-		
+
 		return c.getCount();
 	}
 

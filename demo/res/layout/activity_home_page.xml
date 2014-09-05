@@ -20,7 +20,7 @@
     <Button
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:text="個人資料"
+	    android:text="@string/title_activity_personal_information"
 	    android:id="@+id/bt1"/>
     <Button
 	    android:layout_width="fill_parent"

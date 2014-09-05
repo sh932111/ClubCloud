@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.candroidsample.R;
 import android.os.Bundle;
+import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -156,6 +157,7 @@ public class ShowTravelList extends Activity
 		ArrayList<String> columnArray5 = new ArrayList<String>();
 
 		int rows_num = mCursor.getCount();
+		
 		if (rows_num != 0)
 		{
 			mCursor.moveToFirst();

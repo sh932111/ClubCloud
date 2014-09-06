@@ -6,6 +6,7 @@ import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 
 
+import facebooktest.FbActivity;
 import homedetail.EventDelivery;
 import homedetail.PersonalInformation;
 import homedetail.ShowTravelList;
@@ -60,7 +61,6 @@ public class HomePage extends Activity
 				intent.setClass(HomePage.this,
 						PersonalInformation.class);
 				startActivity(intent);
-				finish();
 			}         
 
         }); 
@@ -123,7 +123,10 @@ public class HomePage extends Activity
 			public void onClick(View arg0)
 			{
 				// TODO Auto-generated method stub
-            	
+            	Intent intent = new Intent();
+				intent.setClass(HomePage.this,
+						FbActivity.class);
+				startActivity(intent);
 			}         
 
         }); 

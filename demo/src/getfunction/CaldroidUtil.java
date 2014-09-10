@@ -4,13 +4,13 @@ import com.candroidsample.CaldroidSampleActivity;
 
 import android.content.Context;  
 import android.content.Intent;  
-public class SysUtil 
+public class CaldroidUtil 
 {  
     public static final int  EXIT_APPLICATION = 0x0001;  
       
     private Context mContext;  
       
-    public SysUtil(Context context){  
+    public CaldroidUtil(Context context){  
         this.mContext = context;  
     }  
     public void exit()

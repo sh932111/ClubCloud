@@ -40,9 +40,10 @@ public class FbActivity extends Activity
 								{
 									if (user != null)
 									{
+										System.out.println(user.getInnerJSONObject());
+										
 										TextView welcome = (TextView) findViewById(R.id.welcome);
-										welcome.setText("Hello "
-												+ user.getName() + "!");
+										welcome.setText(user.getName() + "!");
 									}
 								}
 							}).executeAsync();

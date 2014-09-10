@@ -3,7 +3,7 @@ package homedetail;
 import getdb.DB;
 import getdb.PushDB;
 import getfunction.MyAdapter;
-import getfunction.SysUtil;
+import getfunction.CaldroidUtil;
 
 import java.util.ArrayList;
 
@@ -235,7 +235,7 @@ public class ShowTravelList extends Activity
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0
 				&& list_index == 1)
 		{
-			SysUtil mSysUtil = new SysUtil(ShowTravelList.this);
+			CaldroidUtil mSysUtil = new CaldroidUtil(ShowTravelList.this);
 			mSysUtil.exit();
 			finish();
 

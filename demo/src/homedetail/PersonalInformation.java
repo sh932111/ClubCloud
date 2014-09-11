@@ -2,6 +2,7 @@ package homedetail;
 
 import getdb.UserDB;
 import getfunction.ImageFunction;
+import getfunction.ShowToolbar;
 
 import com.candroidsample.R;
 
@@ -39,6 +40,9 @@ public class PersonalInformation extends Activity
 		userImage.setLayoutParams(layoutParams);
 		
 		setList();
+
+		ShowToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,metrics.widthPixels/5 ,1);
+	
 	}
 
 	@Override

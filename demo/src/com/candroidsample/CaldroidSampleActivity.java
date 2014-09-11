@@ -3,6 +3,7 @@ package com.candroidsample;
 //import java.text.SimpleDateFormat;
 import getdb.DB;
 import getfunction.HomeUtil;
+import getfunction.ShowToolbar;
 import homedetail.ShowTravelList;
 
 import java.text.ParseException;
@@ -19,8 +20,10 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 		
 @SuppressLint("SimpleDateFormat")
 public class CaldroidSampleActivity extends FragmentActivity
@@ -36,6 +39,7 @@ public class CaldroidSampleActivity extends FragmentActivity
 		setContentView(R.layout.activity_main);
 		
 		setCaldroid(savedInstanceState);
+
 	}
 
 	public void setCaldroid(Bundle savedInstanceState)
@@ -101,13 +105,13 @@ public class CaldroidSampleActivity extends FragmentActivity
 			@Override
 			public void onChangeMonth(int month, int year)
 			{
-				// ������ɱҰ�
+
 			}
 
 			@Override
 			public void onLongClickDate(Date date, View view)
 			{
-				// ����|�Ұ�
+
 			}
 
 			@Override
@@ -115,12 +119,13 @@ public class CaldroidSampleActivity extends FragmentActivity
 			{
 				if (caldroidFragment.getLeftArrowButton() != null)
 				{
-					// �s�W������Ұ�
+
 				}
 			}
 
 		};
 		caldroidFragment.setCaldroidListener(listener);
+
 	}
 	protected void onRestart() 
     {
@@ -141,14 +146,13 @@ public class CaldroidSampleActivity extends FragmentActivity
 
 		if (rows_num != 0)
 		{
-			mCursor.moveToFirst(); // �N��в��ܲĤ@�����
+			mCursor.moveToFirst();
 
 			for (int i = 0; i < rows_num; i++)
 			{
 				String get_date_string = mCursor.getString(0);
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-				// �i���ഫ
 
 				Date date = null;
 				try
@@ -204,7 +208,7 @@ public class CaldroidSampleActivity extends FragmentActivity
 					}
 				}
 
-				mCursor.moveToNext(); // �N��в��ܤU�@�����
+				mCursor.moveToNext(); 
 			}
 		}
 		mDbHelper.close();

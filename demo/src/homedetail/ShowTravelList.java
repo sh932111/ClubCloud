@@ -4,6 +4,7 @@ import getdb.DB;
 import getdb.PushDB;
 import getfunction.MyAdapter;
 import getfunction.CaldroidUtil;
+import getfunction.ShowToolbar;
 
 import java.util.ArrayList;
 
@@ -13,11 +14,13 @@ import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -95,6 +98,13 @@ public class ShowTravelList extends Activity
 		}
 
 		setList();
+		
+		DisplayMetrics metrics = new DisplayMetrics();
+
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+		ShowToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,metrics.widthPixels/5 ,1);
+	
 	}
 
 	protected void onRestart()

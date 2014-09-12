@@ -5,8 +5,6 @@ import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 
 import facebooktest.FbActivity;
-import getfunction.ShowToolbar;
-import homedetail.CloudActivity;
 import homedetail.EventDelivery;
 import homedetail.PersonalInformation;
 import homedetail.ShowTravelList;
@@ -25,11 +23,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 

@@ -3,18 +3,17 @@ package homedetail;
 import getdb.DB;
 import getdb.PushDB;
 import getfunction.MyAdapter;
-import getfunction.CaldroidUtil;
 import getfunction.ShowToolbar;
 
 import java.util.ArrayList;
 
+import pagefunction.PageUtil;
+
+import com.candroidsample.CaldroidSampleActivity;
 import com.candroidsample.R;
 import android.os.Bundle;
-import android.R.integer;
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -25,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ShowTravelList extends Activity
+public class ShowTravelList extends CloudActivity
 {
 	private ListView listView;
 
@@ -99,12 +98,20 @@ public class ShowTravelList extends Activity
 
 		setList();
 		
-		DisplayMetrics metrics = new DisplayMetrics();
-
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-		ShowToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,metrics.widthPixels/5 ,1);
-	
+		ShowToolbar showToolbar = new ShowToolbar();
+		showToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,getResources().getDisplayMetrics().widthPixels/ShowToolbar.getMenuNum(this) ,1,new ShowToolbar.Callback()
+		{
+			
+			@Override
+			public void service_result(int msg)
+			{
+				// TODO Auto-generated method stub
+				PageUtil mSysUtil= new PageUtil(ShowTravelList.this);  
+	            mSysUtil.exit(msg+1);
+				finish();
+	    
+			}
+		});
 	}
 
 	protected void onRestart()
@@ -245,8 +252,8 @@ public class ShowTravelList extends Activity
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0
 				&& list_index == 1)
 		{
-			CaldroidUtil mSysUtil = new CaldroidUtil(ShowTravelList.this);
-			mSysUtil.exit();
+			PageUtil mSysUtil = new PageUtil(ShowTravelList.this);
+			mSysUtil.exit(2);
 			finish();
 
 			// moveTaskToBack(true);

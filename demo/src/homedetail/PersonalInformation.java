@@ -1,5 +1,6 @@
 package homedetail;
 
+import pagefunction.PageUtil;
 import getdb.UserDB;
 import getfunction.ImageFunction;
 import getfunction.ShowToolbar;
@@ -7,17 +8,13 @@ import getfunction.ShowToolbar;
 import com.candroidsample.R;
 
 import android.os.Bundle;
-import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
-import android.app.Activity;
 import android.database.Cursor;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class PersonalInformation extends Activity
+public class PersonalInformation extends CloudActivity
 {
 	private Cursor mCursor;
 	private ListView listView;
@@ -31,18 +28,25 @@ public class PersonalInformation extends Activity
 
 		userImage = (ImageView) findViewById(R.id.user_image);
 
-		DisplayMetrics metrics = new DisplayMetrics();
-
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(metrics.widthPixels/3, metrics.heightPixels/3);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(getResources().getDisplayMetrics().widthPixels/3, getResources().getDisplayMetrics().heightPixels/3);
 		
 		userImage.setLayoutParams(layoutParams);
 		
 		setList();
 
-		ShowToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,metrics.widthPixels/5 ,1);
-	
+		ShowToolbar showToolbar = new ShowToolbar();
+		showToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,getResources().getDisplayMetrics().widthPixels/ShowToolbar.getMenuNum(this) ,1,new ShowToolbar.Callback()
+		{
+			
+			@Override
+			public void service_result(int msg)
+			{
+				// TODO Auto-generated method stub
+				PageUtil mSysUtil= new PageUtil(PersonalInformation.this);  
+	            mSysUtil.exit(msg+1);
+				finish();
+			}
+		});			
 	}
 
 	@Override

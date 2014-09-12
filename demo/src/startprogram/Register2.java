@@ -13,6 +13,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pagefunction.PageUtil;
+
 import com.candroidsample.R;
 
 import android.net.Uri;
@@ -248,9 +250,9 @@ public class Register2 extends Activity
 
 		mDbHelper.close();
 
-		HomeUtil mSysUtil = new HomeUtil(Register2.this);
+		PageUtil mSysUtil = new PageUtil(Register2.this);
 
-		mSysUtil.exit();
+		mSysUtil.exit(0);
 	}
 	public void showAlert()
 	{

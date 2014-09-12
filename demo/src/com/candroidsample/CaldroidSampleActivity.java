@@ -2,7 +2,6 @@ package com.candroidsample;
 
 //import java.text.SimpleDateFormat;
 import getdb.DB;
-import getfunction.HomeUtil;
 import getfunction.ShowToolbar;
 import homedetail.ShowTravelList;
 
@@ -10,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import pagefunction.PageUtil;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
@@ -20,7 +21,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -39,7 +39,19 @@ public class CaldroidSampleActivity extends FragmentActivity
 		setContentView(R.layout.activity_main);
 		
 		setCaldroid(savedInstanceState);
-
+		
+		ShowToolbar showToolbar = new ShowToolbar();
+		showToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,getResources().getDisplayMetrics().widthPixels/ShowToolbar.getMenuNum(this) ,1,new ShowToolbar.Callback()
+		{	
+			@Override
+			public void service_result(int msg)
+			{
+				// TODO Auto-generated method stub
+				PageUtil mSysUtil= new PageUtil(CaldroidSampleActivity.this);  
+	            mSysUtil.exit(msg+1);
+				finish();
+	     	}
+		});
 	}
 
 	public void setCaldroid(Bundle savedInstanceState)
@@ -245,8 +257,8 @@ public class CaldroidSampleActivity extends FragmentActivity
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) 
 		{
-			HomeUtil mSysUtil= new HomeUtil(CaldroidSampleActivity.this);  
-            mSysUtil.exit();
+			PageUtil mSysUtil= new PageUtil(CaldroidSampleActivity.this);  
+            mSysUtil.exit(0);
 			finish();
              
 			return true;

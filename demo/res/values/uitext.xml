@@ -36,6 +36,14 @@
     <string name="dialogmsg2">刪除此資料?</string>
     <string name="input_address">活動地址:</string>
     
+    <string-array name="MENU">
+        <item>個人資料</item>
+        <item>行事曆</item>
+        <item>訊息查詢</item>
+        <item>訊息傳達</item>
+        <item>緊急事件</item>
+    </string-array>
+    
     <string-array name="EID">
         <item>A</item>
         <item>B</item>

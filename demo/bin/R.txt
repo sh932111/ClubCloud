@@ -1,4 +1,5 @@
-int array EID 0x7f0a0000
+int array EID 0x7f0a0001
+int array MENU 0x7f0a0000
 int attr confirm_logout 0x7f01000c
 int attr done_button_background 0x7f010006
 int attr done_button_text 0x7f010004

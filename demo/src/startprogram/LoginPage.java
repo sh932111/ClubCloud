@@ -3,7 +3,6 @@ package startprogram;
 import getdb.UserDB;
 import getfunction.DownloadWebPicture;
 import getfunction.FolderFunction;
-import getfunction.HomeUtil;
 import getfunction.SendPostRunnable;
 
 import java.util.ArrayList;
@@ -14,6 +13,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import pagefunction.PageUtil;
 
 import com.candroidsample.R;
 
@@ -182,10 +183,10 @@ public class LoginPage extends Activity
 
 													mDbHelper.close();
 
-													HomeUtil mSysUtil = new HomeUtil(
+													PageUtil mSysUtil = new PageUtil(
 															LoginPage.this);
 
-													mSysUtil.exit();
+													mSysUtil.exit(0);
 													
 												}
 											}

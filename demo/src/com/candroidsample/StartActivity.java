@@ -2,6 +2,8 @@ package com.candroidsample;
 
 import java.io.IOException;
 
+import pagefunction.PageUtil;
+
 import getdb.DBManager;
 import getdb.UserDB;
 import getfunction.*;
@@ -71,9 +73,9 @@ public class StartActivity extends Activity
 
 		if (count != 0)
 		{
-			HomeUtil mSysUtil = new HomeUtil(StartActivity.this);
+			PageUtil mSysUtil = new PageUtil(StartActivity.this);
 
-			mSysUtil.exit();
+			mSysUtil.exit(0);
 		}
 
 		setUI();

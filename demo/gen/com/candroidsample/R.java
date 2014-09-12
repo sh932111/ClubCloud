@@ -9,7 +9,8 @@ package com.candroidsample;
 
 public final class R {
     public static final class array {
-        public static final int EID=0x7f0a0000;
+        public static final int EID=0x7f0a0001;
+        public static final int MENU=0x7f0a0000;
     }
     public static final class attr {
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".

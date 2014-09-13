@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -41,8 +44,6 @@ public class ShowToolbar
 
 		lLayour.setLayoutParams(layoutParams);
 
-		// final BarView view = new BarView(context,index);
-
 		LinearLayout.LayoutParams ladderParams = new LinearLayout.LayoutParams(
 				getH, getH);
 
@@ -63,6 +64,16 @@ public class ShowToolbar
 			b1.setLayoutParams(ladderParams);
 
 			lLayour.addView(b1);
+			
+			AnimationSet animation = new AnimationSet(true);
+			
+			AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+			
+			alphaAnimation.setDuration(1000);
+			
+			animation.addAnimation(alphaAnimation);
+			
+			b1.startAnimation(animation);
 		}
 
 		layout.addView(lLayour);
@@ -82,5 +93,6 @@ public class ShowToolbar
 
 		});
 	}
+	
 	
 }

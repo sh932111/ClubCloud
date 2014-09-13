@@ -12,6 +12,13 @@
         android:text="@string/title_activity_personal_information"
         android:textSize="20sp" />
 
+	<Button
+        android:id="@+id/openQR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="打開QRcode" />
+	
     <ImageView
         android:id="@+id/user_image"
         android:layout_width="wrap_content"

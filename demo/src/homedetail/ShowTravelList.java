@@ -165,7 +165,11 @@ public class ShowTravelList extends CloudActivity
 	public void setList()
 	{
 		listView = (ListView) findViewById(R.id.listView);
-
+		
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, getResources().getDisplayMetrics().heightPixels - getResources().getDisplayMetrics().heightPixels/3);
+		
+		listView.setLayoutParams(layoutParams);
+		
 		loadData();
 
 		ArrayList<String> columnArray1 = new ArrayList<String>();

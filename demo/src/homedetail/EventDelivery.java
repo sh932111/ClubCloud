@@ -33,6 +33,7 @@ public class EventDelivery extends CloudActivity
 			}
 		});
 		
+		
 		getData();
 	}
 

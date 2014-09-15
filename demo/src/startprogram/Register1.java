@@ -2,7 +2,7 @@ package startprogram;
 
 import getdb.DBManager;
 import getfunction.DialogShow;
-import getfunction.SendPostRunnable;
+import httpfunction.SendPostRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

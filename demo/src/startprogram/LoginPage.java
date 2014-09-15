@@ -1,9 +1,10 @@
 package startprogram;
 
 import getdb.UserDB;
-import getfunction.DownloadWebPicture;
 import getfunction.FolderFunction;
-import getfunction.SendPostRunnable;
+import httpfunction.DownloadImage;
+import httpfunction.DownloadImageRunnable;
+import httpfunction.SendPostRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class LoginPage extends Activity
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
 	String device_token;
-	DownloadWebPicture loadPic;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -165,8 +166,10 @@ public class LoginPage extends Activity
 
 												if (resString)
 												{
-													downLoadImage(username);
+													DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(username, LoginPage.this);
+													dImageRunnable.downLoadImage();
 													
+
 													UserDB mDbHelper = new UserDB(
 															LoginPage.this);
 
@@ -212,42 +215,5 @@ public class LoginPage extends Activity
 		return true;
 	}
 
-	@SuppressLint("HandlerLeak")
-	public void downLoadImage(String get_img_name)
-	{
-		loadPic = new DownloadWebPicture();
-
-		final String set_img_name = get_img_name;
-		
-		Handler mHandler = new Handler()
-		{
-			@Override
-			public void handleMessage(Message msg)
-			{
-				switch (msg.what)
-				{
-				case 1:
-
-					FolderFunction setfolder = new FolderFunction();
-
-					String extStorage = Environment
-							.getExternalStorageDirectory().toString();
-
-					String locaction = "ClubCloud/userphoto/" + set_img_name + ".PNG";
-
-					if (loadPic.getImg() != null)
-					{
-						setfolder.saveImage(loadPic.getImg(), extStorage, locaction);	
-					}
-					
-					break;
-				}
-				super.handleMessage(msg);
-			}
-		};
-		
-		loadPic.handleWebPic(getString(R.string.IP)
-				+ getString(R.string.downloadUserImage) + get_img_name + ".png",
-				mHandler);
-	}
+	
 }

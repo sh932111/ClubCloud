@@ -8,14 +8,13 @@ import java.io.OutputStream;
 
 import android.graphics.Bitmap;
 
-import android.os.Environment;
 
 public class FolderFunction
 {
 	public void folderBuild(String folder_name)
 	{
 		
-		File folder = new File(Environment.getExternalStorageDirectory() + "/" + folder_name);
+		File folder = new File(folder_name);
 		boolean success = true;
 		
 	    if (!folder.exists()) 
@@ -33,10 +32,10 @@ public class FolderFunction
 	      //  Toast.makeText(StrokeShowPage.this, "Failed - Error", Toast.LENGTH_SHORT).show();
 	    }
 	}
-	public void saveImage(Bitmap bmImage ,String extStorage,String locaction)
+	public void saveImage(Bitmap bmImage ,String locaction)
 	{
 
-		File file = new File(extStorage, locaction);
+		File file = new File( locaction);
 
 		try
 		{

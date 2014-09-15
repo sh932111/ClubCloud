@@ -2,6 +2,8 @@ package startprogram;
 
 import getdb.UserDB;
 import getfunction.*;
+import httpfunction.SendPostRunnable;
+import httpfunction.UploadImage;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -101,10 +103,9 @@ public class Register2 extends Activity
 		city_id = bundle.getString("city_id");
 		citydetail_id = bundle.getString("city_detail_id");
 
-		String extStorage = Environment.getExternalStorageDirectory()
-				.toString() + "/ClubCloud/user.PNG";
-
-		image_path = extStorage;
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/user" + ".PNG";
+		
+		image_path = app_path;
 
 		resImage = BitmapFactory
 				.decodeResource(getResources(), R.drawable.user);
@@ -340,12 +341,9 @@ public class Register2 extends Activity
 
 		FolderFunction setfolder = new FolderFunction();
 
-		String extStorage = Environment
-				.getExternalStorageDirectory().toString();
-
-		String locaction = "ClubCloud/userphoto/" + str2 + ".PNG";
-
-		setfolder.saveImage(resImage, extStorage, locaction);
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/userphoto/" + str2 + ".PNG";
+		
+		setfolder.saveImage(resImage, app_path);
 
 		UploadImage uploadImage = new UploadImage(getString(R.string.IP)+getString(R.string.uploadUserImage),
 				image_path, str2);

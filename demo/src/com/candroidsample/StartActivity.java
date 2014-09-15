@@ -85,19 +85,17 @@ public class StartActivity extends Activity
 	{
 		FolderFunction setfolder = new FolderFunction();
 
-		setfolder.folderBuild("ClubCloud");
-		setfolder.folderBuild("ClubCloud/userphoto");
-		setfolder.folderBuild("ClubCloud/pushphoto");
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/";
+		
+		setfolder.folderBuild(app_path+"userphoto");
+		setfolder.folderBuild(app_path+"pushphoto");
 		
 		Bitmap bmImage = BitmapFactory.decodeResource(getResources(),
 				R.drawable.user);
 
-		String extStorage = Environment.getExternalStorageDirectory()
-				.toString();
+		String locaction = app_path + "user.PNG";
 		
-		String locaction = "ClubCloud/" + "user.PNG";
-		
-		setfolder.saveImage(bmImage, extStorage, locaction);
+		setfolder.saveImage(bmImage, locaction);
 	}
 	
 	public void setUI()

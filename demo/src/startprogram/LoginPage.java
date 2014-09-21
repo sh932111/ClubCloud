@@ -166,7 +166,7 @@ public class LoginPage extends Activity
 
 												if (resString)
 												{
-													DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(username, LoginPage.this);
+													DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(username, LoginPage.this,"pushphoto",getResources().getString(R.string.downloadUserImage));
 													dImageRunnable.downLoadImage();
 													
 

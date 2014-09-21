@@ -8,17 +8,22 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.candroidsample.R;
+import com.google.android.gms.internal.ip;
 
 public class DownloadImageRunnable
 {
 	String set_img_name;
+	String folderName;
+	String IP;
 	DownloadImage loadPic;
 	Context mContext;
 	
-	public DownloadImageRunnable(String img_name,Context context)
+	public DownloadImageRunnable(String img_name,Context context ,String folder_name ,String ip)
 	{
 		this.set_img_name = img_name;
 		this.mContext = context;
+		this.folderName = folder_name;
+		this.IP = ip;
 	}
 	
 	@SuppressLint("HandlerLeak")
@@ -37,7 +42,7 @@ public class DownloadImageRunnable
 
 					FolderFunction setfolder = new FolderFunction();
 
-					String app_path = mContext.getExternalFilesDir(null).getAbsolutePath() + "/userphoto/" + set_img_name + ".PNG";
+					String app_path = mContext.getExternalFilesDir(null).getAbsolutePath() + "/"+folderName+"/" + set_img_name + ".PNG";
 					
 					if (loadPic.getImg() != null)
 					{
@@ -51,7 +56,7 @@ public class DownloadImageRunnable
 		};
 		
 		loadPic.handleWebPic(mContext.getString(R.string.IP)
-				+ mContext.getString(R.string.downloadUserImage) + set_img_name + ".png",
+				+ IP + set_img_name + ".png",
 				mHandler);
 	}
 }

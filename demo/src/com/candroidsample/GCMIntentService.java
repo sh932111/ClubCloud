@@ -19,9 +19,12 @@ import static com.candroidsample.CommonUtilities.SENDER_ID;
 import static com.candroidsample.CommonUtilities.displayMessage;
 
 import getdb.PushDB;
+import httpfunction.DownloadImageRunnable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import startprogram.LoginPage;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -90,6 +93,10 @@ public class GCMIntentService extends GCMBaseIntentService
 
 		Bundle bundle = intent.getExtras();
 
+		String _id = bundle.getString("data_id");
+		
+		System.out.println(_id);
+		
 		String title = bundle.getString("title");
 
 		String detail = bundle.getString("detail"); // getString(R.string.gcm_message);
@@ -98,17 +105,16 @@ public class GCMIntentService extends GCMBaseIntentService
 
 		String time_detail = bundle.getString("time_detail"); // getString(R.string.gcm_message);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-
-		Date now = new Date();
-
-		String _id = sdf.format(now.getTime()); 
+		String image = bundle.getString("image");
 		
+//		DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(_id, context,"userphoto",getResources().getString(R.string.downloadRequestImage));
+//		dImageRunnable.downLoadImage();
+		     
 		PushDB mDbHelper = new PushDB(this);
 		
 		mDbHelper.open();
 
-		mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail , "1");
+		mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail , "1",image);
 		
 		mDbHelper.close();
 		

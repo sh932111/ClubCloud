@@ -24,6 +24,7 @@ public class PushDB
 	public static final String KEY_CREATED = "time";
 	public static final String KEY_TimeDetail = "time_detail";
 	public static final String KEY_CHECK = "look";
+	public static final String KEY_IMAGE = "image";
 
 	/** Constructor */
 	@SuppressLint("SdCardPath")
@@ -51,6 +52,7 @@ public class PushDB
 				+ DATABASE_TABLE + "(" + KEY_ROWID + " INTEGER PRIMARY KEY,"
 				+ KEY_TITLE + " TEXT NOT NULL," + KEY_ITEM + " TEXT,"
 				+ KEY_CREATED + " TEXT," + KEY_TimeDetail + " TEXT,"
+				 + KEY_IMAGE + " TEXT,"
 				+ KEY_CHECK + " TEXT );";
 
 		public DatabaseHelper(Context context)
@@ -99,7 +101,7 @@ public class PushDB
 				// strCols,// Which columns to return
 				new String[]
 				{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
-						KEY_CHECK }, null, // WHERE clause
+						KEY_CHECK ,KEY_IMAGE}, null, // WHERE clause
 				null, // WHERE arguments
 				null, // GROUP BY clause
 				null, // HAVING clause
@@ -114,7 +116,7 @@ public class PushDB
 
 		Cursor mCursor = db.query(DATABASE_TABLE, new String[]
 		{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
-				KEY_CHECK }, KEY_CREATED + " = ?", new String[]
+				KEY_CHECK ,KEY_IMAGE }, KEY_CREATED + " = ?", new String[]
 		{ "" + rowId + "" }, null, null, null, null);
 
 		if (mCursor != null)
@@ -126,7 +128,7 @@ public class PushDB
 
 	// add an entry
 	public long create(Long ID, String title, String detail, String time,
-			String value, String check)
+			String value, String check,String image)
 	{
 		// SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm",
 		// Locale.ENGLISH);
@@ -141,6 +143,7 @@ public class PushDB
 		args.put(KEY_CREATED, time);
 		// args.put(KEY_CREATED, df.format(now.getTime()));
 		args.put(KEY_TimeDetail, value);
+		args.put(KEY_IMAGE, image);
 
 		return db.insert(DATABASE_TABLE, null, args);
 	}

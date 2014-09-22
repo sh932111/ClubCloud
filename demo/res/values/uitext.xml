@@ -25,10 +25,12 @@
     <string name="input_password">密碼:</string>
     <string name="check_input_password">確認密碼:</string>
     <string name="input_title">標題:</string>
+    <string name="input_list">內文:</string>
     <string name="check_img">選圖片</string>
     <string name="send">送出</string>
     <string name="check_img_src">請選擇圖片來源</string>
     <string name="edit">修改</string>
+    <string name="update">更新</string>
     <string name="delete">刪除</string>
     <string name="nodelete">不刪除</string>
     <string name="addtocaldroid">新增到行事曆</string>

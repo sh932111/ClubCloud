@@ -37,7 +37,7 @@
         </activity>
         <activity android:name="homedetail.ShowTravelList" >
         </activity>
-        <activity android:name="homedetail.ShowTravelDetail" >
+        <activity android:name="homedetail.ShowTravel" >
         </activity>
 
         <receiver
@@ -79,6 +79,14 @@
         <activity
             android:name="homedetail.CloudActivity"
             android:label="@string/title_activity_cloud" >
+        </activity>
+        <activity android:name="homedetail.ShowPushList" >
+        </activity>
+        <activity android:name="homedetail.ShowTravelDetail" >
+        </activity>
+        <activity
+            android:name="homedetail.AddTravelDetail"
+            android:label="@string/title_activity_add_travel_detail" >
         </activity>
     </application>
 

@@ -1,7 +1,7 @@
 package facebooktest;
 
 import pagefunction.PageUtil;
-import getfunction.ShowToolbar;
+import uifunction.ShowToolbar;
 import homedetail.CloudActivity;
 
 import com.candroidsample.R;

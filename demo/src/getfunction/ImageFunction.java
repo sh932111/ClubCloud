@@ -3,19 +3,14 @@ package getfunction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.os.Environment;
 
 public class ImageFunction
 {
-	public Bitmap getBitmapFromSDCard(String file)
+	public Bitmap getBitmapFromSDCard(String path)
 	{
 		try
 		{
-			// Bitmap bmImage = BitmapFactory.decodeResource(getResources(),
-			// R.drawable.icon);
-			String sd = Environment.getExternalStorageDirectory().toString();
-			Bitmap bitmap = BitmapFactory.decodeFile(sd
-					+ "/ClubCloud/userphoto/" + file);
+			Bitmap bitmap = BitmapFactory.decodeFile(path);
 			return bitmap;
 		}
 		catch (Exception e)

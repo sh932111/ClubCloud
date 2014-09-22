@@ -129,7 +129,8 @@ public class Register1 extends Activity
 //								
 								DialogShow show = new DialogShow();
 								show.showStyle1(Register1.this,
-										getString(R.string.dialog_title1),messageString,
+										getString(R.string.dialog_title1),
+										messageString,
 										getString(R.string.dialog_check),
 										new DialogShow.Callback()
 										{

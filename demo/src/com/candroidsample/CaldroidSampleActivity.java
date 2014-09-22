@@ -1,34 +1,33 @@
 package com.candroidsample;
 
 //import java.text.SimpleDateFormat;
-import getdb.DB;
-import getfunction.ShowToolbar;
+import getdb.TravelDB;
 import homedetail.ShowTravelList;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import pagefunction.PageUtil;
+import uifunction.ShowToolbar;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-		
+
 @SuppressLint("SimpleDateFormat")
 public class CaldroidSampleActivity extends FragmentActivity
 {
-	private Cursor mCursor;
 	private CaldroidFragment caldroidFragment;
 	private CaldroidFragment dialogCaldroidFragment;
 
@@ -37,28 +36,34 @@ public class CaldroidSampleActivity extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		setCaldroid(savedInstanceState);
-		
+
 		ShowToolbar showToolbar = new ShowToolbar();
-		showToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,getResources().getDisplayMetrics().widthPixels/ShowToolbar.getMenuNum(this) ,1,new ShowToolbar.Callback()
-		{	
-			@Override
-			public void service_result(int msg)
-			{
-				// TODO Auto-generated method stub
-				PageUtil mSysUtil= new PageUtil(CaldroidSampleActivity.this);  
-	            mSysUtil.exit(msg+1);
-				finish();
-	     	}
-		});
+		showToolbar.showToolbar(
+				(LinearLayout) findViewById(R.id.LinearLayout1),
+				this,
+				getResources().getDisplayMetrics().widthPixels
+						/ ShowToolbar.getMenuNum(this), 1,
+				new ShowToolbar.Callback()
+				{
+					@Override
+					public void service_result(int msg)
+					{
+						// TODO Auto-generated method stub
+						PageUtil mSysUtil = new PageUtil(
+								CaldroidSampleActivity.this);
+						mSysUtil.exit(msg + 1);
+						finish();
+					}
+				});
 	}
 
 	public void setCaldroid(Bundle savedInstanceState)
 	{
 		// final SimpleDateFormat formatter = new
 		// SimpleDateFormat("dd MMM yyyy");
-		
+
 		caldroidFragment = new CaldroidFragment();
 
 		if (savedInstanceState != null)
@@ -80,18 +85,17 @@ public class CaldroidSampleActivity extends FragmentActivity
 			caldroidFragment.setArguments(args);
 		}
 
-
 		setCustomResourceForDates();
 
 		// Attach to the activity
 		FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-		
+
 		t.replace(R.id.calendar1, caldroidFragment);
-		
+
 		t.commit();
 
 		// Setup listener
-		final CaldroidListener listener = new CaldroidListener() 
+		final CaldroidListener listener = new CaldroidListener()
 		{
 			@Override
 			public void onSelectDate(Date date, View view)
@@ -109,7 +113,7 @@ public class CaldroidSampleActivity extends FragmentActivity
 				intent.putExtras(bundle);
 				intent.setClass(CaldroidSampleActivity.this,
 						ShowTravelList.class);
-				
+
 				startActivity(intent);
 				finish();
 			}
@@ -139,38 +143,39 @@ public class CaldroidSampleActivity extends FragmentActivity
 		caldroidFragment.setCaldroidListener(listener);
 
 	}
-	protected void onRestart() 
-    {
-    	  // TODO Auto-generated method stub
-    	super.onRestart();
-    	
-    }
-	private void setCustomResourceForDates()
-	{	
 
-		DB mDbHelper = new DB(CaldroidSampleActivity.this);
+	protected void onRestart()
+	{
+		// TODO Auto-generated method stub
+		super.onRestart();
+
+	}
+
+	private void setCustomResourceForDates()
+	{
+
+		TravelDB mDbHelper = new TravelDB(CaldroidSampleActivity.this);
 
 		mDbHelper.open();
 
-		mCursor = mDbHelper.getAllDate();
-		
-		int rows_num = mCursor.getCount();
+		ArrayList<Bundle> array_list = mDbHelper.getAll();
 
-		if (rows_num != 0)
+		if (array_list != null)
 		{
-			mCursor.moveToFirst();
-
-			for (int i = 0; i < rows_num; i++)
+			for (int i = 0; i < array_list.size(); i++)
 			{
-				String get_date_string = mCursor.getString(0);
+				String get_date_string = array_list.get(i).getString("Date");
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+				mDbHelper.close();
 
 				Date date = null;
 				try
 				{
 					date = sdf.parse(get_date_string);
-				} catch (ParseException e)
+				}
+				catch (ParseException e)
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -179,14 +184,14 @@ public class CaldroidSampleActivity extends FragmentActivity
 				Date now = new Date();
 
 				Calendar calendar1 = Calendar.getInstance();
-		        
+
 				calendar1.setTime(now);
 				Calendar calendar2 = Calendar.getInstance();
-		        
+
 				calendar2.setTime(date);
-				
+
 				int day = daysOfTwo(calendar1, calendar2);
-				
+
 				Calendar cal = Calendar.getInstance();
 
 				cal.add(Calendar.DATE, day);
@@ -196,42 +201,41 @@ public class CaldroidSampleActivity extends FragmentActivity
 				{
 					if (day < 0)
 					{
-						caldroidFragment.setBackgroundResourceForDate(R.color.green,
-								blueDate);
+						caldroidFragment.setBackgroundResourceForDate(
+								R.color.green, blueDate);
 
 						caldroidFragment.setTextColorForDate(R.color.white,
 								blueDate);
 					}
 					else if (day == 0)
 					{
-						caldroidFragment.setBackgroundResourceForDate(R.color.red,
-								blueDate);
+						caldroidFragment.setBackgroundResourceForDate(
+								R.color.red, blueDate);
 
 						caldroidFragment.setTextColorForDate(R.color.white,
 								blueDate);
 					}
-					else 
+					else
 					{
-						caldroidFragment.setBackgroundResourceForDate(R.color.blue,
-								blueDate);
+						caldroidFragment.setBackgroundResourceForDate(
+								R.color.blue, blueDate);
 
 						caldroidFragment.setTextColorForDate(R.color.white,
 								blueDate);
 					}
 				}
-
-				mCursor.moveToNext(); 
 			}
 		}
-		mDbHelper.close();
 
 	}
+
 	public int daysOfTwo(Calendar befor, Calendar after)
 	{
 		int day1 = befor.get(Calendar.DAY_OF_YEAR);
 		int day2 = after.get(Calendar.DAY_OF_YEAR);
 		return day2 - day1;
-		}
+	}
+
 	/**
 	 * Save current states of the Caldroid here
 	 */
@@ -253,18 +257,19 @@ public class CaldroidSampleActivity extends FragmentActivity
 					"DIALOG_CALDROID_SAVED_STATE");
 		}
 	}
+
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) 
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
 		{
-			PageUtil mSysUtil= new PageUtil(CaldroidSampleActivity.this);  
-            mSysUtil.exit(0);
+			PageUtil mSysUtil = new PageUtil(CaldroidSampleActivity.this);
+			mSysUtil.exit(0);
 			finish();
-             
+
 			return true;
 		}
 
-	  return super.onKeyDown(keyCode, event);
+		return super.onKeyDown(keyCode, event);
 	}
 
 }

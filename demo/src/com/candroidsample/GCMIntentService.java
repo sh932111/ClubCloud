@@ -19,12 +19,6 @@ import static com.candroidsample.CommonUtilities.SENDER_ID;
 import static com.candroidsample.CommonUtilities.displayMessage;
 
 import getdb.PushDB;
-import httpfunction.DownloadImageRunnable;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import startprogram.LoginPage;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -107,8 +101,6 @@ public class GCMIntentService extends GCMBaseIntentService
 
 		String image = bundle.getString("image");
 		
-//		DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(_id, context,"userphoto",getResources().getString(R.string.downloadRequestImage));
-//		dImageRunnable.downLoadImage();
 		     
 		PushDB mDbHelper = new PushDB(this);
 		

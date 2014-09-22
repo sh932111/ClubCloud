@@ -1,8 +1,6 @@
 package startprogram;
 
 import getdb.UserDB;
-import getfunction.FolderFunction;
-import httpfunction.DownloadImage;
 import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
 
@@ -166,7 +164,7 @@ public class LoginPage extends Activity
 
 												if (resString)
 												{
-													DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(username, LoginPage.this,"pushphoto",getResources().getString(R.string.downloadUserImage));
+													DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(username, LoginPage.this,"userphoto",getResources().getString(R.string.downloadUserImage));
 													dImageRunnable.downLoadImage();
 													
 

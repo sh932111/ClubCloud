@@ -1,177 +1,237 @@
 package homedetail;
 
-import getdb.DB;
-
-import java.text.SimpleDateFormat;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
-import java.util.Date;
+
+import pagefunction.PageUtil;
+import uifunction.ShowScrollView;
+import uifunction.ShowToolbar;
+import getdb.TravelDB;
+import getfunction.FolderFunction;
+import getfunction.ImageFunction;
+import httpfunction.DownloadImageRunnable;
 
 import com.candroidsample.R;
 
+import android.net.Uri;
 import android.os.Bundle;
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 public class ShowTravelDetail extends Activity
 {
-	TextView timeTextView;
+	ShowScrollView showScrollView;
 
-	EditText titleText;
-	EditText detailText;
-	
+	Long id;
+
+	private DisplayMetrics mPhone;
+
 	static final int TIME_DIALOG_ID = 1;
 
 	private int mHour;
 	private int mMinute;
 
+	Bitmap resImage = null;
+
+	private final static int CAMERA = 66;
+	private final static int Album = 67;
+
+	String image_path;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_show_travel_detail);
+		setContentView(R.layout.activity_show_travel_detail2);
+
+		mPhone = new DisplayMetrics();
+
+		getWindowManager().getDefaultDisplay().getMetrics(mPhone);
 
 		final Calendar c = Calendar.getInstance();
+		
 		mHour = c.get(Calendar.HOUR_OF_DAY);
+		
 		mMinute = c.get(Calendar.MINUTE);
-
-		titleText = (EditText)findViewById(R.id.title_label);
-		detailText = (EditText)findViewById(R.id.detail_label);
 		
 		Intent intent = this.getIntent();
 
 		Bundle bundle = intent.getExtras();
 
-		final String timeString = bundle.getString("Date");
+		id = bundle.getLong("ID");
 
-		final Long IDString = bundle.getLong("ID");
+		TravelDB travelDB = new TravelDB(ShowTravelDetail.this);
+
+		travelDB.open();
+
+		Bundle get_bundle = travelDB.get(id);
+
+		String image_check = get_bundle.getString("Image");
 		
-		TextView txt_1 = (TextView) findViewById(R.id.datetext);
+		updateDBLook();
 
-		txt_1.setText(getString(R.string.text_date) + timeString);
-		
-		timeTextView = (TextView) findViewById(R.id.timetext);
+		float h_size = 1920 / getResources().getDisplayMetrics().heightPixels;
 
-		Button bt = (Button) findViewById(R.id.choosetime);
+		float s_size = 350 / h_size;
 
-		bt.setOnClickListener(new Button.OnClickListener()
+		showScrollView = new ShowScrollView();
+		showScrollView.showView(
+				(LinearLayout) findViewById(R.id.LinearLayout1), this,
+				get_bundle, getResources().getDisplayMetrics().heightPixels
+						- getResources().getDisplayMetrics().widthPixels
+						/ ShowToolbar.getMenuNum(this) - (int) s_size);
+
+		showScrollView.chooseDayBt.setVisibility(View.INVISIBLE);
+		showScrollView.chooseImgBt.setOnClickListener(new Button.OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0)
 			{
-				// TODO Auto-generated method stub
-				showDialog(TIME_DIALOG_ID); 
+				showDialog();
 			}
-		});
-		
-		
-		Button check = (Button) findViewById(R.id.check);
 
-		if (IDString != 0)
+		});
+
+		showScrollView.chooseTimeBt
+				.setOnClickListener(new Button.OnClickListener()
+				{
+					@Override
+					public void onClick(View arg0)
+					{
+						showDialog(TIME_DIALOG_ID); 
+					}
+
+				});
+
+		if (Integer.parseInt(image_check) == 1)
 		{
-			titleText.setText(bundle.getString("Title"));
-			detailText.setText(bundle.getString("Message"));
-			timeTextView.setText(getString(R.string.text_time) + bundle.getString("Time"));
-	    	
-			String checkString = bundle.getString("Check");
-			
-			if (checkString.equals("1"))
+			DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
+					String.valueOf(id), this, "pushphoto", getResources()
+							.getString(R.string.downloadRequestImage),
+					new DownloadImageRunnable.Callback()
+					{
+						@Override
+						public void service_result()
+						{
+							// TODO Auto-generated method stub
+							ImageFunction get_image = new ImageFunction();
+
+							String app_path = getExternalFilesDir(null)
+									.getAbsolutePath()
+									+ "/"
+									+ "pushphoto"
+									+ "/" + id + ".png";
+
+							showScrollView.showImageView
+									.setImageBitmap(get_image
+											.getBitmapFromSDCard(app_path));
+							
+							updateDBImage();
+						}
+					});
+			dImageRunnable.downLoadImage();
+		}
+		else if(Integer.parseInt(image_check) == 2)
+		{
+			ImageFunction get_image = new ImageFunction();
+
+			String app_path = getExternalFilesDir(null)
+					.getAbsolutePath()
+					+ "/"
+					+ "pushphoto"
+					+ "/" + id + ".png";
+
+			showScrollView.showImageView
+					.setImageBitmap(get_image
+							.getBitmapFromSDCard(app_path));
+		}
+		ShowToolbar showToolbar = new ShowToolbar();
+		showToolbar.showToolbar(
+				(LinearLayout) findViewById(R.id.LinearLayout1),
+				this,
+				getResources().getDisplayMetrics().widthPixels
+						/ ShowToolbar.getMenuNum(this), 1,
+				new ShowToolbar.Callback()
+				{
+
+					@Override
+					public void service_result(int msg)
+					{
+						// TODO Auto-generated method stub
+						PageUtil mSysUtil = new PageUtil(ShowTravelDetail.this);
+						mSysUtil.exit(msg + 1);
+						finish();
+
+					}
+				});
+		
+		Button cancel = (Button) findViewById(R.id.cancel);
+		
+		cancel.setOnClickListener(new Button.OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
 			{
-				DB mDbHelper = new DB(ShowTravelDetail.this);
+				TravelDB mDbHelper = new TravelDB(ShowTravelDetail.this);
 				
 				mDbHelper.open();
 
-				mDbHelper.updateLook(IDString, "0");
-				
+				mDbHelper.delete(id);
+
 				mDbHelper.close();
+				
+				finish();
 			}
-			
-			check.setText(getString(R.string.edit));
-			
-			check.setOnClickListener(new Button.OnClickListener()
-			{
-				@Override
-				public void onClick(View arg0)
-				{
-					updateDB(IDString ,timeString);
-					finish();
-				}
-			});
-		}
-		else 
-		{
-			check.setOnClickListener(new Button.OnClickListener()
-			{
-				@Override
-				public void onClick(View arg0)
-				{
-					saveDB(timeString);
-					finish();
-				}
-			});
-		}
-		Button cancel = (Button) findViewById(R.id.cancel);
-		
-		if (IDString != 0)
-		{
-			cancel.setText(getString(R.string.delete));
-		
-			cancel.setOnClickListener(new Button.OnClickListener()
-			{
-				@Override
-				public void onClick(View arg0)
-				{
-					DB mDbHelper = new DB(ShowTravelDetail.this);
-					
-					mDbHelper.open();
+		});
 
-					mDbHelper.delete(IDString);
+		Button check = (Button) findViewById(R.id.check);
 
-					mDbHelper.close();
-					
-					finish();
-				}
-			});
-		}
-		else 
+		check.setOnClickListener(new Button.OnClickListener()
 		{
-			cancel.setOnClickListener(new Button.OnClickListener()
+			@Override
+			public void onClick(View arg0)
 			{
-				@Override
-				public void onClick(View arg0)
-				{
-					finish();
-				}
-			});
-		}
+				updateDB(id);
+				finish();
+			}
+		});
+		travelDB.close();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.show_travel_detail, menu);
+		getMenuInflater().inflate(R.menu.show_travel_detail2, menu);
 		return true;
 	}
 
-	private TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-		
+	private TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener()
+	{
+
 		@Override
 		public void onTimeSet(TimePicker arg0, int arg1, int arg2)
 		{
 			// TODO Auto-generated method stub
 			mHour = arg1;
 			mMinute = arg2;
-			
-			timeTextView.setText(getString(R.string.text_time) + arg1 + " :" + arg2);
+
+			showScrollView.timeView.setText(arg1 + " :"
+					+ arg2);
 		}
 	};
 
@@ -180,41 +240,140 @@ public class ShowTravelDetail extends Activity
 	{
 		switch (id)
 		{
-			case TIME_DIALOG_ID:
+		case TIME_DIALOG_ID:
 			TimePickerDialog tpd = new TimePickerDialog(this, mTimeSetListener,
 					mHour, mMinute, false);
 			return tpd;
 		}
 		return null;
 	}
-	
-	@SuppressLint("SimpleDateFormat")
-	public void saveDB(String date_string)
+
+	public void updateDBLook()
 	{
-		String timeString = mHour + ":" + mMinute;
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		
-		Date now = new Date();
-		
-		DB mDbHelper = new DB(ShowTravelDetail.this);
-		
+		TravelDB mDbHelper = new TravelDB(ShowTravelDetail.this);
+
 		mDbHelper.open();
 
-		mDbHelper.create(Long.parseLong(sdf.format(now.getTime())),titleText.getText().toString(), detailText.getText().toString(), date_string ,timeString , "1");
-		
+		mDbHelper.updateLook(id, "0");
+
 		mDbHelper.close();
 	}
-	public void updateDB(Long id ,String date_string)
+	public void updateDB(Long id)
 	{
+		String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"pushphoto"+"/" + id + ".png";
+		
+		if (resImage != null)
+		{
+			FolderFunction setfolder = new FolderFunction();
+
+			setfolder.saveImage(resImage,  app_path);	
+		}
+		
 		String timeString = mHour + ":" + mMinute;
 		
-		DB mDbHelper = new DB(ShowTravelDetail.this);
+		TravelDB mDbHelper = new TravelDB(ShowTravelDetail.this);
 		
 		mDbHelper.open();
 
-		mDbHelper.updateAll(id, titleText.getText().toString(), detailText.getText().toString(),  date_string ,timeString );
+		mDbHelper.updateAll(id, showScrollView.titleView.getText().toString(), showScrollView.listView.getText().toString(),  showScrollView.dateView.getText().toString() ,timeString );
 
 		mDbHelper.close();
+	}
+	public void updateDBImage()
+	{
+
+		TravelDB mDbHelper = new TravelDB(ShowTravelDetail.this);
+
+		mDbHelper.open();
+
+		mDbHelper.updateImage(id, "2");
+
+		mDbHelper.close();
+	}
+	public void showDialog()
+	{
+		AlertDialog.Builder dialog = new AlertDialog.Builder(
+				ShowTravelDetail.this);
+		dialog.setTitle(getString(R.string.dialog_title1));
+		dialog.setIcon(android.R.drawable.ic_dialog_alert);
+		String mesString = getString(R.string.check_img_src);
+		dialog.setMessage(mesString);
+		dialog.setCancelable(false);
+		dialog.setPositiveButton(getString(R.string.dialog_cancel),
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog,
+							int which)
+					{
+
+					}
+				});
+		dialog.setNegativeButton(getString(R.string.dialog_album),
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog,
+							int which)
+					{
+						// TODO Auto-generated method stub
+						Intent intent = new Intent(
+								Intent.ACTION_GET_CONTENT, null);
+						intent.setType("image/*");
+						startActivityForResult(intent, Album);
+					}
+				});
+		dialog.setNeutralButton(getString(R.string.dialog_camera),
+				new DialogInterface.OnClickListener()
+				{
+					public void onClick(DialogInterface dialog,
+							int which)
+					{
+						// TODO Auto-generated method stub
+
+						Intent intent = new Intent(
+								"android.media.action.IMAGE_CAPTURE");
+						startActivityForResult(intent, CAMERA);
+					}
+				});
+		dialog.show();
+	}
+	protected void onActivityResult(int rsquestCode, int resultCode, Intent data)
+	{
+		if ((CAMERA == rsquestCode || Album == rsquestCode) && data != null)
+		{
+			Uri uri = data.getData();
+
+			if (uri != null)
+			{
+				ContentResolver cr = this.getContentResolver();
+
+				Cursor cursor = cr.query(uri, null, null, null, null);
+				cursor.moveToFirst();
+
+				image_path = cursor.getString(1);
+				
+				try
+				{
+					Bitmap bitmap = BitmapFactory.decodeStream(cr
+							.openInputStream(uri));
+					
+					ImageFunction getFunction = new ImageFunction();
+
+					if (bitmap.getWidth() > bitmap.getHeight())
+						resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
+
+					else
+						resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
+
+					showScrollView.showImageView.setImageBitmap(resImage);
+				}
+				catch (FileNotFoundException e)
+				{
+
+				}
+			}
+			
+			// super.onActivityResult(rsquestCode, resultCode, data);
+		}
+
 	}
 }

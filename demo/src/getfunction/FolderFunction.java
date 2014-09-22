@@ -32,7 +32,7 @@ public class FolderFunction
 	      //  Toast.makeText(StrokeShowPage.this, "Failed - Error", Toast.LENGTH_SHORT).show();
 	    }
 	}
-	public void saveImage(Bitmap bmImage ,String locaction)
+	public boolean saveImage(Bitmap bmImage ,String locaction)
 	{
 
 		File file = new File( locaction);
@@ -52,12 +52,16 @@ public class FolderFunction
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
+			return false;
 		}
 		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
+			return false;
 		}
+
+		return true;
 	}
 }

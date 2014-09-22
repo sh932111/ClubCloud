@@ -84,15 +84,11 @@ public class HomePage extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				// TODO Auto-generated method stub
 				Bundle bundle = new Bundle();
-
 				bundle.putInt("Index", 2);
-
 				Intent intent = new Intent();
 				intent.putExtras(bundle);
 				intent.setClass(HomePage.this, ShowTravelList.class);
-
 				startActivity(intent);
 			}
 

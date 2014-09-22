@@ -21,7 +21,7 @@ import com.candroidsample.R;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -103,7 +103,7 @@ public class Register2 extends Activity
 		city_id = bundle.getString("city_id");
 		citydetail_id = bundle.getString("city_detail_id");
 
-		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/user" + ".PNG";
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/user" + ".png";
 		
 		image_path = app_path;
 
@@ -341,7 +341,7 @@ public class Register2 extends Activity
 
 		FolderFunction setfolder = new FolderFunction();
 
-		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/userphoto/" + str2 + ".PNG";
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/userphoto/" + str2 + ".png";
 		
 		setfolder.saveImage(resImage, app_path);
 

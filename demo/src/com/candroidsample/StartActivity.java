@@ -19,7 +19,6 @@ import static com.candroidsample.CommonUtilities.SENDER_ID;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

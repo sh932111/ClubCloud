@@ -1,11 +1,10 @@
-package getfunction;
+package uifunction;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.LinearLayout;

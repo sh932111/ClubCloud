@@ -1,19 +1,18 @@
 package homedetail;
 
-import getdb.DB;
+import getdb.TravelDB;
 import getdb.PushDB;
 import getfunction.MyAdapter;
-import getfunction.ShowToolbar;
 
 import java.util.ArrayList;
 
 import pagefunction.PageUtil;
+import uifunction.ShowToolbar;
 
-import com.candroidsample.CaldroidSampleActivity;
 import com.candroidsample.R;
+
 import android.os.Bundle;
 import android.content.Intent;
-import android.database.Cursor;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -28,15 +27,9 @@ public class ShowTravelList extends CloudActivity
 {
 	private ListView listView;
 
-	private Cursor mCursor;
-
 	String time_string;
 
-	CharSequence[] cs1;
-	CharSequence[] cs2;
-	CharSequence[] cs3;
-	CharSequence[] cs4;
-	CharSequence[] cs5;
+	ArrayList<Bundle> arrayList;
 
 	int list_index;
 
@@ -55,6 +48,7 @@ public class ShowTravelList extends CloudActivity
 		Bundle bundle = intent.getExtras();
 
 		list_index = bundle.getInt("Index");
+
 		TextView txt_1 = (TextView) findViewById(R.id.datetext);
 
 		if (list_index == 1)
@@ -89,7 +83,7 @@ public class ShowTravelList extends CloudActivity
 
 					Intent intent = new Intent();
 					intent.putExtras(bundle);
-					intent.setClass(ShowTravelList.this, ShowTravelDetail.class);
+					intent.setClass(ShowTravelList.this, AddTravelDetail.class);
 					startActivity(intent);
 				}
 			});
@@ -97,21 +91,26 @@ public class ShowTravelList extends CloudActivity
 		}
 
 		setList();
-		
+
 		ShowToolbar showToolbar = new ShowToolbar();
-		showToolbar.showToolbar((LinearLayout) findViewById(R.id.LinearLayout1), this ,getResources().getDisplayMetrics().widthPixels/ShowToolbar.getMenuNum(this) ,1,new ShowToolbar.Callback()
-		{
-			
-			@Override
-			public void service_result(int msg)
-			{
-				// TODO Auto-generated method stub
-				PageUtil mSysUtil= new PageUtil(ShowTravelList.this);  
-	            mSysUtil.exit(msg+1);
-				finish();
-	    
-			}
-		});
+		showToolbar.showToolbar(
+				(LinearLayout) findViewById(R.id.LinearLayout1),
+				this,
+				getResources().getDisplayMetrics().widthPixels
+						/ ShowToolbar.getMenuNum(this), 1,
+				new ShowToolbar.Callback()
+				{
+
+					@Override
+					public void service_result(int msg)
+					{
+						// TODO Auto-generated method stub
+						PageUtil mSysUtil = new PageUtil(ShowTravelList.this);
+						mSysUtil.exit(msg + 1);
+						finish();
+
+					}
+				});
 	}
 
 	protected void onRestart()
@@ -128,8 +127,6 @@ public class ShowTravelList extends CloudActivity
 		// TODO Auto-generated method stub
 		super.onStop();
 
-		stopManagingCursor(mCursor);
-
 	}
 
 	@Override
@@ -144,11 +141,13 @@ public class ShowTravelList extends CloudActivity
 	{
 		if (list_index == 1)
 		{
-			DB mDbHelper = new DB(this);
+			TravelDB mDbHelper = new TravelDB(ShowTravelList.this);
+
 			mDbHelper.open();
+			
+			arrayList = mDbHelper.getDateData(time_string);
 
-			mCursor = mDbHelper.get(time_string);
-
+			mDbHelper.close();
 		}
 		else
 		{
@@ -156,20 +155,23 @@ public class ShowTravelList extends CloudActivity
 
 			mDbHelper.open();
 
-			mCursor = mDbHelper.getAll();
+			arrayList = mDbHelper.getAll();
 
-			// mDbHelper.close();
+			mDbHelper.close();
 		}
 	}
 
 	public void setList()
 	{
 		listView = (ListView) findViewById(R.id.listView);
-		
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, getResources().getDisplayMetrics().heightPixels - getResources().getDisplayMetrics().heightPixels/3);
-		
+
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT, getResources()
+						.getDisplayMetrics().heightPixels
+						- getResources().getDisplayMetrics().heightPixels / 3);
+
 		listView.setLayoutParams(layoutParams);
-		
+
 		loadData();
 
 		ArrayList<String> columnArray1 = new ArrayList<String>();
@@ -177,53 +179,37 @@ public class ShowTravelList extends CloudActivity
 		ArrayList<String> columnArray4 = new ArrayList<String>();
 		ArrayList<String> columnArray5 = new ArrayList<String>();
 
-		int rows_num = mCursor.getCount();
-		
-		if (rows_num != 0)
+		if (arrayList != null)
 		{
-			mCursor.moveToFirst();
-			for (int i = 0; i < rows_num; i++)
+			for (int i = 0; i < arrayList.size(); i++)
 			{
-				columnArray1.add(mCursor.getString(1));
-				columnArray3.add(mCursor.getString(3));
-				columnArray4.add(mCursor.getString(4));
-				columnArray5.add(mCursor.getString(5));
-				mCursor.moveToNext();
+				columnArray1.add(arrayList.get(i).getString("Title"));
+				columnArray3.add(arrayList.get(i).getString("Date"));
+				columnArray4.add(arrayList.get(i).getString("Time"));
+				columnArray5.add(arrayList.get(i).getString("Check"));
 			}
+
 		}
-		cs1 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
-		cs3 = columnArray3.toArray(new CharSequence[columnArray1.size()]);
-		cs4 = columnArray4.toArray(new CharSequence[columnArray1.size()]);
-		cs5 = columnArray5.toArray(new CharSequence[columnArray1.size()]);
-
-		MyAdapter adapter = new MyAdapter(ShowTravelList.this, cs1, cs3, cs4,
-				cs5);
-		listView.setAdapter(adapter);
-
+		CharSequence[] cs1 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
+		CharSequence[] cs3 = columnArray3.toArray(new CharSequence[columnArray1.size()]);
+		CharSequence[] cs4 = columnArray4.toArray(new CharSequence[columnArray1.size()]);
+		CharSequence[] cs5 = columnArray5.toArray(new CharSequence[columnArray1.size()]);
+	
+		 MyAdapter adapter = new MyAdapter(ShowTravelList.this, cs1, cs3, cs4,cs5);
+		 listView.setAdapter(adapter);
+		//
 		listView.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id)
 			{
-				mCursor.moveToPosition(position);
-
-				Long SelectID = mCursor.getLong(0);
-				String title = mCursor.getString(1);
-				String message = mCursor.getString(2);
-				String dateString = mCursor.getString(3);
-				String timeString = mCursor.getString(4);
-				String check = mCursor.getString(5);
-
+				Long SelectID = arrayList.get(position).getLong("ID");
+				
 				Bundle bundle = new Bundle();
 
 				bundle.putLong("ID", SelectID);
-				bundle.putString("Title", title);
-				bundle.putString("Message", message);
-				bundle.putString("Date", dateString);
-				bundle.putString("Time", timeString);
-				bundle.putString("Check", check);
-
+				
 				if (list_index == 1)
 				{
 					Intent intent = new Intent(ShowTravelList.this,
@@ -233,8 +219,9 @@ public class ShowTravelList extends CloudActivity
 
 					startActivity(intent);
 				}
-				else 
+				else
 				{
+
 					Intent intent = new Intent(ShowTravelList.this,
 							ShowPushDetail.class);
 
@@ -245,9 +232,6 @@ public class ShowTravelList extends CloudActivity
 
 			}
 		});
-
-		startManagingCursor(mCursor);
-
 	}
 
 	@Override

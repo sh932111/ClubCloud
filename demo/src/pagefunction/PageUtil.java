@@ -3,7 +3,6 @@ package pagefunction;
 import facebooktest.FbActivity;
 import homedetail.EventDelivery;
 import homedetail.PersonalInformation;
-import homedetail.ShowPushDetail;
 import homedetail.ShowTravelList;
 
 import com.candroidsample.CaldroidSampleActivity;

@@ -1,9 +1,9 @@
 package homedetail;
 
 import pagefunction.PageUtil;
+import uifunction.ShowToolbar;
 import getdb.UserDB;
 import getfunction.ImageFunction;
-import getfunction.ShowToolbar;
 
 import com.candroidsample.R;
 
@@ -131,8 +131,10 @@ public class PersonalInformation extends CloudActivity
 		{
 			ImageFunction get_image = new ImageFunction();
 
-			userImage.setImageBitmap(get_image.getBitmapFromSDCard(mCursor
-					.getString(index) + ".PNG"));
+			String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/"+"userphoto"+"/" + mCursor
+					.getString(index) + ".png";
+			
+			userImage.setImageBitmap(get_image.getBitmapFromSDCard(app_path));
 
 		}
 	}

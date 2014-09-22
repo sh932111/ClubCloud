@@ -1,5 +1,7 @@
 package getdb;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +9,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 
 public class PushDB
 {
@@ -31,7 +34,6 @@ public class PushDB
 	public PushDB(Context context)
 	{
 		this.mContext = context;
-
 	}
 
 	public PushDB open() throws SQLException
@@ -82,22 +84,9 @@ public class PushDB
 
 	}
 
-	public Cursor getAllDate()
+	public ArrayList<Bundle> getAll()
 	{
-		return db.query(DATABASE_TABLE, // Which table to Select
-				// strCols,// Which columns to return
-				new String[]
-				{ KEY_CREATED }, null, // WHERE clause
-				null, // WHERE arguments
-				null, // GROUP BY clause
-				null, // HAVING clause
-				KEY_CREATED + " DESC" // Order-by clause
-		);
-	}
-
-	public Cursor getAll()
-	{
-		return db.query(DATABASE_TABLE, // Which table to Select
+		Cursor mCursor = db.query(DATABASE_TABLE, // Which table to Select
 				// strCols,// Which columns to return
 				new String[]
 				{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
@@ -107,23 +96,82 @@ public class PushDB
 				null, // HAVING clause
 				KEY_CREATED + " DESC" // Order-by clause
 		);
+		
+		if ( mCursor.getCount() != 0)
+		{
+			mCursor.moveToFirst();
+			
+			ArrayList<Bundle> array_list = new ArrayList<Bundle>();
+			
+			for (int i = 0; i < mCursor.getCount(); i++)
+			{
+				Long SelectID = mCursor.getLong(0);
+				String title = mCursor.getString(1);
+				String message = mCursor.getString(2);
+				String dateString = mCursor.getString(3);
+				String timeString = mCursor.getString(4);
+				String check = mCursor.getString(5);
+				String image = mCursor.getString(6);
+				
+				Bundle bundle = new Bundle();
+
+				bundle.putLong("ID", SelectID);
+				bundle.putString("Title", title);
+				bundle.putString("Message", message);
+				bundle.putString("Date", dateString);
+				bundle.putString("Time", timeString);
+				bundle.putString("Check", check);
+				bundle.putString("Image", image);
+				
+				array_list.add(bundle);
+				
+				mCursor.moveToNext();
+			}
+			
+			mCursor.close();
+			
+			return array_list;
+		}
+		
+		return null;
 	}
 
 	// query single entry
-	public Cursor get(String rowId) throws SQLException
+	public Bundle get(Long rowId) throws SQLException
 	{
-		System.out.println(rowId);
-
 		Cursor mCursor = db.query(DATABASE_TABLE, new String[]
 		{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
-				KEY_CHECK ,KEY_IMAGE }, KEY_CREATED + " = ?", new String[]
+				KEY_CHECK ,KEY_IMAGE }, KEY_ROWID + " = ?", new String[]
 		{ "" + rowId + "" }, null, null, null, null);
 
-		if (mCursor != null)
+		if ( mCursor.getCount() != 0)
 		{
 			mCursor.moveToFirst();
+			
+			Long SelectID = mCursor.getLong(0);
+			String title = mCursor.getString(1);
+			String message = mCursor.getString(2);
+			String dateString = mCursor.getString(3);
+			String timeString = mCursor.getString(4);
+			String check = mCursor.getString(5);
+			String image = mCursor.getString(6);
+			
+			Bundle bundle = new Bundle();
+
+			bundle.putLong("ID", SelectID);
+			bundle.putString("Title", title);
+			bundle.putString("Message", message);
+			bundle.putString("Date", dateString);
+			bundle.putString("Time", timeString);
+			bundle.putString("Check", check);
+			bundle.putString("Image", image);
+			
+			mCursor.close();
+			
+			return bundle;
 		}
-		return mCursor;
+		
+		return null;
 	}
 
 	// add an entry
@@ -177,6 +225,18 @@ public class PushDB
 		ContentValues args = new ContentValues();
 
 		args.put(KEY_CHECK, i);
+
+		db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + Id, null);
+
+		return true;
+
+	}
+	
+	public boolean updateImage(Long Id, String i)
+	{
+		ContentValues args = new ContentValues();
+
+		args.put(KEY_IMAGE, i);
 
 		db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + Id, null);
 

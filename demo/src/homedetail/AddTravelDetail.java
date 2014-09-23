@@ -154,8 +154,6 @@ public class AddTravelDetail extends Activity
 					setfolder.saveImage(resImage,  app_path);	
 				}
 				
-				System.out.println(check);
-				
 				TravelDB mDbHelper = new TravelDB(AddTravelDetail.this);
 				
 				mDbHelper.open();

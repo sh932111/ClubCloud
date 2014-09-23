@@ -1,5 +1,7 @@
 package homedetail;
 
+import java.util.ArrayList;
+
 import pagefunction.PageUtil;
 import uifunction.ShowToolbar;
 import getdb.UserDB;
@@ -19,7 +21,7 @@ import android.widget.ListView;
 
 public class PersonalInformation extends CloudActivity
 {
-	private Cursor mCursor;
+
 	private ListView listView;
 	private ImageView userImage;
 
@@ -53,9 +55,9 @@ public class PersonalInformation extends CloudActivity
 			}
 
 		});
-
+		 
 		setList();
-
+		
 		ShowToolbar showToolbar = new ShowToolbar();
 		showToolbar.showToolbar(
 				(LinearLayout) findViewById(R.id.LinearLayout1),
@@ -91,19 +93,6 @@ public class PersonalInformation extends CloudActivity
 
 		getData();
 
-		int rows_num = mCursor.getCount();
-
-		int path_num = mCursor.getColumnCount();
-
-		if (rows_num != 0)
-		{
-			mCursor.moveToFirst();
-
-			for (int j = 0; j < path_num; j++)
-			{
-				setUI(j);
-			}
-		}
 	}
 
 	public void getData()
@@ -112,31 +101,23 @@ public class PersonalInformation extends CloudActivity
 
 		userDB.open();
 
-		mCursor = userDB.getAllDate();
-	}
-
-	@Override
-	protected void onStop()
-	{
-		// TODO Auto-generated method stub
-		super.onStop();
-
-		stopManagingCursor(mCursor);
-
-	}
-
-	public void setUI(int index)
-	{
-		if (index == 0)
+		 ArrayList<String> array_list = userDB.getAllDate();
+		 
+		 if (array_list != null)
 		{
-			ImageFunction get_image = new ImageFunction();
-
-			String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/"+"userphoto"+"/" + mCursor
-					.getString(index) + ".png";
-			
-			userImage.setImageBitmap(get_image.getBitmapFromSDCard(app_path));
-
+			 setImage(array_list.get(0));
 		}
+		 
+		 userDB.close();
+	}
+
+	public void setImage(String index)
+	{
+		ImageFunction get_image = new ImageFunction();
+
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/"+"userphoto"+"/" + index + ".png";
+		
+		userImage.setImageBitmap(get_image.getBitmapFromSDCard(app_path));
 	}
 
 	@Override

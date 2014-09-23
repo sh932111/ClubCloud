@@ -32,6 +32,8 @@ public class UploadImage implements Runnable
 		
 		try
 		{
+			System.out.println(UploadUrl);
+			
 			URL url = new URL(UploadUrl);
 			HttpURLConnection httpURLConnection = (HttpURLConnection) url
 					.openConnection();

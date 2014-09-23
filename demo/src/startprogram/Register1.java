@@ -39,7 +39,7 @@ public class Register1 extends Activity
 	CharSequence[] cs1_id;
 	CharSequence[] cs2_id;
 
-	private Spinner spinner;
+	private Spinner id_spinner;
 	private Spinner city_spinner;
 	private Spinner city_detail_spinner;
 
@@ -72,7 +72,7 @@ public class Register1 extends Activity
 		CITY_id = "U";
 		DETAILCITY_id = "970";
 		
-		spinner = (Spinner) findViewById(R.id.spinnner);
+		id_spinner = (Spinner) findViewById(R.id.spinnner);
 		idNumberEdit = (EditText) findViewById(R.id.editText1);
 
 		ArrayAdapter<CharSequence> adapterBalls = ArrayAdapter
@@ -81,9 +81,9 @@ public class Register1 extends Activity
 		adapterBalls
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		spinner.setAdapter(adapterBalls);
+		id_spinner.setAdapter(adapterBalls);
 
-		spinner.setOnItemSelectedListener(spnPerferListener);
+		id_spinner.setOnItemSelectedListener(spnPerferListener);
 
 		Button bt1 = (Button) findViewById(R.id.button1);
 		bt1.setOnClickListener(new Button.OnClickListener()
@@ -207,7 +207,7 @@ public class Register1 extends Activity
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
-			if (spinner == arg0)
+			if (id_spinner == arg0)
 			{
 				EID = arg0.getSelectedItem().toString();
 				System.out.println(EID);

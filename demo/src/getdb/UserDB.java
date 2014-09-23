@@ -1,5 +1,7 @@
 package getdb;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -85,9 +87,11 @@ public class UserDB
 		}
 	}
 
-	public Cursor getAllDate()
+	public ArrayList<String> getAllDate()
 	{
-		return db.query(DATABASE_TABLE, // Which table to Select
+		ArrayList<String> array_list = new ArrayList<String>();
+		
+		Cursor mCursor = db.query(DATABASE_TABLE, // Which table to Select
 				// strCols,// Which columns to return
 				new String[]
 				{ KEY_USERNAME ,KEY_PASSWORD,KEY_NAME,KEY_OS,KEY_USERID,KEY_DEVICETOKEN,KEY_USER_CITY,KEY_USER_CITY_DETAIL,KEY_CITY_ID,KEY_CITY_DETAIL_ID }, null, // WHERE clause
@@ -96,6 +100,22 @@ public class UserDB
 				null, // HAVING clause
 				KEY_USERID + " DESC" // Order-by clause
 		);
+		
+		if (mCursor.getCount() != 0)
+		{
+			mCursor.moveToFirst();
+		
+			for (int i = 0; i < mCursor.getColumnCount(); i++)
+			{
+				String colum = mCursor.getString(i);
+				
+				array_list.add(colum);
+			}
+			
+			return array_list;
+		}
+		
+		return null; 
 	}
 
 

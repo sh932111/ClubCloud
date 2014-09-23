@@ -49,7 +49,7 @@ public class ShowTravelDetail extends Activity
 
 	private final static int CAMERA = 66;
 	private final static int Album = 67;
-
+	
 	String image_path;
 
 	@Override
@@ -116,6 +116,7 @@ public class ShowTravelDetail extends Activity
 					}
 
 				});
+		
 
 		if (Integer.parseInt(image_check) == 1)
 		{
@@ -371,7 +372,6 @@ public class ShowTravelDetail extends Activity
 
 				}
 			}
-			
 			// super.onActivityResult(rsquestCode, resultCode, data);
 		}
 

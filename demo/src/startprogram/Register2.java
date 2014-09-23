@@ -76,6 +76,7 @@ public class Register2 extends Activity
 
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
+	
 	String device_token;
 
 	ScrollView scrollView;

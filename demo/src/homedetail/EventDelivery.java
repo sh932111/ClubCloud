@@ -22,6 +22,7 @@ import uifunction.ShowToolbar;
 import getdb.DBManager;
 import getdb.UserDB;
 import getfunction.DialogShow;
+import getfunction.FolderFunction;
 import getfunction.ImageFunction;
 import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
@@ -40,6 +41,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -73,8 +75,6 @@ public class EventDelivery extends CloudActivity
 
 	private final static int CAMERA = 66;
 	private final static int Album = 67;
-
-	String image_path = "";
 
 	private Cursor mCursor;
 	private Cursor dCursor;
@@ -341,15 +341,24 @@ public class EventDelivery extends CloudActivity
 
 		if (resImage != null)
 		{
-			image_check = "1";
+			String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"pushphoto"+"/" + id + ".png";
+			
+			FolderFunction setfolder = new FolderFunction();
 
-			UploadImage uploadImage = new UploadImage(getString(R.string.IP)
-					+ getString(R.string.Request_upload), image_path,
-					String.valueOf(id));
+			boolean check = setfolder.saveImage(resImage,  app_path);	
+			
+			if (check)
+			{
+				UploadImage uploadImage = new UploadImage(getString(R.string.IP)
+						+ getString(R.string.Request_upload), app_path,
+						String.valueOf(id));
 
-			Thread t2 = new Thread(uploadImage);
+				Thread t2 = new Thread(uploadImage);
 
-			t2.start();
+				t2.start();
+
+				image_check = "1";
+			}
 		}
 
 		UserDB userDB = new UserDB(EventDelivery.this);
@@ -529,9 +538,15 @@ public class EventDelivery extends CloudActivity
 		if ((CAMERA == rsquestCode || Album == rsquestCode) && data != null)
 		{
 			Uri uri = data.getData();
-			String dString = data.getData().getPath();
 			
-			System.out.println(dString);
+			if (Build.VERSION.SDK_INT < 19)
+			{
+				
+			}
+			else 
+			{
+				
+			}
 			
 			if (uri != null)
 			{
@@ -539,8 +554,6 @@ public class EventDelivery extends CloudActivity
 
 				Cursor cursor = cr.query(uri, null, null, null, null);
 				cursor.moveToFirst();
-				
-				image_path = cursor.getString(1);
 				
 				try
 				{
@@ -565,7 +578,6 @@ public class EventDelivery extends CloudActivity
 				}
 			}
 
-			// super.onActivityResult(rsquestCode, resultCode, data);
 		}
 
 	}

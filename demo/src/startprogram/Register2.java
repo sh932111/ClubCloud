@@ -346,6 +346,8 @@ public class Register2 extends Activity
 		
 		setfolder.saveImage(resImage, app_path);
 
+		image_path = app_path;
+		
 		UploadImage uploadImage = new UploadImage(getString(R.string.IP)+getString(R.string.uploadUserImage),
 				image_path, str2);
 

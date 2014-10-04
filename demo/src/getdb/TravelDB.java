@@ -34,7 +34,6 @@ public class TravelDB
 	public TravelDB(Context context)
 	{
 		this.mContext = context;
-
 	}
 
 	public TravelDB open() throws SQLException

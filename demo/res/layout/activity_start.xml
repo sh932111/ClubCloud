@@ -14,18 +14,32 @@
         android:id="@+id/textView1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp" 
-        android:text="@string/start_page_title" />
+        android:text="@string/start_page_title"
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/register" />
-     <Button
+
+    <Button
         android:id="@+id/button2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/login" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="您已經登入，請直接進入！"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="直接進入" />
 
 </LinearLayout>

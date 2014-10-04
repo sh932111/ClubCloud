@@ -3,11 +3,9 @@ package com.candroidsample;
 import java.io.IOException;
 
 import pagefunction.PageUtil;
-
 import getdb.DBManager;
 import getdb.UserDB;
 import getfunction.*;
-
 import startprogram.LoginPage;
 import startprogram.Register1;
 
@@ -16,10 +14,8 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 //import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,12 +27,16 @@ import android.graphics.BitmapFactory;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class StartActivity extends Activity
 {
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
-
+	Button bt1 ;
+	Button bt2 ;
+	Button bt3 ;
+	TextView text;
 	GoogleCloudMessaging gcm;
 	private Context context;
 	private String strRegId;
@@ -50,6 +50,8 @@ public class StartActivity extends Activity
 		setContentView(R.layout.activity_start);
 		
 		buildFolder();
+
+		setUI();
 		
 		DBManager dbHelper = new DBManager(StartActivity.this);
 
@@ -72,12 +74,15 @@ public class StartActivity extends Activity
 
 		if (count != 0)
 		{
-			PageUtil mSysUtil = new PageUtil(StartActivity.this);
-
-			mSysUtil.exit(0);
+			bt1.setVisibility(View.INVISIBLE);
+			bt2.setVisibility(View.INVISIBLE);
+		//註冊過	
 		}
-
-		setUI();
+		else
+		{
+			text.setVisibility(View.INVISIBLE);
+			bt3.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	public void buildFolder()
@@ -99,7 +104,9 @@ public class StartActivity extends Activity
 	
 	public void setUI()
 	{
-		Button bt1 = (Button) findViewById(R.id.button1);
+		text = (TextView)findViewById(R.id.textView2);
+		
+		bt1 = (Button) findViewById(R.id.button1);
 		bt1.setOnClickListener(new Button.OnClickListener()
 		{
 			@Override
@@ -113,7 +120,7 @@ public class StartActivity extends Activity
 			}
 
 		});
-		Button bt2 = (Button) findViewById(R.id.button2);
+		bt2 = (Button) findViewById(R.id.button2);
 		bt2.setOnClickListener(new Button.OnClickListener()
 		{
 			@Override
@@ -123,6 +130,19 @@ public class StartActivity extends Activity
 				Intent intent = new Intent();
 				intent.setClass(StartActivity.this, LoginPage.class);
 				startActivity(intent);
+			}
+
+		});
+		bt3 = (Button) findViewById(R.id.button3);
+		bt3.setOnClickListener(new Button.OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				// TODO Auto-generated method stub
+				PageUtil mSysUtil = new PageUtil(StartActivity.this);
+
+				mSysUtil.exit(0);
 			}
 
 		});

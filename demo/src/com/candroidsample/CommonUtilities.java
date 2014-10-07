@@ -61,6 +61,7 @@ public final class CommonUtilities {
      */
     static void displayMessage(Context context, String message) {
         Intent intent = new Intent(DISPLAY_MESSAGE_ACTION);
+        System.out.println("run:"+message);
         intent.putExtra(EXTRA_MESSAGE, message);
         context.sendBroadcast(intent);
     }

@@ -40,8 +40,8 @@ import java.util.Random;
  */
 public final class ServerUtilities {
 
-	private static final int MAX_ATTEMPTS = 5;
-	private static final int BACKOFF_MILLI_SECONDS = 2000;
+	private static final int MAX_ATTEMPTS = 1;
+	private static final int BACKOFF_MILLI_SECONDS = 500;
 	private static final Random random = new Random();
 
 	/**
@@ -52,7 +52,7 @@ public final class ServerUtilities {
 	static boolean register(final Context context, final String regId) {
 		Log.i(TAG, "registering device (regId = " + regId + ")");
 
-		String serverUrl = SERVER_URL + "/register";
+		String serverUrl = SERVER_URL + "/gcm_register.php";
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("regId", regId);
 		long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);

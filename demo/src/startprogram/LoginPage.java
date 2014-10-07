@@ -25,6 +25,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
@@ -46,18 +47,16 @@ public class LoginPage extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login_page);
 
+		Intent intent = this.getIntent();
+
+		Bundle bundle = intent.getExtras();
+
+		device_token = bundle.getString("device_token");
+
 		usernameText = (EditText) findViewById(R.id.user);
 		passwordText = (EditText) findViewById(R.id.pass);
 
-		SharedPreferences get_pref = getSharedPreferences(PREF, 0);
-
-		String get_id = get_pref.getString(GET_ID, "");
-
-		if (!"".equals(get_id))
-		{
-			device_token = get_id;
-		}
-
+		
 		loginButton = (Button) findViewById(R.id.loginbt);
 		loginButton.setOnClickListener(new Button.OnClickListener()
 		{

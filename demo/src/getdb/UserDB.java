@@ -90,35 +90,37 @@ public class UserDB
 	public ArrayList<String> getAllDate()
 	{
 		ArrayList<String> array_list = new ArrayList<String>();
-		
-		Cursor mCursor = db.query(DATABASE_TABLE, // Which table to Select
-				// strCols,// Which columns to return
-				new String[]
-				{ KEY_USERNAME ,KEY_PASSWORD,KEY_NAME,KEY_OS,KEY_USERID,KEY_DEVICETOKEN,KEY_USER_CITY,KEY_USER_CITY_DETAIL,KEY_CITY_ID,KEY_CITY_DETAIL_ID }, null, // WHERE clause
-				null, // WHERE arguments
-				null, // GROUP BY clause
-				null, // HAVING clause
-				KEY_USERID + " DESC" // Order-by clause
-		);
-		
+
+		Cursor mCursor = db
+				.query(DATABASE_TABLE, // Which table to Select
+						// strCols,// Which columns to return
+						new String[] { KEY_USERNAME, KEY_PASSWORD, KEY_NAME,
+								KEY_OS, KEY_USERID, KEY_DEVICETOKEN,
+								KEY_USER_CITY, KEY_USER_CITY_DETAIL,
+								KEY_CITY_ID, KEY_CITY_DETAIL_ID }, null, // WHERE
+																			// clause
+						null, // WHERE arguments
+						null, // GROUP BY clause
+						null, // HAVING clause
+						KEY_USERID + " DESC" // Order-by clause
+				);
+
 		if (mCursor.getCount() != 0)
 		{
 			mCursor.moveToFirst();
-		
+
 			for (int i = 0; i < mCursor.getColumnCount(); i++)
 			{
 				String colum = mCursor.getString(i);
-				
+
 				array_list.add(colum);
 			}
-			
+
 			return array_list;
 		}
-		
-		return null; 
+
+		return null;
 	}
-
-
 
 	public long create(String username, String password, String name,
 			String user_id, String device_token, String device_os,
@@ -140,7 +142,6 @@ public class UserDB
 		args.put(KEY_USER_CITY_DETAIL, user_city_detail);
 		args.put(KEY_CITY_ID, city_id);
 		args.put(KEY_CITY_DETAIL_ID, user_city_detail_id);
-
 
 		return db.insert(DATABASE_TABLE, null, args);
 	}

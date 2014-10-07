@@ -383,6 +383,8 @@ public class EventDelivery extends CloudActivity
 			parems.add(new BasicNameValuePair("id", String.valueOf(id)));
 			parems.add(new BasicNameValuePair("username", array_list.get(0)));
 			parems.add(new BasicNameValuePair("name", array_list.get(2)));
+			parems.add(new BasicNameValuePair("city_id", array_list.get(8)));
+			parems.add(new BasicNameValuePair("area_id", array_list.get(9)));
 			parems.add(new BasicNameValuePair("title", post_title));
 			parems.add(new BasicNameValuePair("detail", post_list));
 			parems.add(new BasicNameValuePair("date", post_date));

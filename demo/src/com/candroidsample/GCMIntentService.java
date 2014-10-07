@@ -168,7 +168,7 @@ public class GCMIntentService extends GCMBaseIntentService
 
 		// String title = context.getString(R.string.app_name);
 
-		Intent notificationIntent = new Intent(context, HomePage.class);
+		Intent notificationIntent = new Intent(context, StartActivity.class);
 
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 				| Intent.FLAG_ACTIVITY_SINGLE_TOP);

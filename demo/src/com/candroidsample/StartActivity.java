@@ -128,6 +128,9 @@ public class StartActivity extends Activity
 			{
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
+				Bundle bundle = new Bundle();
+				bundle.putString("device_token", strRegId);
+				intent.putExtras(bundle);
 				intent.setClass(StartActivity.this, LoginPage.class);
 				startActivity(intent);
 			}

@@ -2,18 +2,30 @@ package homedetail;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pagefunction.PageUtil;
+import startprogram.LoginPage;
 import uifunction.ShowToolbar;
+import getdb.EventDB;
 import getdb.UserDB;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
+import httpfunction.DownloadImageRunnable;
+import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
 
 import com.candroidsample.R;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -33,7 +45,6 @@ import android.widget.TextView;
 public class PersonalInformation extends CloudActivity
 {
 	private DisplayMetrics mPhone;
-	private ListView listView;
 	private ImageView userImage;
 	private final static int CAMERA = 66;
 	private final static int Album = 67;
@@ -53,7 +64,7 @@ public class PersonalInformation extends CloudActivity
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				getResources().getDisplayMetrics().widthPixels / 3,
-				getResources().getDisplayMetrics().heightPixels / 3);
+				getResources().getDisplayMetrics().heightPixels / 4);
 
 		userImage.setLayoutParams(layoutParams);
 
@@ -87,8 +98,8 @@ public class PersonalInformation extends CloudActivity
 
 		});
 		 
-		setList();
-		
+		getData();
+
 		ShowToolbar showToolbar = new ShowToolbar();
 		showToolbar.showToolbar(
 				(LinearLayout) findViewById(R.id.LinearLayout1),
@@ -116,14 +127,6 @@ public class PersonalInformation extends CloudActivity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.personal_information, menu);
 		return true;
-	}
-
-	public void setList()
-	{
-		listView = (ListView) findViewById(R.id.listView);
-
-		getData();
-
 	}
 
 	public void getData()
@@ -217,21 +220,130 @@ public class PersonalInformation extends CloudActivity
 				});
 		dialog.show();
 	}
+	
+	public void post(String table_id,String username)
+	{
+		List<NameValuePair> parems = new ArrayList<NameValuePair>();
+
+		parems.add(new BasicNameValuePair("id", table_id));
+		parems.add(new BasicNameValuePair("username", username));
+		SendPostRunnable post = new SendPostRunnable(
+				getString(R.string.IP) + getString(R.string.pushRollCall),
+				parems, new SendPostRunnable.Callback()
+				{
+					@Override
+					public void service_result(Message msg)
+					{
+						// TODO Auto-generated method stub
+						Bundle countBundle = msg.getData();
+
+						@SuppressWarnings("unchecked")
+						HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle
+								.getSerializable("resultData");
+
+						final JSONObject result = (JSONObject) resultData
+								.get("Data");
+
+						String messageString = null;
+
+						try
+						{
+							messageString = result.getString("Message");
+						}
+						catch (JSONException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						//
+						AlertDialog.Builder dialog = new AlertDialog.Builder(
+								PersonalInformation.this);
+						dialog.setTitle(getString(R.string.dialog_title1));
+						dialog.setIcon(android.R.drawable.ic_dialog_alert);
+						String mesString = messageString;
+						dialog.setMessage(mesString);
+						dialog.setCancelable(false);
+						dialog.setPositiveButton(
+								getString(R.string.dialog_check),
+								new DialogInterface.OnClickListener()
+								{
+									public void onClick(
+											DialogInterface dialog,
+											int which)
+									{
+										String data_id = null;
+										String title = null;
+										String detail = null;
+										String date = null;
+										String time = null;
+										String image = null;
+										boolean resString = false;
+
+										try
+										{
+											resString = result
+													.getBoolean("result");
+											data_id = result
+													.getString("data_id");
+											title = result
+													.getString("title");
+											detail = result
+													.getString("detail");
+											date = result
+													.getString("date");
+											time = result
+													.getString("time");
+											image = result
+													.getString("image");
+											
+										}
+										catch (JSONException e)
+										{
+											// TODO Auto-generated catch
+											// block
+											e.printStackTrace();
+										}
+
+										if (resString)
+										{
+											EventDB mDbHelper = new EventDB(
+													PersonalInformation.this);
+
+											mDbHelper.open();
+
+											mDbHelper.create(Long.parseLong(data_id),title, detail, date ,time ,image,"event");
+											
+											mDbHelper.close();
+										}
+									}
+								});
+						dialog.show();
+					}
+				});
+
+		Thread t = new Thread(post);
+
+		t.start();
+
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 
-//		if (requestCode == 1)
-//		{ // startActivityForResult回傳值
-//			if (resultCode == RESULT_OK)
-//			{
-//				String contents = data.getStringExtra("SCAN_RESULT"); // 取得QR
-//																		// Code內容
-//				System.out.println(contents);
-//			}
-//		}
+		String user = getUserName();
+		
+		if (requestCode == 1)
+		{ // startActivityForResult回傳值
+			if (resultCode == RESULT_OK)
+			{
+				String contents = data.getStringExtra("SCAN_RESULT"); // 取得QR
+				
+				post(contents,user);
+			}
+		}
 		if ((CAMERA == requestCode || Album == requestCode) && data != null)
 		{
 			Uri uri = data.getData();
@@ -257,8 +369,6 @@ public class PersonalInformation extends CloudActivity
 						resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
 
 					userImage.setImageBitmap(resImage);
-					
-					String user = getUserName();
 					
 					String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"userphoto"+"/" + user + ".png";
 					

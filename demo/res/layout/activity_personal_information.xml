@@ -68,18 +68,11 @@
         android:id="@+id/changeImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:text="更換圖片" />
     <Button
         android:id="@+id/openQR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:text="打開QRcode" />
-
-    <ListView
-        android:id="@+id/listView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="活動點名" />
 
 </LinearLayout>

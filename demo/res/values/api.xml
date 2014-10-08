@@ -4,6 +4,7 @@
     <string name="IP">http://120.119.77.36/</string>
     <string name="Register1">ClubCloud/userServer/Register/Register1.php</string>
     <string name="Register2">ClubCloud/userServer/Register/Register2.php</string>
+    <string name="pushRollCall">ClubCloud/userServer/UserCategory/pushRollCall.php</string>
     <string name="Login">ClubCloud/userServer/Login/Login.php</string>
     <string name="uploadUserImage">ClubCloud/userServer/Register/User_upload.php</string>
     <string name="downloadUserImage">ClubCloud/userServer/Register/userphoto/</string>

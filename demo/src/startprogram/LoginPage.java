@@ -166,7 +166,6 @@ public class LoginPage extends Activity
 													DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(username, LoginPage.this,"userphoto",getResources().getString(R.string.downloadUserImage));
 													dImageRunnable.downLoadImage();
 													
-
 													UserDB mDbHelper = new UserDB(
 															LoginPage.this);
 

@@ -17,9 +17,8 @@ package com.candroidsample;
 
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 import static com.candroidsample.CommonUtilities.displayMessage;
-
+import getdb.EventDB;
 import getdb.PushDB;
-
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -27,6 +26,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
@@ -89,8 +89,6 @@ public class GCMIntentService extends GCMBaseIntentService
 
 		String _id = bundle.getString("data_id");
 		
-		System.out.println(_id);
-		
 		String title = bundle.getString("title");
 
 		String detail = bundle.getString("detail"); // getString(R.string.gcm_message);
@@ -101,14 +99,29 @@ public class GCMIntentService extends GCMBaseIntentService
 
 		String image = bundle.getString("image");
 		
-		     
-		PushDB mDbHelper = new PushDB(this);
+		String type = bundle.getString("type");
 		
-		mDbHelper.open();
+		if (type.equals("1"))
+		{
+			PushDB mDbHelper = new PushDB(this);
+			
+			mDbHelper.open();
 
-		mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail , "1",image);
+			mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail , "1",image);
+			
+			mDbHelper.close();
+		}
+		else if (type.equals("2")) 
+		{
+			EventDB mDbHelper = new EventDB(this);
+			
+			mDbHelper.open();
+
+			mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail ,image,"emergency");
+			
+			mDbHelper.close();
+		}
 		
-		mDbHelper.close();
 		
 		displayMessage(context, detail);
 		// notifies user
@@ -158,8 +171,6 @@ public class GCMIntentService extends GCMBaseIntentService
 		int icon = R.drawable.ic_launcher;
 
 		long when = System.currentTimeMillis();
-
-		System.out.println("nav:"+message+"long:"+when);
 
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);

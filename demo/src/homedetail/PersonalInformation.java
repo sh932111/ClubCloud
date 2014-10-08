@@ -306,6 +306,24 @@ public class PersonalInformation extends CloudActivity
 
 										if (resString)
 										{
+											if (image.equals("1"))
+											{
+												
+												DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
+														data_id, PersonalInformation.this, "pushphoto", getResources()
+																.getString(R.string.downloadRequestImage),
+														new DownloadImageRunnable.Callback()
+														{
+															@Override
+															public void service_result()
+															{
+																// TODO Auto-generated method stub
+																
+															}
+														});
+												dImageRunnable.downLoadImage();
+											}
+											
 											EventDB mDbHelper = new EventDB(
 													PersonalInformation.this);
 

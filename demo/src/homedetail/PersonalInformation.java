@@ -49,7 +49,7 @@ public class PersonalInformation extends CloudActivity
 
 		getWindowManager().getDefaultDisplay().getMetrics(mPhone);
 
-		userImage = (ImageView) findViewById(R.id.user_image);
+		userImage = (ImageView) findViewById(R.id.userImage);
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				getResources().getDisplayMetrics().widthPixels / 3,
@@ -223,15 +223,15 @@ public class PersonalInformation extends CloudActivity
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == 1)
-		{ // startActivityForResult回傳值
-			if (resultCode == RESULT_OK)
-			{
-				String contents = data.getStringExtra("SCAN_RESULT"); // 取得QR
-																		// Code內容
-				System.out.println(contents);
-			}
-		}
+//		if (requestCode == 1)
+//		{ // startActivityForResult回傳值
+//			if (resultCode == RESULT_OK)
+//			{
+//				String contents = data.getStringExtra("SCAN_RESULT"); // 取得QR
+//																		// Code內容
+//				System.out.println(contents);
+//			}
+//		}
 		if ((CAMERA == requestCode || Album == requestCode) && data != null)
 		{
 			Uri uri = data.getData();

@@ -268,7 +268,7 @@ containing a value of this type.
         public static final int add=0x7f050004;
         public static final int addbutton=0x7f05002b;
         public static final int address=0x7f050008;
-        public static final int area=0x7f050019;
+        public static final int area=0x7f050017;
         public static final int bt1=0x7f05000a;
         public static final int bt2=0x7f05000b;
         public static final int bt3=0x7f05000c;
@@ -287,10 +287,10 @@ containing a value of this type.
         public static final int calendar_tv=0x7f050052;
         public static final int cameraBt=0x7f050025;
         public static final int cancel=0x7f050028;
-        public static final int changeImg=0x7f050015;
+        public static final int changeImg=0x7f050018;
         public static final int check=0x7f050029;
         public static final int choosetime=0x7f050027;
-        public static final int city=0x7f050018;
+        public static final int city=0x7f050016;
         public static final int city_detail_spinnner=0x7f050007;
         public static final int city_spinnner=0x7f050006;
         public static final int com_facebook_body_frame=0x7f050047;
@@ -333,7 +333,7 @@ containing a value of this type.
         public static final int loginbt=0x7f050011;
         public static final int months_infinite_pager=0x7f050034;
         public static final int normal=0x7f050001;
-        public static final int openQR=0x7f050014;
+        public static final int openQR=0x7f050019;
         public static final int pass=0x7f050010;
         public static final int picker_subtitle=0x7f050044;
         public static final int scrollView1=0x7f05001e;
@@ -348,8 +348,8 @@ containing a value of this type.
         public static final int txt1=0x7f050022;
         public static final int txt2=0x7f050023;
         public static final int user=0x7f05000f;
-        public static final int user_image=0x7f050016;
-        public static final int username=0x7f050017;
+        public static final int userImage=0x7f050014;
+        public static final int username=0x7f050015;
         public static final int weekday_gridview=0x7f050033;
         public static final int welcome=0x7f050009;
     }

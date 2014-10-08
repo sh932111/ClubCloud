@@ -51,7 +51,6 @@ public class AddTravelDetail extends Activity
 	private final static int CAMERA = 66;
 	private final static int Album = 67;
 
-	String image_path;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -239,8 +238,6 @@ public class AddTravelDetail extends Activity
 				Cursor cursor = cr.query(uri, null, null, null, null);
 				cursor.moveToFirst();
 
-				image_path = cursor.getString(1);
-				
 				try
 				{
 					Bitmap bitmap = BitmapFactory.decodeStream(cr
@@ -261,10 +258,7 @@ public class AddTravelDetail extends Activity
 
 				}
 			}
-			
-			// super.onActivityResult(rsquestCode, resultCode, data);
 		}
-
 	}
 
 	private TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener()

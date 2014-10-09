@@ -137,6 +137,51 @@ public class EventDB
 		return null;
 	}
 
+	public ArrayList<Bundle> getType(String tStringype) throws SQLException
+	{
+		Cursor mCursor = db.query(DATABASE_TABLE, new String[]
+		{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
+				KEY_IMAGE ,KEY_TYPE}, KEY_TYPE + " = ?", new String[]
+		{ "" + tStringype + "" }, null, null, null, null);
+
+		if ( mCursor.getCount() != 0)
+		{
+			mCursor.moveToFirst();
+			
+			ArrayList<Bundle> array_list = new ArrayList<Bundle>();
+			
+			for (int i = 0; i < mCursor.getCount(); i++)
+			{
+				Long SelectID = mCursor.getLong(0);
+				String title = mCursor.getString(1);
+				String message = mCursor.getString(2);
+				String dateString = mCursor.getString(3);
+				String timeString = mCursor.getString(4);
+				String image = mCursor.getString(5);
+				String type = mCursor.getString(6);
+				
+				Bundle bundle = new Bundle();
+
+				bundle.putLong("ID", SelectID);
+				bundle.putString("Title", title);
+				bundle.putString("Message", message);
+				bundle.putString("Date", dateString);
+				bundle.putString("Time", timeString);
+				bundle.putString("Image", image);
+				bundle.putString("Type", type);
+				
+				array_list.add(bundle);
+				
+				mCursor.moveToNext();
+			}
+			
+			mCursor.close();
+			
+			return array_list;
+		}
+		
+		return null;
+	}
 	// query single entry
 	public Bundle get(Long rowId) throws SQLException
 	{

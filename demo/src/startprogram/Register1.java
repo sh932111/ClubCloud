@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.candroidsample.R;
+import com.candroidsample.StartActivity;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -53,12 +54,18 @@ public class Register1 extends Activity
 
 	private EditText idNumberEdit;
 
+	String device_token;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register1);
+		Intent intent = this.getIntent();
+
+		Bundle bundle = intent.getExtras();
+
+		device_token = bundle.getString("device_token");
 
 		findView();
 	}
@@ -326,6 +333,7 @@ public class Register1 extends Activity
 		bundle.putString("city_detail", DETAILCITY);
 		bundle.putString("city_id", CITY_id);
 		bundle.putString("city_detail_id", DETAILCITY_id);
+		bundle.putString("device_token", device_token);
 
 		intent.putExtras(bundle);
 
@@ -334,3 +342,4 @@ public class Register1 extends Activity
 	}
 
 }
+

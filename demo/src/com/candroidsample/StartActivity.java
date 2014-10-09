@@ -1,13 +1,16 @@
 package com.candroidsample;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import pagefunction.PageUtil;
 import getdb.DBManager;
+import getdb.EventDB;
 import getdb.UserDB;
 import getfunction.*;
 import startprogram.LoginPage;
 import startprogram.Register1;
+import uifunction.ShowEventDailog;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -16,6 +19,7 @@ import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,6 +47,7 @@ public class StartActivity extends Activity
 
 	//public DBManager dbHelper;
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -83,6 +88,7 @@ public class StartActivity extends Activity
 			text.setVisibility(View.INVISIBLE);
 			bt3.setVisibility(View.INVISIBLE);
 		}
+		
 	}
 
 	public void buildFolder()
@@ -114,6 +120,9 @@ public class StartActivity extends Activity
 			{
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
+				Bundle bundle = new Bundle();
+				bundle.putString("device_token", strRegId);
+				intent.putExtras(bundle);
 				intent.setClass(StartActivity.this, Register1.class);
 				startActivity(intent);
 

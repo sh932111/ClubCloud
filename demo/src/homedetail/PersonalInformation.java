@@ -4,14 +4,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import pagefunction.PageUtil;
 import startprogram.LoginPage;
+import uifunction.ShowEventDailog;
 import uifunction.ShowToolbar;
 import getdb.EventDB;
 import getdb.UserDB;
@@ -20,12 +19,12 @@ import getfunction.ImageFunction;
 import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
-
 import com.candroidsample.R;
-
+import com.candroidsample.StartActivity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -50,6 +49,7 @@ public class PersonalInformation extends CloudActivity
 	private final static int Album = 67;
 	Bitmap resImage = null;
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -68,6 +68,7 @@ public class PersonalInformation extends CloudActivity
 
 		userImage.setLayoutParams(layoutParams);
 
+		
 		Button button01 = (Button) findViewById(R.id.openQR);
 
 		button01.setOnClickListener(new Button.OnClickListener()
@@ -98,6 +99,20 @@ public class PersonalInformation extends CloudActivity
 
 		});
 		 
+		Button button03 = (Button) findViewById(R.id.openlog);
+
+		button03.setOnClickListener(new Button.OnClickListener()
+		{
+
+			@Override
+			public void onClick(View arg0)
+			{
+				// TODO Auto-generated method stub
+				ShowEventDailog dailog = new ShowEventDailog();
+				dailog.show(getFragmentManager(), "test");
+			}
+
+		});
 		getData();
 
 		ShowToolbar showToolbar = new ShowToolbar();

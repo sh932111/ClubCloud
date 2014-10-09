@@ -87,16 +87,11 @@ public class Register2 extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register2);
 
-		SharedPreferences get_pref = getSharedPreferences(PREF, 0);
+		Intent intent = this.getIntent();
 
-		String get_id = get_pref.getString(GET_ID, "");
+		Bundle bundle = intent.getExtras();
 
-		if (!"".equals(get_id))
-		{
-			device_token = get_id;
-		}
-
-		Bundle bundle = getIntent().getExtras();
+		device_token = bundle.getString("device_token");
 
 		user_id = bundle.getString("user_id");
 		cityString = bundle.getString("city");

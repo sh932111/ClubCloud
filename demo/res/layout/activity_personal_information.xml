@@ -74,5 +74,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="活動點名" />
+    <Button
+        android:id="@+id/openlog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="曾參與活動" />
 
 </LinearLayout>

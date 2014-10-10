@@ -264,7 +264,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout1=0x7f050003;
-        public static final int action_settings=0x7f05005d;
+        public static final int action_settings=0x7f05005e;
         public static final int add=0x7f050004;
         public static final int addbutton=0x7f05002b;
         public static final int address=0x7f050008;
@@ -329,13 +329,14 @@ containing a value of this type.
         public static final int large=0x7f050002;
         public static final int linearLayout2=0x7f05005a;
         public static final int listView=0x7f05002c;
-        public static final int listView1=0x7f05005c;
+        public static final int listView1=0x7f05005d;
         public static final int list_detail=0x7f050057;
         public static final int list_image=0x7f050058;
         public static final int list_time=0x7f050056;
         public static final int list_title=0x7f050055;
         public static final int loginbt=0x7f050011;
         public static final int months_infinite_pager=0x7f050035;
+        public static final int nodata=0x7f05005c;
         public static final int normal=0x7f050001;
         public static final int openQR=0x7f050019;
         public static final int openlog=0x7f05001a;

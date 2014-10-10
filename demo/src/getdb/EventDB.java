@@ -1,6 +1,10 @@
 package getdb;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -137,7 +141,7 @@ public class EventDB
 		return null;
 	}
 
-	public ArrayList<Bundle> getType(String tStringype) throws SQLException
+	public ArrayList<Bundle> getType(String tStringype,String getYeay,String getMonth) throws SQLException
 	{
 		Cursor mCursor = db.query(DATABASE_TABLE, new String[]
 		{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
@@ -160,17 +164,38 @@ public class EventDB
 				String image = mCursor.getString(5);
 				String type = mCursor.getString(6);
 				
-				Bundle bundle = new Bundle();
-
-				bundle.putLong("ID", SelectID);
-				bundle.putString("Title", title);
-				bundle.putString("Message", message);
-				bundle.putString("Date", dateString);
-				bundle.putString("Time", timeString);
-				bundle.putString("Image", image);
-				bundle.putString("Type", type);
+				SimpleDateFormat df2 = new SimpleDateFormat("yyyy/MM/dd");
 				
-				array_list.add(bundle);
+				Calendar cc = Calendar.getInstance();
+				try 
+				{
+				    cc.setTime(df2.parse(dateString));
+				} 
+				catch (ParseException e) 
+				{
+				    // TODO Auto-generated catch block
+				    e.printStackTrace();
+				}
+				
+				SimpleDateFormat df = new SimpleDateFormat("yyyy");
+				String year_time = df.format(cc.getTime()); 
+				SimpleDateFormat MMdf = new SimpleDateFormat("MM");
+				String month_time = MMdf.format(cc.getTime()); 
+				
+				if (year_time.equals(getYeay) && month_time.equals(getMonth) )
+				{
+					Bundle bundle = new Bundle();
+
+					bundle.putLong("ID", SelectID);
+					bundle.putString("Title", title);
+					bundle.putString("Message", message);
+					bundle.putString("Date", dateString);
+					bundle.putString("Time", timeString);
+					bundle.putString("Image", image);
+					bundle.putString("Type", type);
+					
+					array_list.add(bundle);
+				}
 				
 				mCursor.moveToNext();
 			}

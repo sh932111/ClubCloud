@@ -619,6 +619,7 @@ public class EventDelivery extends CloudActivity
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
 				int dayOfMonth)
 		{
+
 			// TODO Auto-generated method stub
 			m_Calendar.set(Calendar.YEAR, year);
 			m_Calendar.set(Calendar.MONTH, monthOfYear);

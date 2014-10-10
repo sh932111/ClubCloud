@@ -2,12 +2,15 @@ package homedetail;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import pagefunction.PageUtil;
 import startprogram.LoginPage;
 import uifunction.ShowEventDailog;
@@ -19,13 +22,17 @@ import getfunction.ImageFunction;
 import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
+
 import com.candroidsample.R;
 import com.candroidsample.StartActivity;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,7 +42,9 @@ import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -48,6 +57,11 @@ public class PersonalInformation extends CloudActivity
 	private final static int CAMERA = 66;
 	private final static int Album = 67;
 	Bitmap resImage = null;
+	private Calendar m_Calendar = Calendar.getInstance();
+
+	boolean check;
+
+	private int myYear, myMonth, myDay;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -55,7 +69,7 @@ public class PersonalInformation extends CloudActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_information);
-
+		check = true;
 		mPhone = new DisplayMetrics();
 
 		getWindowManager().getDefaultDisplay().getMetrics(mPhone);
@@ -68,7 +82,6 @@ public class PersonalInformation extends CloudActivity
 
 		userImage.setLayoutParams(layoutParams);
 
-		
 		Button button01 = (Button) findViewById(R.id.openQR);
 
 		button01.setOnClickListener(new Button.OnClickListener()
@@ -98,7 +111,7 @@ public class PersonalInformation extends CloudActivity
 			}
 
 		});
-		 
+
 		Button button03 = (Button) findViewById(R.id.openlog);
 
 		button03.setOnClickListener(new Button.OnClickListener()
@@ -108,8 +121,20 @@ public class PersonalInformation extends CloudActivity
 			public void onClick(View arg0)
 			{
 				// TODO Auto-generated method stub
-				ShowEventDailog dailog = new ShowEventDailog();
-				dailog.show(getFragmentManager(), "test");
+				DatePickerDialog dialog = new DatePickerDialog(
+						PersonalInformation.this, myDateSetListener, m_Calendar
+								.get(Calendar.YEAR), m_Calendar
+								.get(Calendar.MONTH), m_Calendar
+								.get(Calendar.DAY_OF_MONTH));
+				dialog.show();
+				DatePicker dp = findDatePicker((ViewGroup) dialog.getWindow()
+						.getDecorView());
+				if (dp != null)
+				{
+					((ViewGroup) ((ViewGroup) dp.getChildAt(0)).getChildAt(0))
+							.getChildAt(2).setVisibility(View.GONE);
+				}
+
 			}
 
 		});
@@ -150,24 +175,24 @@ public class PersonalInformation extends CloudActivity
 
 		userDB.open();
 
-		 ArrayList<String> array_list = userDB.getAllDate();
-		 
-		 if (array_list != null)
+		ArrayList<String> array_list = userDB.getAllDate();
+
+		if (array_list != null)
 		{
-			 setImage(array_list.get(0));
-			 TextView usernameTextView  = (TextView)findViewById(R.id.username);
-			 usernameTextView.setText("帳號："+array_list.get(0));
-			 TextView userTextView  = (TextView)findViewById(R.id.user);
-			 userTextView.setText("名字："+array_list.get(2));
-			 TextView cityTextView  = (TextView)findViewById(R.id.city);
-			 cityTextView.setText("縣市："+array_list.get(6));
-			 TextView areaTextView  = (TextView)findViewById(R.id.area);
-			 areaTextView.setText("區域："+array_list.get(7));
+			setImage(array_list.get(0));
+			TextView usernameTextView = (TextView) findViewById(R.id.username);
+			usernameTextView.setText("帳號：" + array_list.get(0));
+			TextView userTextView = (TextView) findViewById(R.id.user);
+			userTextView.setText("名字：" + array_list.get(2));
+			TextView cityTextView = (TextView) findViewById(R.id.city);
+			cityTextView.setText("縣市：" + array_list.get(6));
+			TextView areaTextView = (TextView) findViewById(R.id.area);
+			areaTextView.setText("區域：" + array_list.get(7));
 		}
-		 
-		 userDB.close();
+
+		userDB.close();
 	}
-	
+
 	public String getUserName()
 	{
 		UserDB userDB = new UserDB(PersonalInformation.this);
@@ -175,9 +200,9 @@ public class PersonalInformation extends CloudActivity
 		userDB.open();
 
 		ArrayList<String> array_list = userDB.getAllDate();
-	
+
 		userDB.close();
-	
+
 		return array_list.get(0);
 	}
 
@@ -185,10 +210,12 @@ public class PersonalInformation extends CloudActivity
 	{
 		ImageFunction get_image = new ImageFunction();
 
-		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/"+"userphoto"+"/" + index + ".png";
-		
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath()
+				+ "/" + "userphoto" + "/" + index + ".png";
+
 		userImage.setImageBitmap(get_image.getBitmapFromSDCard(app_path));
 	}
+
 	public void showDialog()
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(
@@ -201,8 +228,7 @@ public class PersonalInformation extends CloudActivity
 		dialog.setPositiveButton(getString(R.string.dialog_cancel),
 				new DialogInterface.OnClickListener()
 				{
-					public void onClick(DialogInterface dialog,
-							int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
 
 					}
@@ -210,12 +236,11 @@ public class PersonalInformation extends CloudActivity
 		dialog.setNegativeButton(getString(R.string.dialog_album),
 				new DialogInterface.OnClickListener()
 				{
-					public void onClick(DialogInterface dialog,
-							int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
 						// TODO Auto-generated method stub
-						Intent intent = new Intent(
-								Intent.ACTION_GET_CONTENT, null);
+						Intent intent = new Intent(Intent.ACTION_GET_CONTENT,
+								null);
 						intent.setType("image/*");
 						startActivityForResult(intent, Album);
 					}
@@ -223,8 +248,7 @@ public class PersonalInformation extends CloudActivity
 		dialog.setNeutralButton(getString(R.string.dialog_camera),
 				new DialogInterface.OnClickListener()
 				{
-					public void onClick(DialogInterface dialog,
-							int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
 						// TODO Auto-generated method stub
 
@@ -235,16 +259,16 @@ public class PersonalInformation extends CloudActivity
 				});
 		dialog.show();
 	}
-	
-	public void post(String table_id,String username)
+
+	public void post(String table_id, String username)
 	{
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
 		parems.add(new BasicNameValuePair("id", table_id));
 		parems.add(new BasicNameValuePair("username", username));
-		SendPostRunnable post = new SendPostRunnable(
-				getString(R.string.IP) + getString(R.string.pushRollCall),
-				parems, new SendPostRunnable.Callback()
+		SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)
+				+ getString(R.string.pushRollCall), parems,
+				new SendPostRunnable.Callback()
 				{
 					@Override
 					public void service_result(Message msg)
@@ -282,8 +306,7 @@ public class PersonalInformation extends CloudActivity
 								getString(R.string.dialog_check),
 								new DialogInterface.OnClickListener()
 								{
-									public void onClick(
-											DialogInterface dialog,
+									public void onClick(DialogInterface dialog,
 											int which)
 									{
 										String data_id = null;
@@ -300,17 +323,12 @@ public class PersonalInformation extends CloudActivity
 													.getBoolean("result");
 											data_id = result
 													.getString("data_id");
-											title = result
-													.getString("title");
-											detail = result
-													.getString("detail");
-											date = result
-													.getString("date");
-											time = result
-													.getString("time");
-											image = result
-													.getString("image");
-											
+											title = result.getString("title");
+											detail = result.getString("detail");
+											date = result.getString("date");
+											time = result.getString("time");
+											image = result.getString("image");
+
 										}
 										catch (JSONException e)
 										{
@@ -323,29 +341,38 @@ public class PersonalInformation extends CloudActivity
 										{
 											if (image.equals("1"))
 											{
-												
+
 												DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
-														data_id, PersonalInformation.this, "pushphoto", getResources()
-																.getString(R.string.downloadRequestImage),
+														data_id,
+														PersonalInformation.this,
+														"pushphoto",
+														getResources()
+																.getString(
+																		R.string.downloadRequestImage),
 														new DownloadImageRunnable.Callback()
 														{
 															@Override
 															public void service_result()
 															{
-																// TODO Auto-generated method stub
-																
+																// TODO
+																// Auto-generated
+																// method stub
+
 															}
 														});
 												dImageRunnable.downLoadImage();
 											}
-											
+
 											EventDB mDbHelper = new EventDB(
 													PersonalInformation.this);
 
 											mDbHelper.open();
 
-											mDbHelper.create(Long.parseLong(data_id),title, detail, date ,time ,image,"event");
-											
+											mDbHelper.create(
+													Long.parseLong(data_id),
+													title, detail, date, time,
+													image, "event");
+
 											mDbHelper.close();
 										}
 									}
@@ -359,7 +386,37 @@ public class PersonalInformation extends CloudActivity
 		t.start();
 
 	}
-	
+
+	@SuppressLint("NewApi")
+	private DatePickerDialog.OnDateSetListener myDateSetListener = new DatePickerDialog.OnDateSetListener()
+	{
+
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear,
+				int dayOfMonth)
+		{
+			if (check)
+			{
+				check = false;
+				
+				ShowEventDailog dailog = new ShowEventDailog();
+				Bundle args = new Bundle();
+
+				args.putString("YEAR", String.valueOf(year));
+				args.putString("MONTH", String.valueOf(monthOfYear + 1));
+
+				dailog.setArguments(args);
+				dailog.show(getFragmentManager(), "dialog");
+				// call dialog
+			} else
+			{
+				check = true;
+			}
+			// TODO Auto-generated method stub
+
+		}
+	};
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -367,14 +424,14 @@ public class PersonalInformation extends CloudActivity
 		super.onActivityResult(requestCode, resultCode, data);
 
 		String user = getUserName();
-		
+
 		if (requestCode == 1)
 		{ // startActivityForResult回傳值
 			if (resultCode == RESULT_OK)
 			{
 				String contents = data.getStringExtra("SCAN_RESULT"); // 取得QR
-				
-				post(contents,user);
+
+				post(contents, user);
 			}
 		}
 		if ((CAMERA == requestCode || Album == requestCode) && data != null)
@@ -392,34 +449,43 @@ public class PersonalInformation extends CloudActivity
 				{
 					Bitmap bitmap = BitmapFactory.decodeStream(cr
 							.openInputStream(uri));
-					
+
 					ImageFunction getFunction = new ImageFunction();
 
 					if (bitmap.getWidth() > bitmap.getHeight())
-						resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
+						resImage = getFunction.ScalePic(bitmap,
+								mPhone.widthPixels);
 
 					else
-						resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
+						resImage = getFunction.ScalePic(bitmap,
+								mPhone.widthPixels);
 
 					userImage.setImageBitmap(resImage);
-					
-					String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"userphoto"+"/" + user + ".png";
-					
+
+					String app_path = getExternalFilesDir(null)
+							.getAbsolutePath()
+							+ "/"
+							+ "userphoto"
+							+ "/"
+							+ user
+							+ ".png";
+
 					FolderFunction setfolder = new FolderFunction();
 
-					boolean check = setfolder.saveImage(resImage,  app_path);
-					
+					boolean check = setfolder.saveImage(resImage, app_path);
+
 					if (check)
 					{
-						UploadImage uploadImage = new UploadImage(getString(R.string.IP)
-								+ getString(R.string.uploadUserImage), app_path,
-								String.valueOf(user));
+						UploadImage uploadImage = new UploadImage(
+								getString(R.string.IP)
+										+ getString(R.string.uploadUserImage),
+								app_path, String.valueOf(user));
 
 						Thread t2 = new Thread(uploadImage);
 
 						t2.start();
 					}
-					
+
 				}
 				catch (FileNotFoundException e)
 				{
@@ -427,5 +493,26 @@ public class PersonalInformation extends CloudActivity
 				}
 			}
 		}
+	}
+
+	private DatePicker findDatePicker(ViewGroup group)
+	{
+		if (group != null)
+		{
+			for (int i = 0, j = group.getChildCount(); i < j; i++)
+			{
+				View child = group.getChildAt(i);
+				if (child instanceof DatePicker)
+				{
+					return (DatePicker) child;
+				} else if (child instanceof ViewGroup)
+				{
+					DatePicker result = findDatePicker((ViewGroup) child);
+					if (result != null)
+						return result;
+				}
+			}
+		}
+		return null;
 	}
 }

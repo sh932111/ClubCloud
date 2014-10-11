@@ -1,6 +1,6 @@
 package pagefunction;
 
-import facebooktest.FbActivity;
+import homedetail.EmergencyReport;
 import homedetail.EventDelivery;
 import homedetail.PersonalInformation;
 import homedetail.ShowTravelList;
@@ -64,7 +64,7 @@ public class PageUtil
 		}
 		else if (i == 5)
 		{
-			mIntent.setClass(mContext, FbActivity.class);
+			mIntent.setClass(mContext, EmergencyReport.class);
 			mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			mIntent.putExtra("flag", EXIT_APPLICATION5);
 		}

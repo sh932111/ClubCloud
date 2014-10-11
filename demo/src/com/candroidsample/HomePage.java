@@ -3,8 +3,7 @@ package com.candroidsample;
 import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 //import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
-
-import facebooktest.FbActivity;
+import homedetail.EmergencyReport;
 import homedetail.EventDelivery;
 import homedetail.PersonalInformation;
 import homedetail.ShowTravelList;
@@ -12,12 +11,12 @@ import homedetail.ShowTravelList;
 import java.io.IOException;
 
 
+
 import com.candroidsample.CaldroidSampleActivity;
 import com.candroidsample.R;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -116,7 +115,7 @@ public class HomePage extends Activity
 			{
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setClass(HomePage.this, FbActivity.class);
+				intent.setClass(HomePage.this, EmergencyReport.class);
 				startActivity(intent);
 			}
 

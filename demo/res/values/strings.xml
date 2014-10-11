@@ -24,5 +24,6 @@
     <string name="title_activity_show_detail">訊息資料</string>
     <string name="title_activity_show_travel_detail2">ShowTravelDetail2</string>
     <string name="title_activity_add_travel_detail">AddTravelDetail</string>
+    <string name="title_activity_emergency_report">緊急訊息回覆</string>
 
 </resources>

@@ -11,5 +11,10 @@
         android:layout_height="wrap_content"
         android:text="@string/title_activity_emergency_report"
         android:textSize="20sp"  />
-
+	<ListView
+        android:id="@+id/emergency_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </ListView>
+    
 </LinearLayout>

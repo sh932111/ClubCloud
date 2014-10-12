@@ -148,11 +148,11 @@ public class EventDB
 				KEY_IMAGE ,KEY_TYPE}, KEY_TYPE + " = ?", new String[]
 		{ "" + tStringype + "" }, null, null, null, null);
 
+		ArrayList<Bundle> array_list = new ArrayList<Bundle>();
+		
 		if ( mCursor.getCount() != 0)
 		{
 			mCursor.moveToFirst();
-			
-			ArrayList<Bundle> array_list = new ArrayList<Bundle>();
 			
 			for (int i = 0; i < mCursor.getCount(); i++)
 			{
@@ -205,7 +205,7 @@ public class EventDB
 			return array_list;
 		}
 		
-		return null;
+		return array_list;
 	}
 	// query single entry
 	public Bundle get(Long rowId) throws SQLException

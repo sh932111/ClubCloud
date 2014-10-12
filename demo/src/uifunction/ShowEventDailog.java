@@ -51,13 +51,13 @@ public class ShowEventDailog extends DialogFragment
 		
 		ArrayList<Bundle> mArrayList= db.getType("event",year,month);
 		
-		EventAdpter adapter = new EventAdpter(getActivity(), mArrayList, app_path);
+		EventAdpter adapter = new EventAdpter(getActivity(), mArrayList, app_path ,1);
 		
 		db.close();
 		
 		if (mArrayList.size() != 0)
 		{
-			nodata.setVisibility(View.INVISIBLE);
+			nodata.setVisibility(View.GONE);
 		}
 		
 //		ArrayAdapter< String > adapter = new ArrayAdapter< String >(getActivity(),

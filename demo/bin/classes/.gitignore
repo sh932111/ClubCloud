@@ -1,8 +1,7 @@
 /com/
-/android/
-/homedetail/
-/pagefunction/
-/facebooktest/
+/.gitignore
 /getfunction/
-/startprogram/
 /uifunction/
+/homedetail/
+/getdb/
+/startprogram/

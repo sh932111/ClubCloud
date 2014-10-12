@@ -11,4 +11,5 @@
     <string name="Request">ClubCloud/userServer/Request/Request.php</string>
     <string name="Request_upload">ClubCloud/userServer/Request/Request_upload.php</string>
     <string name="downloadRequestImage">ClubCloud/userServer/Request/request_img/</string>
+    <string name="Response">ClubCloud/userServer/Response/update_data.php</string>
 </resources>

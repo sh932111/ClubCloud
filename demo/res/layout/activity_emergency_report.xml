@@ -11,6 +11,14 @@
         android:layout_height="wrap_content"
         android:text="@string/title_activity_emergency_report"
         android:textSize="20sp"  />
+    <TextView
+         android:id="@+id/noData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="目前無資料"
+        android:textSize="18sp" >
+    </TextView>
+    
 	<ListView
         android:id="@+id/emergency_list"
         android:layout_width="fill_parent"

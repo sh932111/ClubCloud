@@ -1,15 +1,19 @@
 package startprogram;
 
+import getdb.EventDB;
 import getdb.UserDB;
+import homedetail.PersonalInformation;
 import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -182,6 +186,8 @@ public class LoginPage extends Activity
 
 													mDbHelper.close();
 
+													pullData();
+													
 													PageUtil mSysUtil = new PageUtil(
 															LoginPage.this);
 
@@ -211,5 +217,98 @@ public class LoginPage extends Activity
 		return true;
 	}
 
+	public void pullData()
+	{
+		List<NameValuePair> parems = new ArrayList<NameValuePair>();
+
+		parems.add(new BasicNameValuePair("username", usernameText
+				.getText().toString()));
+		
+		SendPostRunnable post = new SendPostRunnable(
+				getString(R.string.IP) + getString(R.string.PullData),
+				parems, new SendPostRunnable.Callback()
+				{
+					@Override
+					public void service_result(Message msg)
+					{
+						// TODO Auto-generated method stub
+						Bundle countBundle = msg.getData();
+
+						@SuppressWarnings("unchecked")
+						HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle
+								.getSerializable("resultData");
+
+						final JSONObject result = (JSONObject) resultData
+								.get("Data");
+						
+						JSONArray list = null;
+						String messageString = null;
+						int num = 0;
+						
+						try
+						{
+							messageString = result.getString("Message");
+							list = result.getJSONArray("data");
+							num = result.getInt("num");
+						}
+						catch (JSONException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						for (int i = 0; i < num; i++)
+						{
+							try
+							{
+								JSONObject res = list.getJSONObject(i);
+								DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
+										res.getString("data_id"),
+										LoginPage.this,
+										"pushphoto",
+										getResources()
+												.getString(
+														R.string.downloadRequestImage),
+										new DownloadImageRunnable.Callback()
+										{
+											@Override
+											public void service_result()
+											{
+												// TODO
+												// Auto-generated
+												// method stub
+
+											}
+										});
+								dImageRunnable.downLoadImage();
+								
+								EventDB mDbHelper = new EventDB(
+										LoginPage.this);
+
+								mDbHelper.open();
+
+								mDbHelper.create(
+										Long.parseLong(res.getString("data_id")),
+										res.getString("title"), res.getString("detail"), res.getString("date"), res.getString("time"),
+										res.getString("image"), "event");
+
+								mDbHelper.close();
+							}
+							catch (JSONException e)
+							{
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						
+					}
+				});
+
+		Thread t = new Thread(post);
+
+		t.start();
+
+
+	}
 	
 }

@@ -1,7 +1,5 @@
 /com/
 /.gitignore
-/getfunction/
-/uifunction/
-/homedetail/
-/getdb/
 /startprogram/
+/homedetail/
+/uifunction/

@@ -307,8 +307,6 @@ public class LoginPage extends Activity
 		Thread t = new Thread(post);
 
 		t.start();
-
-
 	}
 	
 }

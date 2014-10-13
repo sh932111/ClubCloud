@@ -17,17 +17,37 @@ package com.candroidsample;
 
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 import static com.candroidsample.CommonUtilities.displayMessage;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import getdb.EventDB;
 import getdb.PushDB;
+import getdb.UserDB;
+import getfunction.DialogShow;
+import homedetail.EmergencyReport;
+import httpfunction.SendPostRunnable;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Message;
 import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
@@ -36,9 +56,14 @@ import com.google.android.gcm.GCMRegistrar;
  * IntentService responsible for handling GCM messages.
  */
 @SuppressLint("SimpleDateFormat")
-public class GCMIntentService extends GCMBaseIntentService
+public class GCMIntentService extends GCMBaseIntentService implements LocationListener
 {
+	String Latitude;
+	String Longitude;
 
+	ArrayList<Bundle> mArrayList;
+	private boolean getService = false;	
+	
 	private static final String TAG = "GCMIntentService";
 
 	public GCMIntentService()
@@ -82,13 +107,29 @@ public class GCMIntentService extends GCMBaseIntentService
 	@Override
 	protected void onMessage(Context context, Intent intent)
 	{
+		LocationManager status = (LocationManager) (this
+				.getSystemService(this.LOCATION_SERVICE));
+		
 		Log.i(TAG, "Received message");
 		System.out.println("Received message");
 
 		Bundle bundle = intent.getExtras();
 
 		String _id = bundle.getString("data_id");
-		
+
+		if (status.isProviderEnabled(LocationManager.GPS_PROVIDER)
+				|| status.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+		{
+			// 如果GPS或網路定位開啟，呼叫locationServiceInitial()更新位置
+			getService = true;
+			locationServiceInitial(_id);
+		} else
+		{
+			Toast.makeText(this, "請開啟定位服務", Toast.LENGTH_LONG).show();
+			Intent intent2 = new Intent(
+					android.provider.Settings.ACTION_WIFI_SETTINGS);
+			startActivity(intent2);
+		}
 		String title = bundle.getString("title");
 
 		String detail = bundle.getString("detail"); // getString(R.string.gcm_message);
@@ -194,4 +235,122 @@ public class GCMIntentService extends GCMBaseIntentService
 		notificationManager.notify(0, notification);
 	}
 
+	@Override
+	public void onLocationChanged(Location location)
+	{
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderEnabled(String provider)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderDisabled(String provider)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	private LocationManager lms;
+	private String bestProvider = LocationManager.GPS_PROVIDER;
+	
+	private void locationServiceInitial(String id)
+	{
+		lms = (LocationManager) getSystemService(LOCATION_SERVICE);	//取得系統定位服務
+		Criteria criteria = new Criteria();	//資訊提供者選取標準
+		bestProvider = lms.getBestProvider(criteria, true);	//選擇精準度最高的提供者
+		Location location = lms.getLastKnownLocation(bestProvider);
+		getLocation(location,id);
+	}
+
+	private void getLocation(Location location,String id)
+	{ // 將定位資訊顯示在畫面中
+		if (location != null)
+		{
+			Double longitude = location.getLongitude(); // 取得經度
+			Double latitude = location.getLatitude(); // 取得緯度
+
+			Longitude = String.valueOf(longitude);
+			Latitude = String.valueOf(latitude);
+			
+			if (Longitude.length() > 0 && Latitude.length() > 0)
+			{
+				post(id);
+			}
+		} 
+		else
+		{
+			Toast.makeText(this, "無法定位座標", Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	public void post(String id)
+	{
+		List<NameValuePair> parems = new ArrayList<NameValuePair>();
+
+		parems.add(new BasicNameValuePair("id", id));
+		parems.add(new BasicNameValuePair("username", getUserName()));
+		parems.add(new BasicNameValuePair("user_status", "1"));
+		parems.add(new BasicNameValuePair("latitude", Latitude));
+		parems.add(new BasicNameValuePair("longitude", Longitude));
+
+		SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)
+				+ getString(R.string.Response), parems,
+				new SendPostRunnable.Callback()
+				{
+					@Override
+					public void service_result(Message msg)
+					{
+						// TODO Auto-generated method stub
+						Bundle countBundle = msg.getData();
+
+						@SuppressWarnings("unchecked")
+						HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle
+								.getSerializable("resultData");
+
+						final JSONObject result = (JSONObject) resultData
+								.get("Data");
+
+						String messageString = null;
+
+						try
+						{
+							messageString = result.getString("Message");
+						}
+						catch (JSONException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				});
+
+		Thread t = new Thread(post);
+
+		t.start();
+	}
+	public String getUserName()
+	{
+		UserDB userDB = new UserDB(this);
+
+		userDB.open();
+
+		ArrayList<String> array_list = userDB.getAllDate();
+
+		userDB.close();
+
+		return array_list.get(0);
+	}
 }

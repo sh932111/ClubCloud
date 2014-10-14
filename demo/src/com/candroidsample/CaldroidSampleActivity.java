@@ -1,7 +1,6 @@
 package com.candroidsample;
 
-//import java.text.SimpleDateFormat;
-import getdb.TravelDB;
+import getfunction.DBTools;
 import homedetail.ShowTravelList;
 
 import java.text.ParseException;
@@ -153,12 +152,7 @@ public class CaldroidSampleActivity extends FragmentActivity
 
 	private void setCustomResourceForDates()
 	{
-
-		TravelDB mDbHelper = new TravelDB(CaldroidSampleActivity.this);
-
-		mDbHelper.open();
-
-		ArrayList<Bundle> array_list = mDbHelper.getAll();
+		ArrayList<Bundle> array_list = DBTools.getTravelDBAll(CaldroidSampleActivity.this);
 
 		if (array_list != null)
 		{
@@ -167,8 +161,6 @@ public class CaldroidSampleActivity extends FragmentActivity
 				String get_date_string = array_list.get(i).getString("Date");
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-
-				mDbHelper.close();
 
 				Date date = null;
 				try

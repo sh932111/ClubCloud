@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import getdb.EventDB;
 import getdb.PushDB;
 import getdb.UserDB;
+import getfunction.DBTools;
 import getfunction.DialogShow;
 import homedetail.EmergencyReport;
 import httpfunction.SendPostRunnable;
@@ -113,9 +114,6 @@ public class GCMIntentService extends GCMBaseIntentService implements
 		LocationManager status = (LocationManager) (this
 				.getSystemService(this.LOCATION_SERVICE));
 
-		Log.i(TAG, "Received message");
-		System.out.println("Received message");
-
 		Bundle bundle = intent.getExtras();
 
 		String _id = bundle.getString("data_id");
@@ -137,38 +135,16 @@ public class GCMIntentService extends GCMBaseIntentService implements
 
 		String detail = bundle.getString("detail"); // getString(R.string.gcm_message);
 
-		String time = bundle.getString("time");
-
-		String time_detail = bundle.getString("time_detail"); // getString(R.string.gcm_message);
-
-		String image = bundle.getString("image");
-
 		String type = bundle.getString("type");
 
 		if (type.equals("1"))
 		{
-
-			String address = bundle.getString("city")
-					+ bundle.getString("area") + bundle.getString("address");
-
-			PushDB mDbHelper = new PushDB(this);
-
-			mDbHelper.open();
-
-			mDbHelper.create(Long.parseLong(_id), title, detail, time,
-					time_detail, "1", image, address);
-
-			mDbHelper.close();
-		} else if (type.equals("2"))
+			DBTools.savePushData(context, bundle);
+			
+		} 
+		else if (type.equals("2"))
 		{
-			EventDB mDbHelper = new EventDB(this);
-
-			mDbHelper.open();
-
-			mDbHelper.create(Long.parseLong(_id), title, detail, time,
-					time_detail, image, "emergency");
-
-			mDbHelper.close();
+			DBTools.saveEventData(context, bundle);	
 		}
 
 		displayMessage(context, detail);
@@ -179,9 +155,6 @@ public class GCMIntentService extends GCMBaseIntentService implements
 	@Override
 	protected void onDeletedMessages(Context context, int total)
 	{
-		Log.i(TAG, "Received deleted messages notification");
-		System.out.println("Received deleted messages notification");
-
 		String message = getString(R.string.gcm_deleted, total);
 
 		displayMessage(context, message);
@@ -192,19 +165,12 @@ public class GCMIntentService extends GCMBaseIntentService implements
 	@Override
 	public void onError(Context context, String errorId)
 	{
-		Log.i(TAG, "Received error: " + errorId);
-		System.out.println("Received error");
-
 		displayMessage(context, getString(R.string.gcm_error, errorId));
 	}
 
 	@Override
 	protected boolean onRecoverableError(Context context, String errorId)
 	{
-		// log message
-		Log.i(TAG, "Received recoverable error: " + errorId);
-		System.out.println("Received recoverable error");
-
 		displayMessage(context,
 				getString(R.string.gcm_recoverable_error, errorId));
 		return super.onRecoverableError(context, errorId);
@@ -224,8 +190,6 @@ public class GCMIntentService extends GCMBaseIntentService implements
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 
 		Notification notification = new Notification(icon, message, when);
-
-		// String title = context.getString(R.string.app_name);
 
 		Intent notificationIntent = new Intent(context, StartActivity.class);
 
@@ -307,7 +271,7 @@ public class GCMIntentService extends GCMBaseIntentService implements
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
 		parems.add(new BasicNameValuePair("id", id));
-		parems.add(new BasicNameValuePair("username", getUserName()));
+		parems.add(new BasicNameValuePair("username", DBTools.getUserName(this)));
 		parems.add(new BasicNameValuePair("user_status", "1"));
 		parems.add(new BasicNameValuePair("latitude", Latitude));
 		parems.add(new BasicNameValuePair("longitude", Longitude));
@@ -349,18 +313,6 @@ public class GCMIntentService extends GCMBaseIntentService implements
 		t.start();
 	}
 
-	public String getUserName()
-	{
-		UserDB userDB = new UserDB(this);
-
-		userDB.open();
-
-		ArrayList<String> array_list = userDB.getAllDate();
-
-		userDB.close();
-
-		return array_list.get(0);
-	}
 
 	Timer timer = new Timer();
 	Handler handler = new Handler()

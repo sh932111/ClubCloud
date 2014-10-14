@@ -58,24 +58,15 @@ public class StartActivity extends Activity
 
 		setUI();
 		
-		DBManager dbHelper = new DBManager(StartActivity.this);
-
-		dbHelper.openDatabase();
-
-		dbHelper.closeDatabase();
-
+		DBTools.startInit(StartActivity.this);
+		
 		context = getApplicationContext();
+		
 		gcm = GoogleCloudMessaging.getInstance(this);
 
 		setGCM_RegID();
 
-		UserDB mDbHelper = new UserDB(StartActivity.this);
-
-		mDbHelper.open();
-
-		int count = mDbHelper.isTableExists();
-
-		mDbHelper.close();
+		int count = DBTools.getUserData(StartActivity.this);
 
 		if (count != 0)
 		{
@@ -152,6 +143,7 @@ public class StartActivity extends Activity
 			public void onClick(View arg0)
 			{
 				// TODO Auto-generated method stub
+
 				PageUtil mSysUtil = new PageUtil(StartActivity.this);
 
 				mSysUtil.exit(0);

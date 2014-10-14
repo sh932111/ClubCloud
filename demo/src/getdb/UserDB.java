@@ -148,7 +148,6 @@ public class UserDB
 
 	public int isTableExists()
 	{
-
 		Cursor c = null;
 
 		try

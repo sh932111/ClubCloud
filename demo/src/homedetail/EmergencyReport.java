@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import getdb.EventDB;
 import getdb.UserDB;
+import getfunction.DBTools;
 import getfunction.DialogShow;
 import getfunction.EventAdpter;
 import httpfunction.SendPostRunnable;
@@ -81,11 +82,7 @@ public class EmergencyReport extends Activity implements LocationListener
 		int year = c.get(Calendar.YEAR); // 取出年
 		int month = c.get(Calendar.MONTH) + 1; // 取出月，月份的編號是由0~11 故+1
 
-		EventDB db = new EventDB(EmergencyReport.this);
-
-		db.open();
-
-		mArrayList = db.getType("emergency", String.valueOf(year),
+		mArrayList = DBTools.getType(EmergencyReport.this,"emergency", String.valueOf(year),
 				String.valueOf(month));
 
 		EventAdpter adapter = new EventAdpter(EmergencyReport.this, mArrayList,
@@ -107,8 +104,6 @@ public class EmergencyReport extends Activity implements LocationListener
 				});
 
 		listView.setAdapter(adapter);
-
-		db.close();
 
 		if (mArrayList.size() != 0)
 		{
@@ -134,19 +129,6 @@ public class EmergencyReport extends Activity implements LocationListener
 				});
 	}
 
-	public String getUserName()
-	{
-		UserDB userDB = new UserDB(EmergencyReport.this);
-
-		userDB.open();
-
-		ArrayList<String> array_list = userDB.getAllDate();
-
-		userDB.close();
-
-		return array_list.get(0);
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -162,7 +144,7 @@ public class EmergencyReport extends Activity implements LocationListener
 		Long id = mArrayList.get(index).getLong("ID");
 
 		parems.add(new BasicNameValuePair("id", String.valueOf(id)));
-		parems.add(new BasicNameValuePair("username", getUserName()));
+		parems.add(new BasicNameValuePair("username", DBTools.getUserName(EmergencyReport.this)));
 		parems.add(new BasicNameValuePair("user_status", type));
 		parems.add(new BasicNameValuePair("latitude", Latitude));
 		parems.add(new BasicNameValuePair("longitude", Longitude));

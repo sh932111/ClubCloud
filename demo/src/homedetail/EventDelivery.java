@@ -21,6 +21,7 @@ import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
 import getdb.DBManager;
 import getdb.UserDB;
+import getfunction.DBTools;
 import getfunction.DialogShow;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
@@ -364,11 +365,7 @@ public class EventDelivery extends CloudActivity
 			}
 		}
 
-		UserDB userDB = new UserDB(EventDelivery.this);
-
-		userDB.open();
-
-		ArrayList<String> array_list = userDB.getAllDate();
+		ArrayList<String> array_list = DBTools.getUserAllData(EventDelivery.this);
 
 		String post_title = showScrollView.titleView.getText().toString();
 		String post_list = showScrollView.listView.getText().toString();
@@ -492,7 +489,6 @@ public class EventDelivery extends CloudActivity
 					});
 		}
 
-		userDB.close();
 	}
 
 	public void showDialog()

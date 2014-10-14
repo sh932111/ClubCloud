@@ -17,6 +17,7 @@ import uifunction.ShowEventDailog;
 import uifunction.ShowToolbar;
 import getdb.EventDB;
 import getdb.UserDB;
+import getfunction.DBTools;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
 import httpfunction.DownloadImageRunnable;
@@ -171,11 +172,8 @@ public class PersonalInformation extends CloudActivity
 
 	public void getData()
 	{
-		UserDB userDB = new UserDB(PersonalInformation.this);
 
-		userDB.open();
-
-		ArrayList<String> array_list = userDB.getAllDate();
+		ArrayList<String> array_list = DBTools.getUserAllData(PersonalInformation.this);
 
 		if (array_list != null)
 		{
@@ -189,21 +187,6 @@ public class PersonalInformation extends CloudActivity
 			TextView areaTextView = (TextView) findViewById(R.id.area);
 			areaTextView.setText("區域：" + array_list.get(7));
 		}
-
-		userDB.close();
-	}
-
-	public String getUserName()
-	{
-		UserDB userDB = new UserDB(PersonalInformation.this);
-
-		userDB.open();
-
-		ArrayList<String> array_list = userDB.getAllDate();
-
-		userDB.close();
-
-		return array_list.get(0);
 	}
 
 	public void setImage(String index)
@@ -310,10 +293,6 @@ public class PersonalInformation extends CloudActivity
 											int which)
 									{
 										String data_id = null;
-										String title = null;
-										String detail = null;
-										String date = null;
-										String time = null;
 										String image = null;
 										boolean resString = false;
 
@@ -323,12 +302,7 @@ public class PersonalInformation extends CloudActivity
 													.getBoolean("result");
 											data_id = result
 													.getString("data_id");
-											title = result.getString("title");
-											detail = result.getString("detail");
-											date = result.getString("date");
-											time = result.getString("time");
 											image = result.getString("image");
-
 										}
 										catch (JSONException e)
 										{
@@ -363,17 +337,7 @@ public class PersonalInformation extends CloudActivity
 												dImageRunnable.downLoadImage();
 											}
 
-											EventDB mDbHelper = new EventDB(
-													PersonalInformation.this);
-
-											mDbHelper.open();
-
-											mDbHelper.create(
-													Long.parseLong(data_id),
-													title, detail, date, time,
-													image, "event");
-
-											mDbHelper.close();
+											DBTools.saveEventData(PersonalInformation.this, result, "event");
 										}
 									}
 								});
@@ -423,7 +387,7 @@ public class PersonalInformation extends CloudActivity
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 
-		String user = getUserName();
+		String user = DBTools.getUserName(PersonalInformation.this);
 
 		if (requestCode == 1)
 		{ // startActivityForResult回傳值

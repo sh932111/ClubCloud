@@ -144,7 +144,7 @@ public class GCMIntentService extends GCMBaseIntentService implements
 		} 
 		else if (type.equals("2"))
 		{
-			DBTools.saveEventData(context, bundle);	
+			DBTools.saveEventData(context, bundle,"emergency");	
 		}
 
 		displayMessage(context, detail);

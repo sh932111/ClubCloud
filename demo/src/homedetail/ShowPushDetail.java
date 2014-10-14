@@ -4,6 +4,7 @@ import com.candroidsample.R;
 
 import getdb.TravelDB;
 import getdb.PushDB;
+import getfunction.DBTools;
 import getfunction.DialogShow;
 import getfunction.ImageFunction;
 import httpfunction.DownloadImageRunnable;
@@ -35,14 +36,10 @@ public class ShowPushDetail extends Activity
 
 		id = bundle.getLong("ID");
 
-		PushDB pushDB = new PushDB(this);
+		Bundle get_bundle = DBTools.getPushDetail(ShowPushDetail.this, id);
 
-		pushDB.open();
-
-		Bundle get_bundle = pushDB.get(id);
-
-		updateDBLook();
-
+		DBTools.updatePushDBLook(ShowPushDetail.this, id);
+		
 		float h_size = 1920 / getResources().getDisplayMetrics().heightPixels;
 
 		float s_size = 350 / h_size;
@@ -184,8 +181,6 @@ public class ShowPushDetail extends Activity
 						});
 			}
 		});
-		
-		pushDB.close();
 
 	}
 
@@ -197,17 +192,6 @@ public class ShowPushDetail extends Activity
 		return true;
 	}
 
-	public void updateDBLook()
-	{
-
-		PushDB mDbHelper = new PushDB(ShowPushDetail.this);
-
-		mDbHelper.open();
-
-		mDbHelper.updateLook(id, "0");
-
-		mDbHelper.close();
-	}
 
 	public void updateDBImage()
 	{

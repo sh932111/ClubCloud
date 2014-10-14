@@ -21,6 +21,8 @@ import static com.candroidsample.CommonUtilities.displayMessage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -44,6 +46,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.util.Log;
@@ -56,14 +59,15 @@ import com.google.android.gcm.GCMRegistrar;
  * IntentService responsible for handling GCM messages.
  */
 @SuppressLint("SimpleDateFormat")
-public class GCMIntentService extends GCMBaseIntentService implements LocationListener
+public class GCMIntentService extends GCMBaseIntentService implements
+		LocationListener
 {
 	String Latitude;
 	String Longitude;
-
+	String ID;
 	ArrayList<Bundle> mArrayList;
-	private boolean getService = false;	
-	
+	private boolean getService = false;
+
 	private static final String TAG = "GCMIntentService";
 
 	public GCMIntentService()
@@ -93,8 +97,7 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 		if (GCMRegistrar.isRegisteredOnServer(context))
 		{
 			ServerUtilities.unregister(context, registrationId);
-		}
-		else
+		} else
 		{
 			// This callback results from the call to unregister made on
 			// ServerUtilities when the registration to the server failed.
@@ -109,14 +112,12 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 	{
 		LocationManager status = (LocationManager) (this
 				.getSystemService(this.LOCATION_SERVICE));
-		
+
 		Log.i(TAG, "Received message");
 		System.out.println("Received message");
 
 		Bundle bundle = intent.getExtras();
 
-		System.out.println(bundle.toString());
-		
 		String _id = bundle.getString("data_id");
 
 		if (status.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -135,40 +136,41 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 		String title = bundle.getString("title");
 
 		String detail = bundle.getString("detail"); // getString(R.string.gcm_message);
-		
+
 		String time = bundle.getString("time");
 
 		String time_detail = bundle.getString("time_detail"); // getString(R.string.gcm_message);
 
 		String image = bundle.getString("image");
-		
+
 		String type = bundle.getString("type");
-		
+
 		if (type.equals("1"))
 		{
 
-			String address = bundle.getString("city")+bundle.getString("area")+bundle.getString("address");
-			
+			String address = bundle.getString("city")
+					+ bundle.getString("area") + bundle.getString("address");
+
 			PushDB mDbHelper = new PushDB(this);
-			
+
 			mDbHelper.open();
 
-			mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail , "1",image ,address);
-			
+			mDbHelper.create(Long.parseLong(_id), title, detail, time,
+					time_detail, "1", image, address);
+
 			mDbHelper.close();
-		}
-		else if (type.equals("2")) 
+		} else if (type.equals("2"))
 		{
 			EventDB mDbHelper = new EventDB(this);
-			
+
 			mDbHelper.open();
 
-			mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail ,image,"emergency");
-			
+			mDbHelper.create(Long.parseLong(_id), title, detail, time,
+					time_detail, image, "emergency");
+
 			mDbHelper.close();
 		}
-		
-		
+
 		displayMessage(context, detail);
 		// notifies user
 		generateNotification(context, detail, title);
@@ -269,17 +271,17 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 
 	private LocationManager lms;
 	private String bestProvider = LocationManager.GPS_PROVIDER;
-	
+
 	private void locationServiceInitial(String id)
 	{
-		lms = (LocationManager) getSystemService(LOCATION_SERVICE);	//取得系統定位服務
-		Criteria criteria = new Criteria();	//資訊提供者選取標準
-		bestProvider = lms.getBestProvider(criteria, true);	//選擇精準度最高的提供者
+		lms = (LocationManager) getSystemService(LOCATION_SERVICE); // 取得系統定位服務
+		Criteria criteria = new Criteria(); // 資訊提供者選取標準
+		bestProvider = lms.getBestProvider(criteria, true); // 選擇精準度最高的提供者
 		Location location = lms.getLastKnownLocation(bestProvider);
-		getLocation(location,id);
+		getLocation(location, id);
 	}
 
-	private void getLocation(Location location,String id)
+	private void getLocation(Location location, String id)
 	{ // 將定位資訊顯示在畫面中
 		if (location != null)
 		{
@@ -288,19 +290,19 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 
 			Longitude = String.valueOf(longitude);
 			Latitude = String.valueOf(latitude);
-			
+
 			if (Longitude.length() > 0 && Latitude.length() > 0)
 			{
-				post(id);
+				ID = id;
+				timer.schedule(task, 5000);  
 			}
-		} 
-		else
+		} else
 		{
 			Toast.makeText(this, "無法定位座標", Toast.LENGTH_LONG).show();
 		}
 	}
-	
-	public void post(String id)
+
+	public void postServer(String id)
 	{
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
@@ -346,6 +348,7 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 
 		t.start();
 	}
+
 	public String getUserName()
 	{
 		UserDB userDB = new UserDB(this);
@@ -358,4 +361,30 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 
 		return array_list.get(0);
 	}
+
+	Timer timer = new Timer();
+	Handler handler = new Handler()
+	{
+		public void handleMessage(Message msg)
+		{
+			switch (msg.what)
+			{
+			case 1:
+				postServer(ID);
+				break;
+			}
+			super.handleMessage(msg);
+		}
+
+	};
+
+	TimerTask task = new TimerTask()
+	{
+		public void run()
+		{
+			Message message = new Message();
+			message.what = 1;
+			handler.sendMessage(message);
+		}
+	};
 }

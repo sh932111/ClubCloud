@@ -161,6 +161,9 @@ public class EventDelivery extends CloudActivity
 					}
 
 				});
+		showScrollView.addressTitleView.setVisibility(View.INVISIBLE);
+		showScrollView.addressView.setVisibility(View.INVISIBLE);
+
 		Button post_bt = new Button(this);
 
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(

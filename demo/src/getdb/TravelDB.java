@@ -28,6 +28,7 @@ public class TravelDB
 	public static final String KEY_TimeDetail = "time_detail";
 	public static final String KEY_CHECK = "look";
 	public static final String KEY_IMAGE = "image";
+	public static final String KEY_ADDRESS = "address";
 
 	/** Constructor */
 	@SuppressLint("SdCardPath")
@@ -54,7 +55,8 @@ public class TravelDB
 				+ DATABASE_TABLE + "(" + KEY_ROWID + " INTEGER PRIMARY KEY,"
 				+ KEY_TITLE + " TEXT NOT NULL," + KEY_ITEM + " TEXT,"
 				+ KEY_CREATED + " TEXT," + KEY_TimeDetail + " TEXT,"
-				+ KEY_IMAGE + " TEXT," + KEY_CHECK + " TEXT" + ");";
+				+ KEY_IMAGE + " TEXT,"
+				+ KEY_ADDRESS + " TEXT," + KEY_CHECK + " TEXT" + ");";
 
 		public DatabaseHelper(Context context)
 		{
@@ -85,18 +87,18 @@ public class TravelDB
 				// strCols,// Which columns to return
 				new String[]
 				{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
-						KEY_CHECK, KEY_IMAGE }, null, // WHERE clause
+						KEY_CHECK, KEY_IMAGE ,KEY_ADDRESS}, null, // WHERE clause
 				null, // WHERE arguments
 				null, // GROUP BY clause
 				null, // HAVING clause
 				KEY_CREATED + " DESC" // Order-by clause
 		);
 
+		ArrayList<Bundle> array_list = new ArrayList<Bundle>();
+
 		if (mCursor.getCount() != 0)
 		{
 			mCursor.moveToFirst();
-
-			ArrayList<Bundle> array_list = new ArrayList<Bundle>();
 
 			for (int i = 0; i < mCursor.getCount(); i++)
 			{
@@ -107,7 +109,8 @@ public class TravelDB
 				String timeString = mCursor.getString(4);
 				String check = mCursor.getString(5);
 				String image = mCursor.getString(6);
-
+				String address = mCursor.getString(7);
+			
 				Bundle bundle = new Bundle();
 
 				bundle.putLong("ID", SelectID);
@@ -117,7 +120,8 @@ public class TravelDB
 				bundle.putString("Time", timeString);
 				bundle.putString("Check", check);
 				bundle.putString("Image", image);
-
+				bundle.putString("Address", address);
+				
 				array_list.add(bundle);
 
 				mCursor.moveToNext();
@@ -128,21 +132,21 @@ public class TravelDB
 			return array_list;
 		}
 
-		return null;
+		return array_list;
 	}
 
 	public ArrayList<Bundle> getDateData(String rowId)
 	{
 		Cursor mCursor = db.query(DATABASE_TABLE, new String[]
 				{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
-						KEY_CHECK, KEY_IMAGE }, KEY_CREATED + " = ?", new String[]
+						KEY_CHECK, KEY_IMAGE ,KEY_ADDRESS }, KEY_CREATED + " = ?", new String[]
 				{ "" + rowId + "" }, null, null, null, null);
-		
+
+		ArrayList<Bundle> array_list = new ArrayList<Bundle>();
+
 		if (mCursor.getCount() != 0)
 		{
 			mCursor.moveToFirst();
-
-			ArrayList<Bundle> array_list = new ArrayList<Bundle>();
 
 			for (int i = 0; i < mCursor.getCount(); i++)
 			{
@@ -153,7 +157,8 @@ public class TravelDB
 				String timeString = mCursor.getString(4);
 				String check = mCursor.getString(5);
 				String image = mCursor.getString(6);
-
+				String address = mCursor.getString(7);
+				
 				Bundle bundle = new Bundle();
 
 				bundle.putLong("ID", SelectID);
@@ -163,7 +168,8 @@ public class TravelDB
 				bundle.putString("Time", timeString);
 				bundle.putString("Check", check);
 				bundle.putString("Image", image);
-
+				bundle.putString("Address", address);
+				
 				array_list.add(bundle);
 
 				mCursor.moveToNext();
@@ -174,7 +180,7 @@ public class TravelDB
 			return array_list;
 		}
 
-		return null;
+		return array_list;
 	}
 
 	// query single entry
@@ -182,8 +188,10 @@ public class TravelDB
 	{
 		Cursor mCursor = db.query(DATABASE_TABLE, new String[]
 		{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
-				KEY_CHECK, KEY_IMAGE }, KEY_ROWID + " = ?", new String[]
+				KEY_CHECK, KEY_IMAGE ,KEY_ADDRESS}, KEY_ROWID + " = ?", new String[]
 		{ "" + rowId + "" }, null, null, null, null);
+		
+		Bundle bundle = new Bundle();
 
 		if (mCursor.getCount() != 0)
 		{
@@ -195,8 +203,7 @@ public class TravelDB
 			String timeString = mCursor.getString(4);
 			String check = mCursor.getString(5);
 			String image = mCursor.getString(6);
-
-			Bundle bundle = new Bundle();
+			String address = mCursor.getString(7);
 
 			bundle.putLong("ID", SelectID);
 			bundle.putString("Title", title);
@@ -205,18 +212,19 @@ public class TravelDB
 			bundle.putString("Time", timeString);
 			bundle.putString("Check", check);
 			bundle.putString("Image", image);
-
+			bundle.putString("Address", address);
+			
 			mCursor.close();
 
 			return bundle;
 		}
 		
-		return null;
+		return bundle;
 	}
 
 	// add an entry
 	public long create(Long ID, String title, String detail, String time,
-			String value, String check, String image)
+			String value, String check, String image ,String address)
 	{
 		// SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm",
 		// Locale.ENGLISH);
@@ -232,7 +240,8 @@ public class TravelDB
 		// args.put(KEY_CREATED, df.format(now.getTime()));
 		args.put(KEY_TimeDetail, value);
 		args.put(KEY_IMAGE, image);
-
+		args.put(KEY_ADDRESS, address);
+		
 		return db.insert(DATABASE_TABLE, null, args);
 	}
 

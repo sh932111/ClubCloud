@@ -251,6 +251,7 @@ public class ShowPushDetail extends Activity
 		String Detail = "";
 		String Date = "";
 		String image_check = "";
+		String Address = "";
 		
 		if (get_bundle != null)
 		{
@@ -259,10 +260,10 @@ public class ShowPushDetail extends Activity
 			Time = get_bundle.getString("Time");
 			Date = get_bundle.getString("Date");
 			image_check = get_bundle.getString("Image");
-
+			Address =get_bundle.getString("Address");
 		}
 		
-		mDbHelper.create(id, Title, Detail, Date, Time, "1" ,image_check);
+		mDbHelper.create(id, Title, Detail, Date, Time, "1" ,image_check,Address);
 
 		mDbHelper.close();
 		

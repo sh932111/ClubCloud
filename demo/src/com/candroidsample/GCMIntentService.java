@@ -115,6 +115,8 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 
 		Bundle bundle = intent.getExtras();
 
+		System.out.println(bundle.toString());
+		
 		String _id = bundle.getString("data_id");
 
 		if (status.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -144,11 +146,14 @@ public class GCMIntentService extends GCMBaseIntentService implements LocationLi
 		
 		if (type.equals("1"))
 		{
+
+			String address = bundle.getString("city")+bundle.getString("area")+bundle.getString("address");
+			
 			PushDB mDbHelper = new PushDB(this);
 			
 			mDbHelper.open();
 
-			mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail , "1",image);
+			mDbHelper.create(Long.parseLong(_id),title, detail, time ,time_detail , "1",image ,address);
 			
 			mDbHelper.close();
 		}

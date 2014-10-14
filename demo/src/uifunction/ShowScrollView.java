@@ -23,6 +23,8 @@ public class ShowScrollView
 	public static Button chooseTimeBt;
 	public static Button chooseDayBt;
 	public static Button chooseImgBt;
+	public static EditText addressView;
+	public static TextView addressTitleView;
 
 	public static ImageView showImageView;
 	
@@ -33,6 +35,7 @@ public class ShowScrollView
 		String Time = "";
 		String Detail = "";
 		String Date = "";
+		String Address = "";
 		
 		if (data_bundle != null)
 		{
@@ -40,6 +43,7 @@ public class ShowScrollView
 			Detail = data_bundle.getString("Message");
 			Time = data_bundle.getString("Time");
 			Date = data_bundle.getString("Date");
+			Address = data_bundle.getString("Address");
 		}
 		
 		ScrollView scrollView = new ScrollView(context);
@@ -60,7 +64,7 @@ public class ShowScrollView
 		
 		lLayour.setLayoutParams(layout_params);
 		
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 5; i++)
 		{
 			LinearLayout textlayout = new LinearLayout(context);
 			
@@ -186,7 +190,35 @@ public class ShowScrollView
 			
 				textlayout.addView(linear);
 			}
+			else if (i == 4)
+			{
+				addressTitleView = new TextView(context);
+
+				addressTitleView.setTextSize(20);
+				
+				addressTitleView.setText(com.candroidsample.R.string.input_address);
+
+				addressView  = new EditText(context);
+				
+				addressView.setText(Address);
+				
+				addressView.setTextSize(20);
+
+				textlayout.addView(addressTitleView);
+				textlayout.addView(addressView);
+				//此處相當於布局文件中的Android:layout_gravity屬性  
+				
+				LinearLayout linear = new LinearLayout(context);  
+				LinearLayout.LayoutParams title_layout_params = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.FILL_PARENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				
+				//注意，對於LinearLayout布局來說，設置橫向還是縱向是必須的！否則就看不到效果了。  
+				linear.setOrientation(LinearLayout.VERTICAL);  
+				linear.setLayoutParams(title_layout_params);
 			
+				textlayout.addView(linear);
+			}
 			lLayour.addView(textlayout);
 		}
 		

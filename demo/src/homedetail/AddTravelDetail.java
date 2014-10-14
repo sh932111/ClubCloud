@@ -163,7 +163,8 @@ public class AddTravelDetail extends Activity
 						showScrollView.dateView.getText().toString(), 
 						showScrollView.timeView.getText().toString(), 
 						"1", 
-						check);
+						check,showScrollView.addressView.getText().toString()
+						);
 
 				mDbHelper.close();
 				

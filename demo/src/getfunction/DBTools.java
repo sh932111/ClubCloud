@@ -12,9 +12,33 @@ import getdb.EventDB;
 import getdb.PushDB;
 import getdb.TravelDB;
 import getdb.UserDB;
+import homedetail.ShowPushDetail;
 
 public class DBTools
 {
+	public static void deleteDB(Context context ,Long id)
+	{
+		PushDB mDbHelper = new PushDB(context);
+
+		mDbHelper.open();
+
+		mDbHelper.delete(id);
+
+		mDbHelper.close();
+	}
+
+	
+	public static void updatePushDBImage(Context context ,Long id)
+	{
+
+		PushDB mDbHelper = new PushDB(context);
+
+		mDbHelper.open();
+
+		mDbHelper.updateImage(id, "2");
+
+		mDbHelper.close();
+	}
 
 	public static void updatePushDBLook(Context context ,Long id)
 	{

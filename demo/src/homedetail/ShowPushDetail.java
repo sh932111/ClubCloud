@@ -82,7 +82,7 @@ public class ShowPushDetail extends Activity
 									.setImageBitmap(get_image
 											.getBitmapFromSDCard(app_path));
 							
-							updateDBImage();
+							DBTools.updatePushDBImage(ShowPushDetail.this,id);
 						}
 					});
 			dImageRunnable.downLoadImage();
@@ -137,7 +137,8 @@ public class ShowPushDetail extends Activity
 							@Override
 							public void work()
 							{
-								deleteDB();
+								DBTools.deleteDB(ShowPushDetail.this, id);
+								finish();
 							}
 
 							@Override
@@ -176,7 +177,8 @@ public class ShowPushDetail extends Activity
 							public void cancel()
 							{
 								// TODO Auto-generated method stub
-								deleteDB();
+								DBTools.deleteDB(ShowPushDetail.this, id);
+								finish();
 							}
 						});
 			}
@@ -192,43 +194,9 @@ public class ShowPushDetail extends Activity
 		return true;
 	}
 
-
-	public void updateDBImage()
-	{
-
-		PushDB mDbHelper = new PushDB(ShowPushDetail.this);
-
-		mDbHelper.open();
-
-		mDbHelper.updateImage(id, "2");
-
-		mDbHelper.close();
-	}
-
-	public void deleteDB()
-	{
-		PushDB mDbHelper = new PushDB(ShowPushDetail.this);
-
-		mDbHelper.open();
-
-		mDbHelper.delete(id);
-
-		mDbHelper.close();
-
-		finish();
-	}
-
 	public void creatDB()
 	{
-		PushDB pushDB = new PushDB(this);
-
-		pushDB.open();
-
-		Bundle get_bundle = pushDB.get(id);
-		
-		TravelDB mDbHelper = new TravelDB(ShowPushDetail.this);
-
-		mDbHelper.open();
+		Bundle get_bundle = DBTools.getPushDetail(ShowPushDetail.this, id);
 
 		String Title = "";
 		String Time = "";
@@ -247,11 +215,6 @@ public class ShowPushDetail extends Activity
 			Address =get_bundle.getString("Address");
 		}
 		
-		mDbHelper.create(id, Title, Detail, Date, Time, "1" ,image_check,Address);
-
-		mDbHelper.close();
-		
-		pushDB.close();
-
+		DBTools.addTravel(ShowPushDetail.this, id, Title, Detail, Date, Time, "1", image_check, Address);
 	}
 }

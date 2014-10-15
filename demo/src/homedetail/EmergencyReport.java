@@ -44,8 +44,8 @@ public class EmergencyReport extends Activity implements LocationListener
 	ArrayList<Bundle> mArrayList;
 	String Latitude;
 	String Longitude;
-	private boolean getService = false;	
-	
+	private boolean getService = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -82,8 +82,8 @@ public class EmergencyReport extends Activity implements LocationListener
 		int year = c.get(Calendar.YEAR); // 取出年
 		int month = c.get(Calendar.MONTH) + 1; // 取出月，月份的編號是由0~11 故+1
 
-		mArrayList = DBTools.getType(EmergencyReport.this,"emergency", String.valueOf(year),
-				String.valueOf(month));
+		mArrayList = DBTools.getType(EmergencyReport.this, "emergency",
+				String.valueOf(year), String.valueOf(month));
 
 		EventAdpter adapter = new EventAdpter(EmergencyReport.this, mArrayList,
 				"", 2, new EventAdpter.Callback()
@@ -140,11 +140,13 @@ public class EmergencyReport extends Activity implements LocationListener
 	public void post(String type, int index)
 	{
 		// 22.901640, 120.306044
+
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 		Long id = mArrayList.get(index).getLong("ID");
 
 		parems.add(new BasicNameValuePair("id", String.valueOf(id)));
-		parems.add(new BasicNameValuePair("username", DBTools.getUserName(EmergencyReport.this)));
+		parems.add(new BasicNameValuePair("username", DBTools
+				.getUserName(EmergencyReport.this)));
 		parems.add(new BasicNameValuePair("user_status", type));
 		parems.add(new BasicNameValuePair("latitude", Latitude));
 		parems.add(new BasicNameValuePair("longitude", Longitude));
@@ -252,13 +254,24 @@ public class EmergencyReport extends Activity implements LocationListener
 
 	private LocationManager lms;
 	private String bestProvider = LocationManager.GPS_PROVIDER;
-	
+
 	private void locationServiceInitial()
 	{
-		lms = (LocationManager) getSystemService(LOCATION_SERVICE);	//取得系統定位服務
-		Criteria criteria = new Criteria();	//資訊提供者選取標準
-		bestProvider = lms.getBestProvider(criteria, true);	//選擇精準度最高的提供者
-		Location location = lms.getLastKnownLocation(bestProvider);
+		lms = (LocationManager) getSystemService(LOCATION_SERVICE); // 取得系統定位服務
+		Location location = null;
+		
+		if (lms.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		{
+			location = lms.getLastKnownLocation(LocationManager.GPS_PROVIDER); // 使用GPS定位座標
+		} 
+		else if (lms.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+		{
+			location = lms
+					.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); // 使用GPS定位座標
+		}
+		// Criteria criteria = new Criteria(); //資訊提供者選取標準
+		// bestProvider = lms.getBestProvider(criteria, true); //選擇精準度最高的提供者
+		// Location location = lms.getLastKnownLocation(bestProvider);
 		getLocation(location);
 	}
 
@@ -271,28 +284,36 @@ public class EmergencyReport extends Activity implements LocationListener
 
 			Longitude = String.valueOf(longitude);
 			Latitude = String.valueOf(latitude);
-		} 
-		else
+
+			System.out.println("Latitude" + Latitude);
+			System.out.println("Longitude" + Longitude);
+
+		} else
 		{
 			Toast.makeText(this, "無法定位座標", Toast.LENGTH_LONG).show();
 		}
 	}
+
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(getService) {
+		if (getService)
+		{
 			lms.requestLocationUpdates(bestProvider, 1000, 1, this);
-			//服務提供者、更新頻率60000毫秒=1分鐘、最短距離、地點改變時呼叫物件
+			// 服務提供者、更新頻率60000毫秒=1分鐘、最短距離、地點改變時呼叫物件
 		}
 	}
- 
+
 	@Override
-	protected void onPause() {
+	protected void onPause()
+	{
 		// TODO Auto-generated method stub
 		super.onPause();
-		if(getService) {
-			lms.removeUpdates(this);	//離開頁面時停止更新
+		if (getService)
+		{
+			lms.removeUpdates(this); // 離開頁面時停止更新
 		}
 	}
 }

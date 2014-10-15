@@ -18,6 +18,7 @@
     <string name="title_activity_show_push_detail">訊息資料</string>
     <string name="title_activity_caldroid">社區行事曆</string>
     <string name="title_activity_personal_information">個人資料</string>
+    <string name="information">活動專區</string>
     <string name="title_activity_fb">FbActivity</string>
     <string name="app_id">719363708136980</string>
     <string name="title_activity_cloud">CloudActivity</string>

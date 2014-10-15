@@ -182,6 +182,8 @@ public class PersonalInformation extends CloudActivity
 			usernameTextView.setText("帳號：" + array_list.get(0));
 			TextView userTextView = (TextView) findViewById(R.id.user);
 			userTextView.setText("名字：" + array_list.get(2));
+			TextView phoneTextView = (TextView) findViewById(R.id.phone);
+			phoneTextView.setText("手機：" + array_list.get(10));
 			TextView cityTextView = (TextView) findViewById(R.id.city);
 			cityTextView.setText("縣市：" + array_list.get(6));
 			TextView areaTextView = (TextView) findViewById(R.id.area);

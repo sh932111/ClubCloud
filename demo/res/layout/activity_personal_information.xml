@@ -49,6 +49,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:textSize="20sp" />
+              <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:textSize="20sp" />
              <TextView
                 android:id="@+id/city"
                 android:layout_width="wrap_content"

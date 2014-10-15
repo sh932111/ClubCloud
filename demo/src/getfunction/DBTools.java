@@ -12,21 +12,119 @@ import getdb.EventDB;
 import getdb.PushDB;
 import getdb.TravelDB;
 import getdb.UserDB;
-import homedetail.ShowPushDetail;
 
 public class DBTools
 {
-	public static void deleteDB(Context context ,Long id)
+	public static void creatUserData(Context context,String username, String password, String name,
+			String user_id, String device_token, String device_os,
+			String user_city, String user_city_detail, String city_id,
+			String user_city_detail_id,String cellphone )
+	{
+		UserDB mDbHelper = new UserDB(context);
+
+		mDbHelper.open();
+		
+		mDbHelper.create(username, password, name, user_id,
+				device_token, "android",user_city,user_city_detail,city_id,user_city_detail_id,cellphone);
+		
+		mDbHelper.close();
+	}
+	
+	public static ArrayList<Bundle> getPushAll(Context context)
 	{
 		PushDB mDbHelper = new PushDB(context);
 
 		mDbHelper.open();
 
-		mDbHelper.delete(id);
+		ArrayList<Bundle> arrayList = mDbHelper.getAll();
+
+		mDbHelper.close();
+		
+		return arrayList;
+	}
+	
+	public static ArrayList<Bundle> getTravelToDate(Context context ,String date)
+	{
+		TravelDB mDbHelper = new TravelDB(context);
+
+		mDbHelper.open();
+		
+		ArrayList<Bundle> arrayList = mDbHelper.getDateData(date);
+
+		mDbHelper.close();
+	
+		return arrayList;
+	}
+	
+	public static void updateTravelAll(Context context ,Long id, String title ,String detail,String date,String time)
+	{
+		TravelDB mDbHelper = new TravelDB(context);
+		
+		mDbHelper.open();
+
+		mDbHelper.updateAll(id, title, detail,date ,time);
 
 		mDbHelper.close();
 	}
+	
+	public static void updateTravelImage(Context context ,Long id)
+	{
+		TravelDB mDbHelper = new TravelDB(context);
 
+		mDbHelper.open();
+
+		mDbHelper.updateImage(id, "2");
+
+		mDbHelper.close();
+	}
+	
+	public static void updateTravelLook(Context context ,Long id)
+	{
+		TravelDB mDbHelper = new TravelDB(context);
+
+		mDbHelper.open();
+
+		mDbHelper.updateLook(id, "0");
+
+		mDbHelper.close();
+	}
+	
+	public static void deleteDB(Context context ,Long id,int obj)
+	{
+		if(obj == 1)
+		{
+			PushDB mDbHelper = new PushDB(context);
+
+			mDbHelper.open();
+
+			mDbHelper.delete(id);
+
+			mDbHelper.close();
+		}
+		else if (obj == 2) 
+		{
+			TravelDB mDbHelper = new TravelDB(context);
+			
+			mDbHelper.open();
+
+			mDbHelper.delete(id);
+
+			mDbHelper.close();
+		}
+	}
+
+	public static Bundle getTravelDetail(Context context ,Long id)
+	{
+		TravelDB travelDB = new TravelDB(context);
+
+		travelDB.open();
+		
+		Bundle get_bundle = travelDB.get(id);
+
+		travelDB.close();
+		
+		return get_bundle;
+	}
 	
 	public static void updatePushDBImage(Context context ,Long id)
 	{

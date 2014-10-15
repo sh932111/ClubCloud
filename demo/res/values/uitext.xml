@@ -24,6 +24,7 @@
     <string name="input_username">帳號:</string>
     <string name="input_password">密碼:</string>
     <string name="check_input_password">確認密碼:</string>
+    <string name="cellphone">手機號碼:</string>
     <string name="input_title">標題:</string>
     <string name="input_list">內文:</string>
     <string name="check_img">選圖片</string>

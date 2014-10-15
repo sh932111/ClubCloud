@@ -1,7 +1,6 @@
 package homedetail;
 
-import getdb.TravelDB;
-import getdb.PushDB;
+import getfunction.DBTools;
 import getfunction.MyAdapter;
 
 import java.util.ArrayList;
@@ -141,23 +140,11 @@ public class ShowTravelList extends CloudActivity
 	{
 		if (list_index == 1)
 		{
-			TravelDB mDbHelper = new TravelDB(ShowTravelList.this);
-
-			mDbHelper.open();
-			
-			arrayList = mDbHelper.getDateData(time_string);
-
-			mDbHelper.close();
+			arrayList = DBTools.getTravelToDate(ShowTravelList.this, time_string);
 		}
 		else
 		{
-			PushDB mDbHelper = new PushDB(this);
-
-			mDbHelper.open();
-
-			arrayList = mDbHelper.getAll();
-
-			mDbHelper.close();
+			arrayList = DBTools.getPushAll(ShowTravelList.this);
 		}
 	}
 

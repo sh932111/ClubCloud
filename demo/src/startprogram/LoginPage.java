@@ -1,15 +1,12 @@
 package startprogram;
 
-import getdb.EventDB;
-import getdb.UserDB;
-import homedetail.PersonalInformation;
+import getfunction.DBTools;
 import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -22,15 +19,11 @@ import pagefunction.PageUtil;
 import com.candroidsample.R;
 
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.os.Message;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -131,6 +124,7 @@ public class LoginPage extends Activity
 												String user_city_detail = null;
 												String city_id = null;
 												String city_detail_id = null;
+												String cellphone = null;
 												boolean resString = false;
 
 												try
@@ -157,6 +151,8 @@ public class LoginPage extends Activity
 															.getString("city_id");
 													city_detail_id = result
 															.getString("city_detail_id");
+													cellphone = result
+															.getString("cellphone");
 												}
 												catch (JSONException e)
 												{
@@ -169,23 +165,16 @@ public class LoginPage extends Activity
 												{
 													DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(username, LoginPage.this,"userphoto",getResources().getString(R.string.downloadUserImage));
 													dImageRunnable.downLoadImage();
-													
-													UserDB mDbHelper = new UserDB(
-															LoginPage.this);
 
-													mDbHelper.open();
-
-													mDbHelper.create(username,
+													DBTools.creatUserData(LoginPage.this,username,
 															password, name,
 															user_id, device_t,
 															device_os,
 															user_city,
 															user_city_detail,
 															city_id,
-															city_detail_id);
-
-													mDbHelper.close();
-
+															city_detail_id,
+															cellphone);
 													pullData();
 													
 													PageUtil mSysUtil = new PageUtil(
@@ -282,17 +271,7 @@ public class LoginPage extends Activity
 										});
 								dImageRunnable.downLoadImage();
 								
-								EventDB mDbHelper = new EventDB(
-										LoginPage.this);
-
-								mDbHelper.open();
-
-								mDbHelper.create(
-										Long.parseLong(res.getString("data_id")),
-										res.getString("title"), res.getString("detail"), res.getString("date"), res.getString("time"),
-										res.getString("image"), "event");
-
-								mDbHelper.close();
+								DBTools.saveEventData(LoginPage.this,res, "event");
 							}
 							catch (JSONException e)
 							{

@@ -1,6 +1,5 @@
 package startprogram;
 
-import getdb.UserDB;
 import getfunction.*;
 import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
@@ -60,6 +59,7 @@ public class Register2 extends Activity
 	EditText edit_text2;
 	EditText edit_text3;
 	EditText edit_text4;
+	EditText edit_text5;
 
 	ImageView mImg;
 
@@ -134,43 +134,28 @@ public class Register2 extends Activity
 
 		mImg = (ImageView) findViewById(R.id.img);
 
-		// bt1 = (Button) findViewById(R.id.button1);
-		// bt1.setOnClickListener(new Button.OnClickListener()
-		// {
-		// @Override
-		// public void onClick(View arg0)
-		// {
-		// scrollView.setVisibility(View.VISIBLE);
-		// }
-		// });
-		// bt2 = (Button) findViewById(R.id.button2);
-		// bt2.setOnClickListener(new Button.OnClickListener()
-		// {
-		// @Override
-		// public void onClick(View arg0)
-		// {
-		// scrollView.setVisibility(View.VISIBLE);
-		// }
-		// });
+		edit_text1 = (EditText) findViewById(R.id.editText1);
+		edit_text2 = (EditText) findViewById(R.id.editText2);
+		edit_text3 = (EditText) findViewById(R.id.editText3);
+		edit_text4 = (EditText) findViewById(R.id.editText4);
+		edit_text5 = (EditText) findViewById(R.id.editText5);
+		
 		bt3 = (Button) findViewById(R.id.button3);
 		bt3.setOnClickListener(new Button.OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0)
 			{
-				edit_text1 = (EditText) findViewById(R.id.editText1);
 				String str1 = edit_text1.getText().toString();
-				edit_text2 = (EditText) findViewById(R.id.editText2);
 				String str2 = edit_text2.getText().toString();
-				edit_text3 = (EditText) findViewById(R.id.editText3);
 				String str3 = edit_text3.getText().toString();
-				edit_text4 = (EditText) findViewById(R.id.editText4);
 				String str4 = edit_text4.getText().toString();
+				String str5 = edit_text5.getText().toString();
 
 				if (str3.equals(str4) && str1.length() > 0 && str2.length() > 0
-						&& str3.length() > 0 && str4.length() > 0)
+						&& str3.length() > 0 && str4.length() > 0 && str5.length() > 0)
 				{
-					postImageAndData(str1,str2,str3);
+					postImageAndData(str1,str2,str3,str5);
 				}
 				else
 				{
@@ -234,18 +219,13 @@ public class Register2 extends Activity
 	}
 	public void creatDB()
 	{
-		UserDB mDbHelper = new UserDB(Register2.this);
-
-		mDbHelper.open();
-
 		String str1 = edit_text1.getText().toString();
 		String str2 = edit_text2.getText().toString();
 		String str3 = edit_text3.getText().toString();
+		String cellphone = edit_text5.getText().toString();
 
-		mDbHelper.create(str2, str3, str1, user_id,
-				device_token, "android",cityString,citydetailString,city_id,citydetail_id);
-
-		mDbHelper.close();
+		DBTools.creatUserData(Register2.this,str2, str3, str1, user_id,
+				device_token, "android",cityString,citydetailString,city_id,citydetail_id,cellphone);
 
 		PageUtil mSysUtil = new PageUtil(Register2.this);
 
@@ -317,7 +297,7 @@ public class Register2 extends Activity
 				});
 		dialog.show();
 	}
-	public void postImageAndData(String str1,String str2,String str3)
+	public void postImageAndData(String str1,String str2,String str3,String cellphone)
 	{
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
@@ -334,6 +314,8 @@ public class Register2 extends Activity
 		parems.add(new BasicNameValuePair("city_id", city_id));
 		parems.add(new BasicNameValuePair("city_detail_id",
 				citydetail_id));
+		parems.add(new BasicNameValuePair("cellphone",
+				cellphone));
 
 		FolderFunction setfolder = new FolderFunction();
 

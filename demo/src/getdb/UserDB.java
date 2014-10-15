@@ -31,6 +31,7 @@ public class UserDB
 	public static final String KEY_USER_CITY_DETAIL = "user_city_detail";
 	public static final String KEY_CITY_ID = "city_id";
 	public static final String KEY_CITY_DETAIL_ID = "city_detail_id";
+	public static final String KEY_CELLPHONE = "cellphone";
 
 	/** Constructor */
 	@SuppressLint("SdCardPath")
@@ -60,7 +61,9 @@ public class UserDB
 				+ " TEXT NOT NULL," + KEY_NAME + " TEXT," + KEY_USERID
 				+ " TEXT," + KEY_DEVICETOKEN + " TEXT," + KEY_OS + " TEXT,"
 				+ KEY_USER_CITY + " TEXT," + KEY_USER_CITY_DETAIL + " TEXT,"
-				+ KEY_CITY_ID + " TEXT," + KEY_CITY_DETAIL_ID + " TEXT" + ");";
+				+ KEY_CITY_ID + " TEXT," 
+				+ KEY_CITY_DETAIL_ID + " TEXT," 
+				+ KEY_CELLPHONE + " TEXT" + ");";
 
 		public DatabaseHelper(Context context)
 		{
@@ -97,7 +100,7 @@ public class UserDB
 						new String[] { KEY_USERNAME, KEY_PASSWORD, KEY_NAME,
 								KEY_OS, KEY_USERID, KEY_DEVICETOKEN,
 								KEY_USER_CITY, KEY_USER_CITY_DETAIL,
-								KEY_CITY_ID, KEY_CITY_DETAIL_ID }, null, // WHERE
+								KEY_CITY_ID, KEY_CITY_DETAIL_ID ,KEY_CELLPHONE}, null, // WHERE
 																			// clause
 						null, // WHERE arguments
 						null, // GROUP BY clause
@@ -125,7 +128,7 @@ public class UserDB
 	public long create(String username, String password, String name,
 			String user_id, String device_token, String device_os,
 			String user_city, String user_city_detail, String city_id,
-			String user_city_detail_id)
+			String user_city_detail_id,String cellphone)
 	{
 		ContentValues args = new ContentValues();
 
@@ -142,6 +145,7 @@ public class UserDB
 		args.put(KEY_USER_CITY_DETAIL, user_city_detail);
 		args.put(KEY_CITY_ID, city_id);
 		args.put(KEY_CITY_DETAIL_ID, user_city_detail_id);
+		args.put(KEY_CELLPHONE, cellphone);
 
 		return db.insert(DATABASE_TABLE, null, args);
 	}

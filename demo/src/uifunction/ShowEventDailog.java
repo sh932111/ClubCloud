@@ -3,6 +3,7 @@ package uifunction;
 import java.util.ArrayList;
 
 import getdb.EventDB;
+import getfunction.DBTools;
 import getfunction.EventAdpter;
 import getfunction.MyAdapter;
 import homedetail.PersonalInformation;
@@ -45,15 +46,9 @@ public class ShowEventDailog extends DialogFragment
 		
 		String app_path = getActivity().getExternalFilesDir(null).getAbsolutePath() + "/"+"pushphoto"+"/" ;
 		
-		EventDB db = new EventDB(getActivity());
-		
-		db.open();
-		
-		ArrayList<Bundle> mArrayList= db.getType("event",year,month);
+		ArrayList<Bundle> mArrayList= DBTools.getType(getActivity(),"event",year,month);
 		
 		EventAdpter adapter = new EventAdpter(getActivity(), mArrayList, app_path ,1);
-		
-		db.close();
 		
 		if (mArrayList.size() != 0)
 		{

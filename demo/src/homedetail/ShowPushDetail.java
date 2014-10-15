@@ -137,7 +137,7 @@ public class ShowPushDetail extends Activity
 							@Override
 							public void work()
 							{
-								DBTools.deleteDB(ShowPushDetail.this, id);
+								DBTools.deleteDB(ShowPushDetail.this, id,1);
 								finish();
 							}
 
@@ -177,7 +177,7 @@ public class ShowPushDetail extends Activity
 							public void cancel()
 							{
 								// TODO Auto-generated method stub
-								DBTools.deleteDB(ShowPushDetail.this, id);
+								DBTools.deleteDB(ShowPushDetail.this, id,1);
 								finish();
 							}
 						});

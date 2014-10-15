@@ -7,6 +7,7 @@ import pagefunction.PageUtil;
 import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
 import getdb.TravelDB;
+import getfunction.DBTools;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
 import httpfunction.DownloadImageRunnable;
@@ -74,16 +75,12 @@ public class ShowTravelDetail extends Activity
 
 		id = bundle.getLong("ID");
 
-		TravelDB travelDB = new TravelDB(ShowTravelDetail.this);
-
-		travelDB.open();
-
-		Bundle get_bundle = travelDB.get(id);
+		Bundle get_bundle = DBTools.getPushDetail(ShowTravelDetail.this, id);
 
 		String image_check = get_bundle.getString("Image");
 		
-		updateDBLook();
-
+		DBTools.updateTravelLook(ShowTravelDetail.this, id);
+		
 		float h_size = 1920 / getResources().getDisplayMetrics().heightPixels;
 
 		float s_size = 350 / h_size;
@@ -140,8 +137,7 @@ public class ShowTravelDetail extends Activity
 							showScrollView.showImageView
 									.setImageBitmap(get_image
 											.getBitmapFromSDCard(app_path));
-							
-							updateDBImage();
+							DBTools.updateTravelImage(ShowTravelDetail.this, id);
 						}
 					});
 			dImageRunnable.downLoadImage();
@@ -187,13 +183,7 @@ public class ShowTravelDetail extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				TravelDB mDbHelper = new TravelDB(ShowTravelDetail.this);
-				
-				mDbHelper.open();
-
-				mDbHelper.delete(id);
-
-				mDbHelper.close();
+				DBTools.deleteDB(ShowTravelDetail.this, id, 2);
 				
 				finish();
 			}
@@ -210,7 +200,6 @@ public class ShowTravelDetail extends Activity
 				finish();
 			}
 		});
-		travelDB.close();
 	}
 
 	@Override
@@ -248,17 +237,6 @@ public class ShowTravelDetail extends Activity
 		}
 		return null;
 	}
-
-	public void updateDBLook()
-	{
-		TravelDB mDbHelper = new TravelDB(ShowTravelDetail.this);
-
-		mDbHelper.open();
-
-		mDbHelper.updateLook(id, "0");
-
-		mDbHelper.close();
-	}
 	public void updateDB(Long id)
 	{
 		String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"pushphoto"+"/" + id + ".png";
@@ -271,25 +249,8 @@ public class ShowTravelDetail extends Activity
 		}
 		
 		String timeString = mHour + ":" + mMinute;
-		
-		TravelDB mDbHelper = new TravelDB(ShowTravelDetail.this);
-		
-		mDbHelper.open();
 
-		mDbHelper.updateAll(id, showScrollView.titleView.getText().toString(), showScrollView.listView.getText().toString(),  showScrollView.dateView.getText().toString() ,timeString );
-
-		mDbHelper.close();
-	}
-	public void updateDBImage()
-	{
-
-		TravelDB mDbHelper = new TravelDB(ShowTravelDetail.this);
-
-		mDbHelper.open();
-
-		mDbHelper.updateImage(id, "2");
-
-		mDbHelper.close();
+		DBTools.updateTravelAll(ShowTravelDetail.this, id, showScrollView.titleView.getText().toString(), showScrollView.listView.getText().toString(),  showScrollView.dateView.getText().toString() ,timeString );
 	}
 	public void showDialog()
 	{

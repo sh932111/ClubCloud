@@ -56,13 +56,13 @@ public class DBTools
 		return arrayList;
 	}
 	
-	public static void updateTravelAll(Context context ,Long id, String title ,String detail,String date,String time)
+	public static void updateTravelAll(Context context ,Long id, String title ,String detail,String date,String time,String image)
 	{
 		TravelDB mDbHelper = new TravelDB(context);
 		
 		mDbHelper.open();
 
-		mDbHelper.updateAll(id, title, detail,date ,time);
+		mDbHelper.updateAll(id, title, detail,date ,time,image);
 
 		mDbHelper.close();
 	}
@@ -339,6 +339,11 @@ public class DBTools
 
 		String image = bundle.getString("image");
 
+//		if(image.equals("0"))
+//		{
+//			image = "3";
+//		}
+		
 		String address = bundle.getString("city")
 				+ bundle.getString("area") + bundle.getString("address");
 

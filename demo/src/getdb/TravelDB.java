@@ -252,7 +252,8 @@ public class TravelDB
 	}
 
 	public boolean updateAll(Long id, String title, String list, String time,
-			String value)
+			String value,
+			String image)
 	{
 		ContentValues args = new ContentValues();
 
@@ -261,6 +262,7 @@ public class TravelDB
 		args.put(KEY_ITEM, list);
 		args.put(KEY_CREATED, time);
 		args.put(KEY_TimeDetail, value);
+		args.put(KEY_IMAGE, image);
 
 		db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + id, null);
 

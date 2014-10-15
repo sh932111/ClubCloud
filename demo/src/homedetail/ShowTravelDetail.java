@@ -75,7 +75,7 @@ public class ShowTravelDetail extends Activity
 
 		id = bundle.getLong("ID");
 
-		Bundle get_bundle = DBTools.getPushDetail(ShowTravelDetail.this, id);
+		Bundle get_bundle = DBTools.getTravelDetail(ShowTravelDetail.this, id);
 
 		String image_check = get_bundle.getString("Image");
 		
@@ -250,7 +250,7 @@ public class ShowTravelDetail extends Activity
 		
 		String timeString = mHour + ":" + mMinute;
 
-		DBTools.updateTravelAll(ShowTravelDetail.this, id, showScrollView.titleView.getText().toString(), showScrollView.listView.getText().toString(),  showScrollView.dateView.getText().toString() ,timeString );
+		DBTools.updateTravelAll(ShowTravelDetail.this, id, showScrollView.titleView.getText().toString(), showScrollView.listView.getText().toString(),  showScrollView.dateView.getText().toString() ,timeString ,"2");
 	}
 	public void showDialog()
 	{

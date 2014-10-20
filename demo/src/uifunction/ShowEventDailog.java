@@ -2,25 +2,17 @@ package uifunction;
 
 import java.util.ArrayList;
 
-import getdb.EventDB;
 import getfunction.DBTools;
 import getfunction.EventAdpter;
-import getfunction.MyAdapter;
-import homedetail.PersonalInformation;
 
 import com.candroidsample.R;
-
-import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 

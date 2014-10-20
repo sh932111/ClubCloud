@@ -1,6 +1,6 @@
 package startprogram;
 
-import getdb.DBManager;
+import getdb.CityDB;
 import getfunction.DialogShow;
 import httpfunction.SendPostRunnable;
 
@@ -201,7 +201,7 @@ public class Register1 extends Activity
 
 	public void loadData()
 	{
-		DBManager dbManager = new DBManager(Register1.this);
+		CityDB dbManager = new CityDB(Register1.this);
 
 		dbManager.openDatabase();
 
@@ -280,7 +280,7 @@ public class Register1 extends Activity
 
 	public void setDetail()
 	{
-		DBManager dbManager = new DBManager(Register1.this);
+		CityDB dbManager = new CityDB(Register1.this);
 
 		dbManager.openDatabase();
 

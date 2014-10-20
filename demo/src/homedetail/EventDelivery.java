@@ -19,7 +19,7 @@ import startprogram.Register1;
 import startprogram.Register2;
 import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
-import getdb.DBManager;
+import getdb.CityDB;
 import getdb.UserDB;
 import getfunction.DBTools;
 import getfunction.DialogShow;
@@ -220,7 +220,7 @@ public class EventDelivery extends CloudActivity
 
 	public void loadData()
 	{
-		DBManager dbManager = new DBManager(EventDelivery.this);
+		CityDB dbManager = new CityDB(EventDelivery.this);
 
 		dbManager.openDatabase();
 
@@ -261,7 +261,7 @@ public class EventDelivery extends CloudActivity
 
 	public void setDetail()
 	{
-		DBManager dbManager = new DBManager(EventDelivery.this);
+		CityDB dbManager = new CityDB(EventDelivery.this);
 
 		dbManager.openDatabase();
 

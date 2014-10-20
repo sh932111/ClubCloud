@@ -6,8 +6,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
-import getdb.DBManager;
+import getdb.CityDB;
 import getdb.EventDB;
 import getdb.PushDB;
 import getdb.TravelDB;
@@ -15,6 +16,37 @@ import getdb.UserDB;
 
 public class DBTools
 {
+	public static ArrayList<Bundle> getCity(Context context)
+	{
+		CityDB dbManager = new CityDB(context);
+
+		dbManager.openDatabase();
+
+		ArrayList<Bundle> arrayList = dbManager.getCity();
+		
+		Cursor mCursor = dbManager.get(arrayList.get(0).getString("city_id"));
+		
+		System.out.println(mCursor.getCount());
+		
+		dbManager.closeDatabase();
+		
+		return arrayList;
+	}
+	
+	public static ArrayList<Bundle> getArea(Context context,String rowID)
+	{
+		CityDB dbManager = new CityDB(context);
+		
+		dbManager.openDatabase();
+
+		ArrayList<Bundle> arrayList = dbManager.getArea(rowID);
+		
+		dbManager.closeDatabase();
+		
+		return arrayList;
+	}
+
+	
 	public static void creatUserData(Context context,String username, String password, String name,
 			String user_id, String device_token, String device_os,
 			String user_city, String user_city_detail, String city_id,
@@ -249,7 +281,7 @@ public class DBTools
 	
 	public static void startInit(Context context)
 	{
-		DBManager dbHelper = new DBManager(context);
+		CityDB dbHelper = new CityDB(context);
 
 		dbHelper.openDatabase();
 

@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import pagefunction.PageUtil;
-import getdb.DBManager;
-import getdb.EventDB;
-import getdb.UserDB;
 import getfunction.*;
 import startprogram.LoginPage;
 import startprogram.Register1;
-import uifunction.ShowEventDailog;
+import uifunction.ChooseCityDailog;
+import uifunction.ChooseCityDailog.chooseCityListener;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -33,7 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class StartActivity extends Activity
+public class StartActivity extends Activity implements chooseCityListener
 {
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
@@ -98,7 +96,8 @@ public class StartActivity extends Activity
 		
 		setfolder.saveImage(bmImage, locaction);
 	}
-	
+
+	@SuppressLint("NewApi")
 	public void setUI()
 	{
 		text = (TextView)findViewById(R.id.textView2);
@@ -133,6 +132,10 @@ public class StartActivity extends Activity
 				intent.putExtras(bundle);
 				intent.setClass(StartActivity.this, LoginPage.class);
 				startActivity(intent);
+				
+				ChooseCityDailog dailog = new ChooseCityDailog();
+				dailog.show(getFragmentManager(), "dialog");
+				
 			}
 
 		});
@@ -150,6 +153,13 @@ public class StartActivity extends Activity
 			}
 
 		});
+		
+	}
+	
+	@Override
+	public void onChooseCityComplete(Bundle bundle)
+	{
+		System.out.println(bundle.toString());
 	}
 	
 	public void setGCM_RegID()

@@ -101,12 +101,11 @@ public class EventDB
 				null, // HAVING clause
 				KEY_CREATED + " DESC" // Order-by clause
 		);
+		ArrayList<Bundle> array_list = new ArrayList<Bundle>();
 		
 		if ( mCursor.getCount() != 0)
 		{
 			mCursor.moveToFirst();
-			
-			ArrayList<Bundle> array_list = new ArrayList<Bundle>();
 			
 			for (int i = 0; i < mCursor.getCount(); i++)
 			{
@@ -138,7 +137,7 @@ public class EventDB
 			return array_list;
 		}
 		
-		return null;
+		return array_list;
 	}
 
 	public ArrayList<Bundle> getType(String tStringype,String getYeay,String getMonth) throws SQLException

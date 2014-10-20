@@ -1,14 +1,11 @@
 package com.candroidsample;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import pagefunction.PageUtil;
 import getfunction.*;
 import startprogram.LoginPage;
 import startprogram.Register1;
-import uifunction.ChooseCityDailog;
-import uifunction.ChooseCityDailog.chooseCityListener;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -17,7 +14,7 @@ import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -45,7 +42,6 @@ public class StartActivity extends Activity
 
 	//public DBManager dbHelper;
 
-	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -97,7 +93,6 @@ public class StartActivity extends Activity
 		setfolder.saveImage(bmImage, locaction);
 	}
 
-	@SuppressLint("NewApi")
 	public void setUI()
 	{
 		text = (TextView)findViewById(R.id.textView2);
@@ -174,6 +169,8 @@ public class StartActivity extends Activity
 
 					strRegId = gcm.register(SENDER_ID);
 
+					System.out.println(strRegId);
+					
 					SharedPreferences get_pref = getSharedPreferences(PREF, 0);
 
 					get_pref.edit().putString(GET_ID, strRegId).commit();
@@ -189,7 +186,6 @@ public class StartActivity extends Activity
 				{
 					msg = "Error :" + ex.getMessage();
 
-					System.out.println(msg);
 				}
 
 				return msg;

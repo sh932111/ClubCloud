@@ -1,6 +1,5 @@
 package startprogram;
 
-import getdb.CityDB;
 import getfunction.DialogShow;
 import httpfunction.SendPostRunnable;
 
@@ -13,15 +12,17 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uifunction.ChooseCityDailog;
+import uifunction.ChooseCityDailog.chooseCityListener;
+
 import com.candroidsample.R;
-import com.candroidsample.StartActivity;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,36 +30,26 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-public class Register1 extends Activity
+public class Register1 extends Activity implements chooseCityListener
 {
 	private ProgressDialog pd; 
-	
-	private Cursor mCursor;
-	private Cursor dCursor;
-
-	CharSequence[] cs1;
-	CharSequence[] cs2;
-
-	CharSequence[] cs1_id;
-	CharSequence[] cs2_id;
 
 	private Spinner id_spinner;
-	private Spinner city_spinner;
-	private Spinner city_detail_spinner;
-
+	
 	String EID;
-
-	String CITY;
-	String DETAILCITY;
-
-	String CITY_id;
-	String DETAILCITY_id;
 
 	private EditText idNumberEdit;
 
 	String device_token;
 
+	String CITY="";
+	String DETAILCITY="";
+
+	String CITY_id="";
+	String DETAILCITY_id="";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -73,14 +64,9 @@ public class Register1 extends Activity
 		findView();
 	}
 
+	@SuppressLint("NewApi")
 	public void findView()
 	{
-		loadData();
-		
-		CITY = getString(R.string.default_city);
-		DETAILCITY = getString(R.string.default_area);
-		CITY_id = "U";
-		DETAILCITY_id = "970";
 		
 		id_spinner = (Spinner) findViewById(R.id.spinnner);
 		idNumberEdit = (EditText) findViewById(R.id.editText1);
@@ -95,96 +81,114 @@ public class Register1 extends Activity
 
 		id_spinner.setOnItemSelectedListener(spnPerferListener);
 
+		Button bt3 = (Button) findViewById(R.id.chooseCity);
+		bt3.setOnClickListener(new Button.OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				// TODO Auto-generated method stub
+				ChooseCityDailog dailog = new ChooseCityDailog();
+				dailog.show(getFragmentManager(), "dialog");
+			}
+
+		});
+		
 		Button bt1 = (Button) findViewById(R.id.button1);
 		bt1.setOnClickListener(new Button.OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0)
 			{
-				pd = ProgressDialog.show(Register1.this, "請稍後", "載入中，請稍後..."); 
-				
-				String user_id = EID + idNumberEdit.getText().toString();
-
-				List<NameValuePair> parems = new ArrayList<NameValuePair>();
-
-				if (user_id.length() > 0)
+				if (CITY.length() > 0 && DETAILCITY.length() > 0)
 				{
-					parems.add(new BasicNameValuePair("user_id", user_id));
-				}
-
-				SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)+
-						getString(R.string.Register1), parems,
-						new SendPostRunnable.Callback()
-						{
-							@Override
-							public void service_result(Message dic)
-							{
-								pd.dismiss();
-								
-								Bundle countBundle = dic.getData();
-
-								@SuppressWarnings("unchecked")
-								HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle.getSerializable("resultData");
-								
-								final JSONObject result = (JSONObject) resultData.get("Data");
-								
-								String messageString = null;
-
-								try
-								{
-									messageString = result.getString("Message");
-
-								}
-								catch (JSONException e)
-								{
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-//								
-								DialogShow show = new DialogShow();
-								show.showStyle1(Register1.this,
-										getString(R.string.dialog_title1),
-										messageString,
-										getString(R.string.dialog_check),
-										new DialogShow.Callback()
-										{
-											@Override
-											public void work()
-											{
-												boolean resString = false;
-												try
-												{
-													resString = result.getBoolean("result");
-													
-												}
-												catch (JSONException e)
-												{
-													// TODO Auto-generated catch block
-													e.printStackTrace();
-												}
-												
-												if (resString)
-												{
-													goNextPage();
-												}
-											}
-											@Override
-											public void cancel()
-											{
-												// TODO Auto-generated method stub
-											}
-										});								
-							}
-						});
-				
-				 Thread t = new Thread(post);
+					pd = ProgressDialog.show(Register1.this, "請稍後", "載入中，請稍後..."); 
 					
-				 t.start();
-
+					String user_id = EID + idNumberEdit.getText().toString();
+	
+					List<NameValuePair> parems = new ArrayList<NameValuePair>();
+	
+					if (user_id.length() > 0)
+					{
+						parems.add(new BasicNameValuePair("user_id", user_id));
+					}
+	
+					SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)+
+							getString(R.string.Register1), parems,
+							new SendPostRunnable.Callback()
+							{
+								@Override
+								public void service_result(Message dic)
+								{
+									pd.dismiss();
+									
+									Bundle countBundle = dic.getData();
+	
+									@SuppressWarnings("unchecked")
+									HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle.getSerializable("resultData");
+									
+									final JSONObject result = (JSONObject) resultData.get("Data");
+									
+									String messageString = null;
+	
+									try
+									{
+										messageString = result.getString("Message");
+	
+									}
+									catch (JSONException e)
+									{
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+	//								
+									DialogShow show = new DialogShow();
+									show.showStyle1(Register1.this,
+											getString(R.string.dialog_title1),
+											messageString,
+											getString(R.string.dialog_check),
+											new DialogShow.Callback()
+											{
+												@Override
+												public void work()
+												{
+													boolean resString = false;
+													try
+													{
+														resString = result.getBoolean("result");
+														
+													}
+													catch (JSONException e)
+													{
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+													
+													if (resString)
+													{
+														goNextPage();
+													}
+												}
+												@Override
+												public void cancel()
+												{
+													// TODO Auto-generated method stub
+												}
+											});								
+								}
+							});
+					
+					 Thread t = new Thread(post);
+						
+					 t.start();
+				}
+				else 
+				{
+					
+				}
 			}
 
 		});
-		setSpinner();
 	}
 
 	@Override
@@ -201,18 +205,6 @@ public class Register1 extends Activity
 		// TODO Auto-generated method stub
 		super.onStop();
 
-		stopManagingCursor(mCursor);
-		stopManagingCursor(dCursor);
-
-	}
-
-	public void loadData()
-	{
-		CityDB dbManager = new CityDB(Register1.this);
-
-		dbManager.openDatabase();
-
-		mCursor = dbManager.getCityAll();
 	}
 
 	private Spinner.OnItemSelectedListener spnPerferListener = new Spinner.OnItemSelectedListener()
@@ -224,25 +216,8 @@ public class Register1 extends Activity
 			if (id_spinner == arg0)
 			{
 				EID = arg0.getSelectedItem().toString();
-				System.out.println(EID);
 			}
-			else if (city_spinner == arg0)
-			{
-				CITY = arg0.getSelectedItem().toString();
-
-				CITY_id = cs1_id[arg2].toString();
-
-				setDetail();
-			}
-			else if (city_detail_spinner == arg0)
-			{
-				DETAILCITY = arg0.getSelectedItem().toString();
-
-				DETAILCITY_id = cs2_id[arg2].toString();
-
-			}
-
-			// TODO Auto-generated method stub
+						// TODO Auto-generated method stub
 		}
 
 		@Override
@@ -253,80 +228,6 @@ public class Register1 extends Activity
 		}
 	};
 
-	public void setSpinner()
-	{
-		ArrayList<String> columnArray1 = new ArrayList<String>();
-		ArrayList<String> columnArray2 = new ArrayList<String>();
-
-		int rows_num = mCursor.getCount();
-		if (rows_num != 0)
-		{
-			mCursor.moveToFirst();
-			for (int i = 0; i < rows_num; i++)
-			{
-				columnArray1.add(mCursor.getString(0));
-				columnArray2.add(mCursor.getString(1));
-
-				mCursor.moveToNext();
-			}
-		}
-		cs1 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
-		cs1_id = columnArray2.toArray(new CharSequence[columnArray2.size()]);
-
-		city_spinner = (Spinner) findViewById(R.id.city_spinnner);
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
-				this, android.R.layout.simple_spinner_dropdown_item, cs1);
-
-		city_spinner.setAdapter(adapter);
-
-		city_spinner.setOnItemSelectedListener(spnPerferListener);
-		startManagingCursor(mCursor);
-
-		setDetail();
-	}
-
-	public void setDetail()
-	{
-		CityDB dbManager = new CityDB(Register1.this);
-
-		dbManager.openDatabase();
-
-		dCursor = dbManager.get(CITY);
-
-		ArrayList<String> columnArray1 = new ArrayList<String>();
-		ArrayList<String> columnArray2 = new ArrayList<String>();
-
-		int rows_num = dCursor.getCount();
-		if (rows_num != 0)
-		{
-			dCursor.moveToFirst();
-			for (int i = 0; i < rows_num; i++)
-			{
-				columnArray1.add(dCursor.getString(1));
-				columnArray2.add(dCursor.getString(2));
-				if (i == 0)
-				{
-					DETAILCITY = dCursor.getString(1);
-					DETAILCITY_id = dCursor.getString(2);
-				}
-				dCursor.moveToNext();
-			}
-		}
-
-		cs2 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
-		cs2_id = columnArray2.toArray(new CharSequence[columnArray2.size()]);
-
-		city_detail_spinner = (Spinner) findViewById(R.id.city_detail_spinnner);
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
-				this, android.R.layout.simple_spinner_dropdown_item, cs2);
-
-		city_detail_spinner.setAdapter(adapter);
-
-		city_detail_spinner.setOnItemSelectedListener(spnPerferListener);
-
-		startManagingCursor(dCursor);
-
-	}
 
 	public void goNextPage()
 	{
@@ -348,5 +249,16 @@ public class Register1 extends Activity
 		startActivity(intent);
 	}
 
+	@Override
+	public void onChooseCityComplete(Bundle bundle)
+	{
+		CITY = bundle.getString("city");
+		CITY_id = bundle.getString("city_id");
+		DETAILCITY = bundle.getString("area");
+		DETAILCITY_id = bundle.getString("area_id");
+		
+		TextView address = (TextView)findViewById(R.id.addressText);
+		address.setText("選擇區域:"+CITY+DETAILCITY);
+	}
 }
 

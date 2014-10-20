@@ -31,7 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class StartActivity extends Activity implements chooseCityListener
+public class StartActivity extends Activity
 {
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
@@ -132,10 +132,6 @@ public class StartActivity extends Activity implements chooseCityListener
 				intent.putExtras(bundle);
 				intent.setClass(StartActivity.this, LoginPage.class);
 				startActivity(intent);
-				
-//				ChooseCityDailog dailog = new ChooseCityDailog();
-//				dailog.show(getFragmentManager(), "dialog");
-				
 			}
 
 		});
@@ -156,11 +152,6 @@ public class StartActivity extends Activity implements chooseCityListener
 		
 	}
 	
-	@Override
-	public void onChooseCityComplete(Bundle bundle)
-	{
-		System.out.println(bundle.toString());
-	}
 	
 	public void setGCM_RegID()
 	{

@@ -46,8 +46,9 @@ public class HomePage extends Activity
 		setGCM_RegID();
 
 		setUI();
+		
 	}
-
+	
 	public void setUI()
 	{
 		Button bt1 = (Button) findViewById(R.id.bt1);

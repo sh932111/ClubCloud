@@ -17,8 +17,10 @@ import org.json.JSONObject;
 import pagefunction.PageUtil;
 import startprogram.Register1;
 import startprogram.Register2;
+import uifunction.ChooseCityDailog;
 import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
+import uifunction.ChooseCityDailog.chooseCityListener;
 import getdb.CityDB;
 import getdb.UserDB;
 import getfunction.DBTools;
@@ -31,6 +33,7 @@ import httpfunction.UploadImage;
 import com.candroidsample.R;
 import com.google.android.gms.internal.fo;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -56,10 +59,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.LinearLayout.LayoutParams;
 
-public class EventDelivery extends CloudActivity
+public class EventDelivery extends CloudActivity implements chooseCityListener
 {
 	ShowScrollView showScrollView;
 
@@ -77,24 +81,13 @@ public class EventDelivery extends CloudActivity
 	private final static int CAMERA = 66;
 	private final static int Album = 67;
 
-	private Cursor mCursor;
-	private Cursor dCursor;
+	String CITY="";
+	String DETAILCITY="";
 
-	private Spinner city_spinner;
-	private Spinner city_detail_spinner;
+	String CITY_id="";
+	String DETAILCITY_id="";
 
-	String CITY;
-	String DETAILCITY;
-
-	String CITY_id;
-	String DETAILCITY_id;
-
-	CharSequence[] cs1;
-	CharSequence[] cs2;
-
-	CharSequence[] cs1_id;
-	CharSequence[] cs2_id;
-
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -110,11 +103,6 @@ public class EventDelivery extends CloudActivity
 		mHour = c.get(Calendar.HOUR_OF_DAY);
 
 		mMinute = c.get(Calendar.MINUTE);
-
-		CITY = getString(R.string.default_city);
-		DETAILCITY = getString(R.string.default_area);
-		CITY_id = "U";
-		DETAILCITY_id = "970";
 
 		float h_size = 1920 / getResources().getDisplayMetrics().heightPixels;
 
@@ -182,6 +170,18 @@ public class EventDelivery extends CloudActivity
 				post();
 			}
 		});
+		Button bt3 = (Button) findViewById(R.id.chooseCity);
+		bt3.setOnClickListener(new Button.OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				// TODO Auto-generated method stub
+				ChooseCityDailog dailog = new ChooseCityDailog();
+				dailog.show(getFragmentManager(), "dialog");
+			}
+
+		});
 
 		LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout1);
 
@@ -206,8 +206,6 @@ public class EventDelivery extends CloudActivity
 					}
 				});
 
-		loadData();
-		setSpinner();
 	}
 
 	@Override
@@ -218,121 +216,7 @@ public class EventDelivery extends CloudActivity
 		return true;
 	}
 
-	public void loadData()
-	{
-		CityDB dbManager = new CityDB(EventDelivery.this);
-
-		dbManager.openDatabase();
-
-		mCursor = dbManager.getCityAll();
-	}
-
-	public void setSpinner()
-	{
-		ArrayList<String> columnArray1 = new ArrayList<String>();
-		ArrayList<String> columnArray2 = new ArrayList<String>();
-
-		int rows_num = mCursor.getCount();
-		if (rows_num != 0)
-		{
-			mCursor.moveToFirst();
-			for (int i = 0; i < rows_num; i++)
-			{
-				columnArray1.add(mCursor.getString(0));
-				columnArray2.add(mCursor.getString(1));
-
-				mCursor.moveToNext();
-			}
-		}
-		cs1 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
-		cs1_id = columnArray2.toArray(new CharSequence[columnArray2.size()]);
-
-		city_spinner = (Spinner) findViewById(R.id.city_spinnner);
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
-				this, android.R.layout.simple_spinner_dropdown_item, cs1);
-
-		city_spinner.setAdapter(adapter);
-
-		city_spinner.setOnItemSelectedListener(spnPerferListener);
-		startManagingCursor(mCursor);
-
-		setDetail();
-	}
-
-	public void setDetail()
-	{
-		CityDB dbManager = new CityDB(EventDelivery.this);
-
-		dbManager.openDatabase();
-
-		dCursor = dbManager.get(CITY);
-
-		ArrayList<String> columnArray1 = new ArrayList<String>();
-		ArrayList<String> columnArray2 = new ArrayList<String>();
-
-		int rows_num = dCursor.getCount();
-		if (rows_num != 0)
-		{
-			dCursor.moveToFirst();
-			for (int i = 0; i < rows_num; i++)
-			{
-				columnArray1.add(dCursor.getString(1));
-				columnArray2.add(dCursor.getString(2));
-				if (i == 0)
-				{
-					DETAILCITY = dCursor.getString(1);
-					DETAILCITY_id = dCursor.getString(2);
-				}
-				dCursor.moveToNext();
-			}
-		}
-
-		cs2 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
-		cs2_id = columnArray2.toArray(new CharSequence[columnArray2.size()]);
-
-		city_detail_spinner = (Spinner) findViewById(R.id.city_detail_spinnner);
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
-				this, android.R.layout.simple_spinner_dropdown_item, cs2);
-
-		city_detail_spinner.setAdapter(adapter);
-
-		city_detail_spinner.setOnItemSelectedListener(spnPerferListener);
-
-		startManagingCursor(dCursor);
-
-	}
-
-	private Spinner.OnItemSelectedListener spnPerferListener = new Spinner.OnItemSelectedListener()
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3)
-		{
-			if (city_spinner == arg0)
-			{
-				CITY = arg0.getSelectedItem().toString();
-
-				CITY_id = cs1_id[arg2].toString();
-
-				setDetail();
-			}
-			else if (city_detail_spinner == arg0)
-			{
-				DETAILCITY = arg0.getSelectedItem().toString();
-
-				DETAILCITY_id = cs2_id[arg2].toString();
-			}
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0)
-		{
-			// TODO Auto-generated method stub
-
-		}
-	};
-
+	
 	public void post()
 	{
 		String image_check = "0";
@@ -376,7 +260,8 @@ public class EventDelivery extends CloudActivity
 
 		if (array_list != null && post_title.length() > 0
 				&& post_list.length() > 0 && post_date.length() > 0
-				&& post_time.length() > 0 && address.length() > 0)
+				&& post_time.length() > 0 && address.length() > 0 
+				&& CITY.length() > 0 && DETAILCITY.length() > 0)
 		{
 			List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
@@ -628,4 +513,15 @@ public class EventDelivery extends CloudActivity
 			showScrollView.dateView.setText(sdf.format(m_Calendar.getTime()));
 		}
 	};
+	@Override
+	public void onChooseCityComplete(Bundle bundle)
+	{
+		CITY = bundle.getString("city");
+		CITY_id = bundle.getString("city_id");
+		DETAILCITY = bundle.getString("area");
+		DETAILCITY_id = bundle.getString("area_id");
+		
+		TextView address = (TextView)findViewById(R.id.addressText);
+		address.setText("選擇區域:"+CITY+DETAILCITY);
+	}
 }

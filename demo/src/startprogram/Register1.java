@@ -70,7 +70,8 @@ public class Register1 extends Activity implements chooseCityListener
 		
 		id_spinner = (Spinner) findViewById(R.id.spinnner);
 		idNumberEdit = (EditText) findViewById(R.id.editText1);
-
+		idNumberEdit.setText("109212490");
+		
 		ArrayAdapter<CharSequence> adapterBalls = ArrayAdapter
 				.createFromResource(this, R.array.EID,
 						android.R.layout.simple_spinner_item);

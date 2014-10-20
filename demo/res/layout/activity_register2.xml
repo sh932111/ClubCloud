@@ -10,12 +10,40 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Register2" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    
+	<LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_register2"
-        android:textSize="20sp" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:text="@string/title_activity_register2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/fbbutton"
+                android:background="@drawable/fbconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"/>
+        </LinearLayout>
+    </LinearLayout>
+    
    <!--  <Button
         android:id="@+id/button1"
         android:layout_width="fill_parent"
@@ -110,6 +138,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                        android:id="@+id/linear2"
                 android:orientation="horizontal" >
 
                 <LinearLayout
@@ -144,6 +173,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                        android:id="@+id/linear1"
                 android:orientation="horizontal" >
 
                 <LinearLayout

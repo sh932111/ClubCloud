@@ -1,6 +1,5 @@
 package homedetail;
 
-import getdb.TravelDB;
 import getfunction.DBTools;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
@@ -258,6 +257,7 @@ public class AddTravelDetail extends Activity
 				{
 
 				}
+				cursor.close();
 			}
 		}
 	}

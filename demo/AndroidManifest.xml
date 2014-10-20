@@ -14,6 +14,7 @@
 
     <uses-permission android:name="com.candroidsample.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -71,7 +72,7 @@
         </activity>
         <activity android:name="homedetail.PersonalInformation" >
         </activity>
-        <activity android:name="facebooktest.FbActivity" >
+        <activity android:name="facebook.FbActivity" >
         </activity>
 
         <meta-data

@@ -1,6 +1,7 @@
 package startprogram;
 
 import getfunction.*;
+import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
 
@@ -11,23 +12,31 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import pagefunction.PageUtil;
 
 import com.candroidsample.R;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+import com.google.android.gms.internal.js;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,6 +46,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -46,8 +56,8 @@ public class Register2 extends Activity
 	// private String actionUrl = getString(R.string.uploadUserImage);
 	// private String Register2_url = getString(R.string.Register2);
 
-	private ProgressDialog pd; 
-	
+	private ProgressDialog pd;
+
 	// Button bt1;
 	// Button bt2;
 	Button bt3;
@@ -56,6 +66,7 @@ public class Register2 extends Activity
 	private final static int Album = 67;
 
 	Button cameraButton;
+	Button fbButton;
 
 	EditText edit_text1;
 	EditText edit_text2;
@@ -78,7 +89,7 @@ public class Register2 extends Activity
 
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
-	
+
 	String device_token;
 
 	ScrollView scrollView;
@@ -101,8 +112,9 @@ public class Register2 extends Activity
 		city_id = bundle.getString("city_id");
 		citydetail_id = bundle.getString("city_detail_id");
 
-		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/user" + ".png";
-		
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath()
+				+ "/user" + ".png";
+
 		image_path = app_path;
 
 		resImage = BitmapFactory
@@ -111,6 +123,7 @@ public class Register2 extends Activity
 		findView();
 	}
 
+	@SuppressLint("NewApi")
 	public void findView()
 	{
 		TextView txt1 = (TextView) findViewById(R.id.txt1);
@@ -141,7 +154,7 @@ public class Register2 extends Activity
 		edit_text3 = (EditText) findViewById(R.id.editText3);
 		edit_text4 = (EditText) findViewById(R.id.editText4);
 		edit_text5 = (EditText) findViewById(R.id.editText5);
-		
+
 		bt3 = (Button) findViewById(R.id.button3);
 		bt3.setOnClickListener(new Button.OnClickListener()
 		{
@@ -155,22 +168,149 @@ public class Register2 extends Activity
 				String str5 = edit_text5.getText().toString();
 
 				if (str3.equals(str4) && str1.length() > 0 && str2.length() > 0
-						&& str3.length() > 0 && str4.length() > 0 && str5.length() > 0)
+						&& str3.length() > 0 && str4.length() > 0
+						&& str5.length() > 0)
 				{
-					postImageAndData(str1,str2,str3,str5);
-				}
-				else
+					postImageAndData(str1, str2, str3, str5);
+				} else
 				{
 					showAlert();
 				}
 
 			}
 		});
+
 		mPhone = new DisplayMetrics();
 
 		getWindowManager().getDefaultDisplay().getMetrics(mPhone);
-	}
 
+		fbButton = (Button) findViewById(R.id.fbbutton);
+		fbButton.setOnClickListener(new Button.OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				Session.openActiveSession(Register2.this, true,
+						new Session.StatusCallback()
+						{
+							// callback when session changes state
+							@Override
+							public void call(Session session,
+									SessionState state, Exception exception)
+							{
+								if (session.isOpened())
+								{
+									// make request to the /me API
+									Request.newMeRequest(session,
+											new Request.GraphUserCallback()
+											{
+												@Override
+												public void onCompleted(
+														GraphUser user,
+														Response response)
+												{
+													if (user != null)
+													{
+														try
+														{
+															String id = user
+																	.getInnerJSONObject()
+																	.getString("id");
+															edit_text1
+																	.setText(user
+																			.getInnerJSONObject()
+																			.getString(
+																					"name"));
+															edit_text1.setFocusable(false);
+															edit_text2
+																	.setText(id);
+															edit_text2.setFocusable(false);
+															edit_text3.setText("fb");
+															edit_text4.setText("fb");
+															
+															LinearLayout layout1 = (LinearLayout)findViewById(R.id.linear1);
+															LinearLayout layout2 = (LinearLayout)findViewById(R.id.linear2);
+															layout1.setVisibility(View.GONE);
+															layout2.setVisibility(View.GONE);
+
+														}
+														catch (JSONException e)
+														{
+															// TODO
+															// Auto-generated
+															// catch block
+															e.printStackTrace();
+														}
+													}
+												}
+											}).executeAsync();
+									
+									Bundle params = new Bundle();
+									params.putBoolean("redirect", false);
+									params.putString("height", "200");
+									params.putString("type", "normal");
+									params.putString("width", "200");
+									/* make the API call */
+									new Request(
+									    session,
+									    "/me/picture",
+									    params,
+									    HttpMethod.GET,
+										    new Request.Callback() {
+										        public void onCompleted(Response response) {
+										            /* handle the result */
+										        	
+										        	JSONObject jsonObject = response.getGraphObject().getInnerJSONObject();
+
+										        	try
+													{
+
+										        		JSONObject data = jsonObject.getJSONObject("data");
+										        		
+										        		String url = data.getString("url");
+										        		
+										        		DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
+																edit_text2.getText().toString(),
+																Register2.this,
+																"userphoto",
+																url,
+																new DownloadImageRunnable.Callback()
+																{
+																	@Override
+																	public void service_result()
+																	{
+																		ImageFunction get_image = new ImageFunction();
+
+																		String app_path = getExternalFilesDir(null).getAbsolutePath()
+																				+ "/" + "userphoto" + "/" + edit_text2.getText().toString() + ".png";
+																		resImage = get_image.getBitmapFromSDCard(app_path);
+																		mImg.setImageBitmap(resImage);
+																	}
+																});
+														dImageRunnable.downLoadImage2();
+													}
+													catch (JSONException e)
+													{
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+										        }
+										    }
+										).executeAsync();
+									
+									
+								}
+								
+							}
+							
+						});
+
+			}
+		});
+
+	}
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -193,19 +333,21 @@ public class Register2 extends Activity
 				cursor.moveToFirst();
 
 				image_path = cursor.getString(1);
-				
+
 				try
 				{
 					Bitmap bitmap = BitmapFactory.decodeStream(cr
 							.openInputStream(uri));
-					
+
 					ImageFunction getFunction = new ImageFunction();
 
 					if (bitmap.getWidth() > bitmap.getHeight())
-						resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
+						resImage = getFunction.ScalePic(bitmap,
+								mPhone.widthPixels);
 
 					else
-						resImage = getFunction.ScalePic(bitmap, mPhone.widthPixels);
+						resImage = getFunction.ScalePic(bitmap,
+								mPhone.widthPixels);
 
 					mImg.setImageBitmap(resImage);
 				}
@@ -214,11 +356,16 @@ public class Register2 extends Activity
 
 				}
 			}
-			
+
 			// super.onActivityResult(rsquestCode, resultCode, data);
+		} else
+		{
+			Session.getActiveSession().onActivityResult(this, rsquestCode,
+					resultCode, data);
 		}
 
 	}
+
 	public void creatDB()
 	{
 		String str1 = edit_text1.getText().toString();
@@ -226,17 +373,18 @@ public class Register2 extends Activity
 		String str3 = edit_text3.getText().toString();
 		String cellphone = edit_text5.getText().toString();
 
-		DBTools.creatUserData(Register2.this,str2, str3, str1, user_id,
-				device_token, "android",cityString,citydetailString,city_id,citydetail_id,cellphone);
+		DBTools.creatUserData(Register2.this, str2, str3, str1, user_id,
+				device_token, "android", cityString, citydetailString, city_id,
+				citydetail_id, cellphone);
 
 		PageUtil mSysUtil = new PageUtil(Register2.this);
 
 		mSysUtil.exit(0);
 	}
+
 	public void showAlert()
 	{
-		AlertDialog.Builder dialog = new AlertDialog.Builder(
-				Register2.this);
+		AlertDialog.Builder dialog = new AlertDialog.Builder(Register2.this);
 		dialog.setTitle(getString(R.string.dialog_title1));
 		dialog.setIcon(android.R.drawable.ic_dialog_alert);
 		String mesString = getString(R.string.dialog_password_msg);
@@ -245,18 +393,17 @@ public class Register2 extends Activity
 		dialog.setPositiveButton(getString(R.string.dialog_check),
 				new DialogInterface.OnClickListener()
 				{
-					public void onClick(DialogInterface dialog,
-							int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
 
 					}
 				});
 		dialog.show();
 	}
+
 	public void showPhotoAlert()
 	{
-		AlertDialog.Builder dialog = new AlertDialog.Builder(
-				Register2.this);
+		AlertDialog.Builder dialog = new AlertDialog.Builder(Register2.this);
 		dialog.setTitle(getString(R.string.dialog_title1));
 		dialog.setIcon(android.R.drawable.ic_dialog_alert);
 		String mesString = getString(R.string.check_img_src);
@@ -265,8 +412,7 @@ public class Register2 extends Activity
 		dialog.setPositiveButton(getString(R.string.dialog_cancel),
 				new DialogInterface.OnClickListener()
 				{
-					public void onClick(DialogInterface dialog,
-							int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
 
 					}
@@ -274,12 +420,11 @@ public class Register2 extends Activity
 		dialog.setNegativeButton(getString(R.string.dialog_album),
 				new DialogInterface.OnClickListener()
 				{
-					public void onClick(DialogInterface dialog,
-							int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
 						// TODO Auto-generated method stub
-						Intent intent = new Intent(
-								Intent.ACTION_GET_CONTENT, null);
+						Intent intent = new Intent(Intent.ACTION_GET_CONTENT,
+								null);
 						intent.setType("image/*");
 						startActivityForResult(intent, Album);
 					}
@@ -287,8 +432,7 @@ public class Register2 extends Activity
 		dialog.setNeutralButton(getString(R.string.dialog_camera),
 				new DialogInterface.OnClickListener()
 				{
-					public void onClick(DialogInterface dialog,
-							int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
 						// TODO Auto-generated method stub
 
@@ -299,55 +443,56 @@ public class Register2 extends Activity
 				});
 		dialog.show();
 	}
-	public void postImageAndData(String str1,String str2,String str3,String cellphone)
+
+	public void postImageAndData(String str1, String str2, String str3,
+			String cellphone)
 	{
-		pd = ProgressDialog.show(Register2.this, "請稍後", "載入中，請稍後..."); 
-		
+		pd = ProgressDialog.show(Register2.this, "請稍後", "載入中，請稍後...");
+
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
 		parems.add(new BasicNameValuePair("name", str1));
 		parems.add(new BasicNameValuePair("username", str2));
 		parems.add(new BasicNameValuePair("password", str3));
 		parems.add(new BasicNameValuePair("user_id", user_id));
-		parems.add(new BasicNameValuePair("device_token",
-				device_token));
+		parems.add(new BasicNameValuePair("device_token", device_token));
 		parems.add(new BasicNameValuePair("device_os", "android"));
 		parems.add(new BasicNameValuePair("user_city", cityString));
-		parems.add(new BasicNameValuePair("user_city_detail",
-				citydetailString));
+		parems.add(new BasicNameValuePair("user_city_detail", citydetailString));
 		parems.add(new BasicNameValuePair("city_id", city_id));
-		parems.add(new BasicNameValuePair("city_detail_id",
-				citydetail_id));
-		parems.add(new BasicNameValuePair("cellphone",
-				cellphone));
+		parems.add(new BasicNameValuePair("city_detail_id", citydetail_id));
+		parems.add(new BasicNameValuePair("cellphone", cellphone));
 
 		FolderFunction setfolder = new FolderFunction();
 
-		String app_path = this.getExternalFilesDir(null).getAbsolutePath() + "/userphoto/" + str2 + ".png";
-		
+		String app_path = this.getExternalFilesDir(null).getAbsolutePath()
+				+ "/userphoto/" + str2 + ".png";
+
 		setfolder.saveImage(resImage, app_path);
 
 		image_path = app_path;
-		
-		UploadImage uploadImage = new UploadImage(getString(R.string.IP)+getString(R.string.uploadUserImage),
-				image_path, str2);
 
-		SendPostRunnable post = new SendPostRunnable(
-				getString(R.string.IP)+getString(R.string.Register2), parems,
+		UploadImage uploadImage = new UploadImage(getString(R.string.IP)
+				+ getString(R.string.uploadUserImage), image_path, str2);
+
+		SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)
+				+ getString(R.string.Register2), parems,
 				new SendPostRunnable.Callback()
 				{
 					@Override
 					public void service_result(Message dic)
 					{
 						pd.dismiss();
-						
+
 						Bundle countBundle = dic.getData();
 
 						@SuppressWarnings("unchecked")
-						HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle.getSerializable("resultData");
-						
-						final JSONObject result = (JSONObject) resultData.get("Data");
-						
+						HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle
+								.getSerializable("resultData");
+
+						final JSONObject result = (JSONObject) resultData
+								.get("Data");
+
 						String messageString = null;
 
 						try
@@ -360,11 +505,12 @@ public class Register2 extends Activity
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+
 						DialogShow show = new DialogShow();
-						
+
 						show.showStyle1(Register2.this,
-								getString(R.string.dialog_title1),messageString,
+								getString(R.string.dialog_title1),
+								messageString,
 								getString(R.string.dialog_check),
 								new DialogShow.Callback()
 								{
@@ -374,8 +520,9 @@ public class Register2 extends Activity
 										boolean resString = false;
 										try
 										{
-											resString = result.getBoolean("result");
-											
+											resString = result
+													.getBoolean("result");
+
 										}
 										catch (JSONException e)
 										{
@@ -387,13 +534,14 @@ public class Register2 extends Activity
 											creatDB();
 										}
 									}
+
 									@Override
 									public void cancel()
 									{
 										// TODO Auto-generated method stub
 									}
-								});	
-						
+								});
+
 					}
 				});
 
@@ -405,4 +553,5 @@ public class Register2 extends Activity
 
 		t2.start();
 	}
+
 }

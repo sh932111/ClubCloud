@@ -78,4 +78,42 @@ public class DownloadImageRunnable
 				+ IP + set_img_name + ".png",
 				mHandler);
 	}
+	public void downLoadImage2()
+	{
+		this.loadPic = new DownloadImage();
+		
+		Handler mHandler = new Handler()
+		{
+			@Override
+			public void handleMessage(Message msg)
+			{
+				switch (msg.what)
+				{
+				case 1:
+
+					FolderFunction setfolder = new FolderFunction();
+
+					String app_path = mContext.getExternalFilesDir(null).getAbsolutePath() + "/"+folderName+"/" + set_img_name + ".png";
+					
+					if (loadPic.getImg() != null)
+					{
+						boolean check = setfolder.saveImage(loadPic.getImg(),  app_path);	
+
+						if (mCallback != null && check)
+						{
+							mCallback.service_result();
+						}
+					}
+					
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
+		
+		System.out.println(IP);
+		
+		loadPic.handleWebPic(IP,
+				mHandler);
+	}
 }

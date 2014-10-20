@@ -46,6 +46,8 @@ public class LoginPage extends Activity
 	EditText usernameText;
 	EditText passwordText;
 
+	String userName= "";
+	
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
 
@@ -150,6 +152,8 @@ public class LoginPage extends Activity
 
 	public void post(String user_name ,String pass_word)
 	{
+		userName = user_name;
+		
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
 		parems.add(new BasicNameValuePair("username", user_name));
@@ -296,8 +300,7 @@ public class LoginPage extends Activity
 	{
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
-		parems.add(new BasicNameValuePair("username", usernameText.getText()
-				.toString()));
+		parems.add(new BasicNameValuePair("username", userName));
 
 		SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)
 				+ getString(R.string.PullData), parems,

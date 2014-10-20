@@ -19,6 +19,7 @@ import com.candroidsample.StartActivity;
 import android.os.Bundle;
 import android.os.Message;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.Menu;
@@ -31,6 +32,8 @@ import android.widget.Spinner;
 
 public class Register1 extends Activity
 {
+	private ProgressDialog pd; 
+	
 	private Cursor mCursor;
 	private Cursor dCursor;
 
@@ -98,6 +101,8 @@ public class Register1 extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
+				pd = ProgressDialog.show(Register1.this, "請稍後", "載入中，請稍後..."); 
+				
 				String user_id = EID + idNumberEdit.getText().toString();
 
 				List<NameValuePair> parems = new ArrayList<NameValuePair>();
@@ -114,6 +119,8 @@ public class Register1 extends Activity
 							@Override
 							public void service_result(Message dic)
 							{
+								pd.dismiss();
+								
 								Bundle countBundle = dic.getData();
 
 								@SuppressWarnings("unchecked")

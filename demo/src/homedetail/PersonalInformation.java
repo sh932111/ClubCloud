@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import pagefunction.PageUtil;
 import startprogram.LoginPage;
+import startprogram.Register2;
 import uifunction.ShowEventDailog;
 import uifunction.ShowToolbar;
 import getdb.EventDB;
@@ -34,6 +35,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -53,6 +55,7 @@ import android.widget.TextView;
 
 public class PersonalInformation extends CloudActivity
 {
+	
 	private DisplayMetrics mPhone;
 	private ImageView userImage;
 	private final static int CAMERA = 66;

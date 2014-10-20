@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
@@ -38,6 +39,7 @@ public class LoginPage extends Activity
 	public static final String GET_ID = "get_id";
 	String device_token;
 
+	private ProgressDialog pd; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -60,6 +62,7 @@ public class LoginPage extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
+				pd = ProgressDialog.show(LoginPage.this, "請稍後", "載入中，請稍後..."); 
 				// TODO Auto-generated method stub
 				List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
@@ -78,6 +81,8 @@ public class LoginPage extends Activity
 							public void service_result(Message msg)
 							{
 								// TODO Auto-generated method stub
+								pd.dismiss();
+								
 								Bundle countBundle = msg.getData();
 
 								@SuppressWarnings("unchecked")

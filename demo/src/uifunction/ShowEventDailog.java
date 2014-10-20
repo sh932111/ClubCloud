@@ -2,14 +2,17 @@ package uifunction;
 
 import java.util.ArrayList;
 
+import startprogram.Register2;
 import getfunction.DBTools;
 import getfunction.EventAdpter;
 
 import com.candroidsample.R;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +30,7 @@ public class ShowEventDailog extends DialogFragment
 	{
 		String year = getArguments().getString("YEAR");
 		String month = getArguments().getString("MONTH");
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		// Get the layout inflater
 		LayoutInflater inflater = getActivity().getLayoutInflater();

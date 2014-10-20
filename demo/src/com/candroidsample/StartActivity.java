@@ -133,8 +133,8 @@ public class StartActivity extends Activity implements chooseCityListener
 				intent.setClass(StartActivity.this, LoginPage.class);
 				startActivity(intent);
 				
-				ChooseCityDailog dailog = new ChooseCityDailog();
-				dailog.show(getFragmentManager(), "dialog");
+//				ChooseCityDailog dailog = new ChooseCityDailog();
+//				dailog.show(getFragmentManager(), "dialog");
 				
 			}
 

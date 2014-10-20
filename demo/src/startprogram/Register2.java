@@ -20,10 +20,10 @@ import com.candroidsample.R;
 
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +46,8 @@ public class Register2 extends Activity
 	// private String actionUrl = getString(R.string.uploadUserImage);
 	// private String Register2_url = getString(R.string.Register2);
 
+	private ProgressDialog pd; 
+	
 	// Button bt1;
 	// Button bt2;
 	Button bt3;
@@ -299,6 +301,8 @@ public class Register2 extends Activity
 	}
 	public void postImageAndData(String str1,String str2,String str3,String cellphone)
 	{
+		pd = ProgressDialog.show(Register2.this, "請稍後", "載入中，請稍後..."); 
+		
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
 		parems.add(new BasicNameValuePair("name", str1));
@@ -335,6 +339,8 @@ public class Register2 extends Activity
 					@Override
 					public void service_result(Message dic)
 					{
+						pd.dismiss();
+						
 						Bundle countBundle = dic.getData();
 
 						@SuppressWarnings("unchecked")

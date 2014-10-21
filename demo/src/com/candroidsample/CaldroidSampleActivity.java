@@ -1,6 +1,7 @@
 package com.candroidsample;
 
 import getfunction.DBTools;
+import getfunction.PageUtil;
 import homedetail.ShowTravelList;
 
 import java.text.ParseException;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import pagefunction.PageUtil;
 import uifunction.ShowToolbar;
 
 import com.roomorama.caldroid.CaldroidFragment;
@@ -99,13 +99,20 @@ public class CaldroidSampleActivity extends FragmentActivity
 			@Override
 			public void onSelectDate(Date date, View view)
 			{
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				SimpleDateFormat sdf_y = new SimpleDateFormat("yyyy");
+				SimpleDateFormat sdf_m = new SimpleDateFormat("MM");
+				SimpleDateFormat sdf_d = new SimpleDateFormat("dd");
 
-				String time = sdf.format(date);
-
+				String y = sdf_y.format(date);
+				String m = sdf_m.format(date);
+				String d = sdf_d.format(date);
+				
 				Bundle bundle = new Bundle();
 
-				bundle.putString("Time", time);
+				bundle.putString("Year", y);
+				bundle.putString("Month", m);
+				bundle.putString("Day", d);
+				
 				bundle.putInt("Index", 1);
 
 				Intent intent = new Intent();

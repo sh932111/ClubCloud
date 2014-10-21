@@ -3,23 +3,28 @@ package homedetail;
 import getfunction.DBTools;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
+import getfunction.PageUtil;
 
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import pagefunction.PageUtil;
 import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
+import utils.AlarmUtils;
+import utils.TimeUtils;
 
 import com.candroidsample.R;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -33,6 +38,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class AddTravelDetail extends Activity
 {
@@ -44,6 +50,9 @@ public class AddTravelDetail extends Activity
 
 	private int mHour;
 	private int mMinute;
+	private int mYear;
+	private int mMonth;
+	private int mDay;
 
 	Bitmap resImage = null;
 
@@ -60,8 +69,12 @@ public class AddTravelDetail extends Activity
 
 		Bundle bundle = intent.getExtras();
 
-		String date_string = bundle.getString("Date");
+		String date_string = bundle.getString("Year")+"/"+ bundle.getString("Month")+"/"+ bundle.getString("Day");
 
+		mYear = Integer.valueOf(bundle.getString("Year"));
+		mMonth = Integer.valueOf(bundle.getString("Month"));
+		mDay = Integer.valueOf(bundle.getString("Day"));
+		
 		mPhone = new DisplayMetrics();
 
 		getWindowManager().getDefaultDisplay().getMetrics(mPhone);
@@ -159,12 +172,18 @@ public class AddTravelDetail extends Activity
 					setfolder.saveImage(resImage, app_path);
 				}
 
-				DBTools.addTravel(AddTravelDetail.this,id, showScrollView.titleView.getText()
-						.toString(), showScrollView.listView.getText()
-						.toString(), showScrollView.dateView.getText()
-						.toString(), showScrollView.timeView.getText()
-						.toString(), "1", check, showScrollView.addressView
-						.getText().toString());
+				DBTools.addTravel(AddTravelDetail.this, id,
+						showScrollView.titleView.getText().toString(),
+						showScrollView.listView.getText().toString(),
+						showScrollView.dateView.getText().toString(),
+						showScrollView.timeView.getText().toString(), "1",
+						check, showScrollView.addressView.getText().toString());
+
+				AlarmUtils.showTravelAlarm(
+						AddTravelDetail.this, 
+						mYear + "/"+ mMonth +"/"+ mDay +" "+ mHour + ":"+ mMinute + ":"+"00", String.valueOf(id), 
+						showScrollView.titleView.getText().toString(),
+						showScrollView.listView.getText().toString());
 				
 				finish();
 			}
@@ -178,7 +197,7 @@ public class AddTravelDetail extends Activity
 		getMenuInflater().inflate(R.menu.add_travel_detail, menu);
 		return true;
 	}
-
+	
 	public void showDialog()
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(

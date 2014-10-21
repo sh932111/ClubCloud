@@ -16,8 +16,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pagefunction.PageUtil;
-
 import com.candroidsample.R;
 import com.facebook.HttpMethod;
 import com.facebook.Request;

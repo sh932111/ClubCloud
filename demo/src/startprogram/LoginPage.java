@@ -2,6 +2,7 @@ package startprogram;
 
 import getfunction.DBTools;
 import getfunction.ImageFunction;
+import getfunction.PageUtil;
 import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
 
@@ -14,8 +15,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import pagefunction.PageUtil;
 
 import com.candroidsample.R;
 import com.facebook.HttpMethod;

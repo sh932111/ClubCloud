@@ -55,7 +55,12 @@
                 <category android:name="com.candroidsample" />
             </intent-filter>
         </receiver>
-
+	
+         <receiver
+            android:name="getfunction.AlarmReceiver"
+            android:process=":remote" 
+            />
+         
         <service android:name=".GCMIntentService" />
 
         <activity android:name=".HomePage" >

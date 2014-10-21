@@ -1,15 +1,15 @@
 package homedetail;
 
 import getfunction.DBTools;
-import getfunction.MyAdapter;
+import getfunction.PageUtil;
 
 import java.util.ArrayList;
 
-import pagefunction.PageUtil;
 import uifunction.ShowToolbar;
 
 import com.candroidsample.R;
 
+import adapter.MessageAdapter;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -30,6 +30,10 @@ public class ShowTravelList extends CloudActivity
 
 	ArrayList<Bundle> arrayList;
 
+	String Y = "";
+	String M = "";
+	String D = ""; 
+	
 	int list_index;
 
 	// 1.caldroid 2.push
@@ -52,7 +56,10 @@ public class ShowTravelList extends CloudActivity
 
 		if (list_index == 1)
 		{
-			time_string = bundle.getString("Time");
+			Y =  bundle.getString("Year");
+			M =  bundle.getString("Month");
+			D =  bundle.getString("Day");
+			time_string = Y +"/"+M+"/"+D;
 
 			txt_1.setText(time_string);
 		}
@@ -77,7 +84,9 @@ public class ShowTravelList extends CloudActivity
 					// TODO Auto-generated method stub
 					Bundle bundle = new Bundle();
 
-					bundle.putString("Date", time_string);
+					bundle.putString("Year", Y);
+					bundle.putString("Month", M);
+					bundle.putString("Day", D);
 					bundle.putLong("ID", 0);
 
 					Intent intent = new Intent();
@@ -182,7 +191,7 @@ public class ShowTravelList extends CloudActivity
 		CharSequence[] cs4 = columnArray4.toArray(new CharSequence[columnArray1.size()]);
 		CharSequence[] cs5 = columnArray5.toArray(new CharSequence[columnArray1.size()]);
 	
-		 MyAdapter adapter = new MyAdapter(ShowTravelList.this, cs1, cs3, cs4,cs5);
+		 MessageAdapter adapter = new MessageAdapter(ShowTravelList.this, cs1, cs3, cs4,cs5);
 		 listView.setAdapter(adapter);
 		//
 		listView.setOnItemClickListener(new OnItemClickListener()

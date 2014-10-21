@@ -2,7 +2,6 @@ package com.candroidsample;
 
 import java.io.IOException;
 
-import pagefunction.PageUtil;
 import getfunction.*;
 import startprogram.LoginPage;
 import startprogram.Register1;
@@ -14,7 +13,6 @@ import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;

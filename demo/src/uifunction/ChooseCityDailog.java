@@ -1,12 +1,12 @@
 package uifunction;
 
-import getfunction.ChooseCityAdaper;
 import getfunction.DBTools;
 
 import java.util.ArrayList;
 
 import com.candroidsample.R;
 
+import adapter.ChooseCityAdaper;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;

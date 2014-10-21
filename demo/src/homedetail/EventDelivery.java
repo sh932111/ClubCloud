@@ -14,7 +14,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pagefunction.PageUtil;
 import startprogram.Register1;
 import startprogram.Register2;
 import uifunction.ChooseCityDailog;
@@ -27,6 +26,7 @@ import getfunction.DBTools;
 import getfunction.DialogShow;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
+import getfunction.PageUtil;
 import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
 

@@ -29,6 +29,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utils.NotificationUtls;
 import getdb.EventDB;
 import getdb.PushDB;
 import getdb.UserDB;
@@ -149,7 +150,7 @@ public class GCMIntentService extends GCMBaseIntentService implements
 
 		displayMessage(context, detail);
 		// notifies user
-		generateNotification(context, detail, title);
+		NotificationUtls.generateNotification(context, detail, title);
 	}
 
 	@Override
@@ -159,7 +160,7 @@ public class GCMIntentService extends GCMBaseIntentService implements
 
 		displayMessage(context, message);
 		// notifies user
-		generateNotification(context, message, "delete");
+		NotificationUtls.generateNotification(context, message, "delete");
 	}
 
 	@Override
@@ -179,33 +180,7 @@ public class GCMIntentService extends GCMBaseIntentService implements
 	/**
 	 * Issues a notification to inform the user that server has sent a message.
 	 */
-	private static void generateNotification(Context context, String message,
-			String title)
-	{
-		int icon = R.drawable.ic_launcher;
-
-		long when = System.currentTimeMillis();
-
-		NotificationManager notificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-
-		Notification notification = new Notification(icon, message, when);
-
-		Intent notificationIntent = new Intent(context, StartActivity.class);
-
-		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-				| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-		PendingIntent intent = PendingIntent.getActivity(context, 0,
-				notificationIntent, 0);
-
-		notification.setLatestEventInfo(context, title, message, intent);
-
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-		notificationManager.notify(0, notification);
-	}
-
+	
 	@Override
 	public void onLocationChanged(Location location)
 	{

@@ -29,7 +29,9 @@ public class ShowTravelList extends CloudActivity
 	String time_string;
 
 	ArrayList<Bundle> arrayList;
-
+	
+	MessageAdapter Adapter;
+	
 	String Y = "";
 	String M = "";
 	String D = ""; 
@@ -125,10 +127,22 @@ public class ShowTravelList extends CloudActivity
 	{
 		// TODO Auto-generated method stub
 		super.onRestart();
+		
+		loadData();
 
-		setList();
+		Adapter.refresh(arrayList);
 	}
 
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		loadData();
+
+		Adapter.refresh(arrayList);
+	}
+
+	
 	@Override
 	protected void onStop()
 	{
@@ -170,29 +184,9 @@ public class ShowTravelList extends CloudActivity
 
 		loadData();
 
-		ArrayList<String> columnArray1 = new ArrayList<String>();
-		ArrayList<String> columnArray3 = new ArrayList<String>();
-		ArrayList<String> columnArray4 = new ArrayList<String>();
-		ArrayList<String> columnArray5 = new ArrayList<String>();
-
-		if (arrayList != null)
-		{
-			for (int i = 0; i < arrayList.size(); i++)
-			{
-				columnArray1.add(arrayList.get(i).getString("Title"));
-				columnArray3.add(arrayList.get(i).getString("Date"));
-				columnArray4.add(arrayList.get(i).getString("Time"));
-				columnArray5.add(arrayList.get(i).getString("Check"));
-			}
-
-		}
-		CharSequence[] cs1 = columnArray1.toArray(new CharSequence[columnArray1.size()]);
-		CharSequence[] cs3 = columnArray3.toArray(new CharSequence[columnArray1.size()]);
-		CharSequence[] cs4 = columnArray4.toArray(new CharSequence[columnArray1.size()]);
-		CharSequence[] cs5 = columnArray5.toArray(new CharSequence[columnArray1.size()]);
-	
-		 MessageAdapter adapter = new MessageAdapter(ShowTravelList.this, cs1, cs3, cs4,cs5);
-		 listView.setAdapter(adapter);
+		Adapter = new MessageAdapter(ShowTravelList.this, arrayList);
+		
+		listView.setAdapter(Adapter);
 		//
 		listView.setOnItemClickListener(new OnItemClickListener()
 		{

@@ -1,9 +1,12 @@
 package adapter;
 
+import java.util.ArrayList;
+
 import com.candroidsample.R;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,37 +17,39 @@ import android.widget.TextView;
 public class MessageAdapter extends BaseAdapter
 {
 	private LayoutInflater myInflater;
-	CharSequence[] title_array = null;
-	CharSequence[] time1_array = null;
-	CharSequence[] time2_array = null;
-	CharSequence[] icon_array = null;   
+
+	ArrayList<Bundle> mArrayList;
 	
-	public MessageAdapter(Context ctxt, CharSequence[] title ,CharSequence[] time1,CharSequence[] time2,CharSequence[] icon_show )
+	public MessageAdapter(Context ctxt, ArrayList<Bundle> bundles )
 	{
 		myInflater = LayoutInflater.from(ctxt);
-		this.title_array = title;
-		this.time1_array = time1;
-		this.time2_array = time2;
-		this.icon_array = icon_show;
+		this.mArrayList = bundles;
+	}
+	
+
+	public void refresh(ArrayList<Bundle> list)
+	{
+		mArrayList = list;
+		notifyDataSetChanged();
 	}
 	
 	@Override
-	public int getCount() 
+	public int getCount()
 	{
 		// TODO Auto-generated method stub
+
+		return mArrayList.size();
+	}
 	
-		return title_array.length;
-	}
-
 	@Override
-	public Object getItem(int position) 
+	public Object getItem(int position)
 	{
 		// TODO Auto-generated method stub
-		return title_array[position];
+		return mArrayList.get(position);
 	}
 
 	@Override
-	public long getItemId(int position) 
+	public long getItemId(int position)
 	{
 		// TODO Auto-generated method stub
 		return position;
@@ -74,10 +79,10 @@ public class MessageAdapter extends BaseAdapter
 			viewTag = (ViewTag) convertView.getTag();
 		}
 		
-		viewTag.title.setText(title_array[position]);
-		viewTag.text.setText(time1_array[position].toString()+" "+time2_array[position].toString());
+		viewTag.title.setText(mArrayList.get(position).getString("Title"));
+		viewTag.text.setText(mArrayList.get(position).getString("Date")+" "+mArrayList.get(position).getString("Time"));
 		
-		int v = Integer.parseInt(icon_array[position].toString());
+		int v = Integer.parseInt(mArrayList.get(position).getString("Check"));
 		
 		if (v == 0) 
 		{

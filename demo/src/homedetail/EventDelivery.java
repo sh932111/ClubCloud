@@ -14,14 +14,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import startprogram.Register1;
-import startprogram.Register2;
 import uifunction.ChooseCityDailog;
 import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
 import uifunction.ChooseCityDailog.chooseCityListener;
-import getdb.CityDB;
-import getdb.UserDB;
 import getfunction.DBTools;
 import getfunction.DialogShow;
 import getfunction.FolderFunction;
@@ -31,12 +27,12 @@ import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
 
 import com.candroidsample.R;
-import com.google.android.gms.internal.fo;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -48,17 +44,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.LinearLayout.LayoutParams;
@@ -67,6 +59,8 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 {
 	ShowScrollView showScrollView;
 
+	private ProgressDialog pd;
+	
 	private DisplayMetrics mPhone;
 
 	static final int TIME_DIALOG_ID = 1;
@@ -219,6 +213,8 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 	
 	public void post()
 	{
+		pd = ProgressDialog.show(EventDelivery.this, "請稍後", "載入中，請稍後...");
+		
 		String image_check = "0";
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -288,6 +284,8 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 						public void service_result(Message msg)
 						{
 							// TODO Auto-generated method stub
+							pd.dismiss();
+
 							Bundle countBundle = msg.getData();
 
 							@SuppressWarnings("unchecked")

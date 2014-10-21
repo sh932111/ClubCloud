@@ -1,9 +1,7 @@
 /com/
 /.gitignore
-/homedetail/
+/utils/
 /getfunction/
-/pagefunction/
-/startprogram/
+/homedetail/
 /adapter/
 /uifunction/
-/utils/

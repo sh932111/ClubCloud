@@ -33,6 +33,7 @@ public class ChooseCityAdaper extends BaseAdapter
 		notifyDataSetChanged();
 	}
 
+
 	public int getSelectItem()
 	{
 		return this.selectItem;

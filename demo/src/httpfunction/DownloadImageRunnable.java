@@ -54,13 +54,11 @@ public class DownloadImageRunnable
 				{
 				case 1:
 
-					FolderFunction setfolder = new FolderFunction();
-
 					String app_path = mContext.getExternalFilesDir(null).getAbsolutePath() + "/"+folderName+"/" + set_img_name + ".png";
 					
 					if (loadPic.getImg() != null)
 					{
-						boolean check = setfolder.saveImage(loadPic.getImg(),  app_path);	
+						boolean check = FolderFunction.saveImage(loadPic.getImg(),  app_path);	
 
 						if (mCallback != null && check)
 						{
@@ -91,13 +89,11 @@ public class DownloadImageRunnable
 				{
 				case 1:
 
-					FolderFunction setfolder = new FolderFunction();
-
 					String app_path = mContext.getExternalFilesDir(null).getAbsolutePath() + "/"+folderName+"/" + set_img_name + ".png";
 					
 					if (loadPic.getImg() != null)
 					{
-						boolean check = setfolder.saveImage(loadPic.getImg(),  app_path);	
+						boolean check = FolderFunction.saveImage(loadPic.getImg(),  app_path);	
 
 						if (mCallback != null && check)
 						{

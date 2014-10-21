@@ -1,7 +1,6 @@
 package startprogram;
 
 import getfunction.DBTools;
-import getfunction.ImageFunction;
 import getfunction.PageUtil;
 import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
@@ -17,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.candroidsample.R;
-import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -35,7 +33,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 public class LoginPage extends Activity
 {

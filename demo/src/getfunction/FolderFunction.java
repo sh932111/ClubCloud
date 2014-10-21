@@ -32,7 +32,7 @@ public class FolderFunction
 	      //  Toast.makeText(StrokeShowPage.this, "Failed - Error", Toast.LENGTH_SHORT).show();
 	    }
 	}
-	public boolean saveImage(Bitmap bmImage ,String locaction)
+	public static boolean saveImage(Bitmap bmImage ,String locaction)
 	{
 
 		File file = new File( locaction);

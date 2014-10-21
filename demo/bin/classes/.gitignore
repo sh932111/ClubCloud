@@ -1,7 +1,8 @@
 /com/
 /.gitignore
-/utils/
-/getfunction/
 /homedetail/
-/adapter/
+/getfunction/
+/httpfunction/
+/startprogram/
+/getdb/
 /uifunction/

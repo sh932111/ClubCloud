@@ -11,12 +11,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import startprogram.LoginPage;
-import startprogram.Register2;
 import uifunction.ShowEventDailog;
 import uifunction.ShowToolbar;
-import getdb.EventDB;
-import getdb.UserDB;
 import getfunction.DBTools;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
@@ -26,7 +22,6 @@ import httpfunction.SendPostRunnable;
 import httpfunction.UploadImage;
 
 import com.candroidsample.R;
-import com.candroidsample.StartActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,8 +29,6 @@ import android.os.Message;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,7 +43,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class PersonalInformation extends CloudActivity
@@ -439,9 +431,7 @@ public class PersonalInformation extends CloudActivity
 							+ user
 							+ ".png";
 
-					FolderFunction setfolder = new FolderFunction();
-
-					boolean check = setfolder.saveImage(resImage, app_path);
+					boolean check = FolderFunction.saveImage(resImage, app_path);
 
 					if (check)
 					{

@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +22,6 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
-import com.google.android.gms.internal.js;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -76,10 +74,10 @@ public class Register2 extends Activity
 
 	private DisplayMetrics mPhone;
 
-	Bitmap resImage;
+	Bitmap resImage = null;
 
 	String user_id;
-	String image_path;
+	String image_path = "";
 	String cityString;
 	String citydetailString;
 	String city_id;
@@ -109,15 +107,7 @@ public class Register2 extends Activity
 		citydetailString = bundle.getString("city_detail");
 		city_id = bundle.getString("city_id");
 		citydetail_id = bundle.getString("city_detail_id");
-
-		String app_path = this.getExternalFilesDir(null).getAbsolutePath()
-				+ "/user" + ".png";
-
-		image_path = app_path;
-
-		resImage = BitmapFactory
-				.decodeResource(getResources(), R.drawable.user);
-
+		
 		findView();
 	}
 
@@ -330,8 +320,6 @@ public class Register2 extends Activity
 				Cursor cursor = cr.query(uri, null, null, null, null);
 				cursor.moveToFirst();
 
-				image_path = cursor.getString(1);
-
 				try
 				{
 					Bitmap bitmap = BitmapFactory.decodeStream(cr
@@ -461,17 +449,19 @@ public class Register2 extends Activity
 		parems.add(new BasicNameValuePair("city_detail_id", citydetail_id));
 		parems.add(new BasicNameValuePair("cellphone", cellphone));
 
-		FolderFunction setfolder = new FolderFunction();
-
-		String app_path = this.getExternalFilesDir(null).getAbsolutePath()
+		image_path = this.getExternalFilesDir(null).getAbsolutePath()
 				+ "/userphoto/" + str2 + ".png";
 
-		setfolder.saveImage(resImage, app_path);
+		if (resImage != null)
+		{
+			FolderFunction.saveImage(resImage, image_path);
+			
+			UploadImage uploadImage = new UploadImage(getString(R.string.IP)
+					+ getString(R.string.uploadUserImage), image_path, str2);
 
-		image_path = app_path;
-
-		UploadImage uploadImage = new UploadImage(getString(R.string.IP)
-				+ getString(R.string.uploadUserImage), image_path, str2);
+			Thread t2 = new Thread(uploadImage);
+			t2.start();
+		}
 
 		SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)
 				+ getString(R.string.Register2), parems,
@@ -546,10 +536,6 @@ public class Register2 extends Activity
 		Thread t = new Thread(post);
 
 		t.start();
-
-		Thread t2 = new Thread(uploadImage);
-
-		t2.start();
 	}
 
 }

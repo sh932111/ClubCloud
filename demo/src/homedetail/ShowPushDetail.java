@@ -1,10 +1,5 @@
 package homedetail;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import com.candroidsample.R;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -23,17 +18,13 @@ import httpfunction.DownloadImageRunnable;
 import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
 import utils.AlarmUtils;
-import utils.TimeUtils;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class ShowPushDetail extends Activity
 {

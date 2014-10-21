@@ -226,10 +226,8 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 		if (resImage != null)
 		{
 			String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"pushphoto"+"/" + id + ".png";
-			
-			FolderFunction setfolder = new FolderFunction();
 
-			boolean check = setfolder.saveImage(resImage,  app_path);	
+			boolean check = FolderFunction.saveImage(resImage,  app_path);	
 			
 			if (check)
 			{

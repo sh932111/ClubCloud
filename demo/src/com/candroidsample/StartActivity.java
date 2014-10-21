@@ -50,8 +50,6 @@ public class StartActivity extends Activity
 
 		setUI();
 		
-		DBTools.startInit(StartActivity.this);
-		
 		context = getApplicationContext();
 		
 		gcm = GoogleCloudMessaging.getInstance(this);
@@ -83,12 +81,6 @@ public class StartActivity extends Activity
 		setfolder.folderBuild(app_path+"userphoto");
 		setfolder.folderBuild(app_path+"pushphoto");
 		
-		Bitmap bmImage = BitmapFactory.decodeResource(getResources(),
-				R.drawable.user);
-
-		String locaction = app_path + "user.PNG";
-		
-		setfolder.saveImage(bmImage, locaction);
 	}
 
 	public void setUI()

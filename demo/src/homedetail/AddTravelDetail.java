@@ -6,7 +6,6 @@ import getfunction.ImageFunction;
 import getfunction.PageUtil;
 
 import java.io.FileNotFoundException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,17 +13,14 @@ import java.util.Date;
 import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
 import utils.AlarmUtils;
-import utils.TimeUtils;
 
 import com.candroidsample.R;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -38,7 +34,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 public class AddTravelDetail extends Activity
 {
@@ -159,17 +154,9 @@ public class AddTravelDetail extends Activity
 				{
 					check = "2";
 
-					String app_path = getExternalFilesDir(null)
-							.getAbsolutePath()
-							+ "/"
-							+ "pushphoto"
-							+ "/"
-							+ id
-							+ ".png";
+					String app_path = getExternalFilesDir(null).getAbsolutePath() + "/pushphoto/"+ id + ".png";
 
-					FolderFunction setfolder = new FolderFunction();
-
-					setfolder.saveImage(resImage, app_path);
+					FolderFunction.saveImage(resImage, app_path);
 				}
 
 				DBTools.addTravel(AddTravelDetail.this, id,

@@ -279,14 +279,6 @@ public class DBTools
 		return array_list.get(0);
 	}
 	
-	public static void startInit(Context context)
-	{
-		CityDB dbHelper = new CityDB(context);
-
-		dbHelper.openDatabase();
-
-		dbHelper.closeDatabase();
-	}
 	
 	public static void saveEventData(Context context ,Object object ,String type)
 	{

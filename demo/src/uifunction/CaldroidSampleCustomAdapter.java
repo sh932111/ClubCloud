@@ -5,8 +5,6 @@ import hirondelle.date4j.DateTime;
 import java.util.HashMap;
 
 import com.candroidsample.R;
-import com.candroidsample.R.id;
-import com.candroidsample.R.layout;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 

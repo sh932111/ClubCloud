@@ -5,7 +5,6 @@ import java.util.Calendar;
 
 import uifunction.ShowScrollView;
 import uifunction.ShowToolbar;
-import getdb.TravelDB;
 import getfunction.DBTools;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
@@ -243,9 +242,7 @@ public class ShowTravelDetail extends Activity
 		
 		if (resImage != null)
 		{
-			FolderFunction setfolder = new FolderFunction();
-
-			setfolder.saveImage(resImage,  app_path);	
+			FolderFunction.saveImage(resImage,  app_path);	
 		}
 		
 		String timeString = mHour + ":" + mMinute;

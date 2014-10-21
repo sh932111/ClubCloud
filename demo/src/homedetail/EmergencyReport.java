@@ -13,8 +13,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import getdb.EventDB;
-import getdb.UserDB;
 import getfunction.DBTools;
 import getfunction.DialogShow;
 import getfunction.PageUtil;
@@ -32,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -284,10 +281,6 @@ public class EmergencyReport extends Activity implements LocationListener
 
 			Longitude = String.valueOf(longitude);
 			Latitude = String.valueOf(latitude);
-
-			System.out.println("Latitude" + Latitude);
-			System.out.println("Longitude" + Longitude);
-
 		} else
 		{
 			Toast.makeText(this, "無法定位座標", Toast.LENGTH_LONG).show();

@@ -98,12 +98,12 @@ public class PushDB
 				null, // HAVING clause
 				KEY_CREATED + " DESC" // Order-by clause
 		);
+
+		ArrayList<Bundle> array_list = new ArrayList<Bundle>();
 		
 		if ( mCursor.getCount() != 0)
 		{
 			mCursor.moveToFirst();
-			
-			ArrayList<Bundle> array_list = new ArrayList<Bundle>();
 			
 			for (int i = 0; i < mCursor.getCount(); i++)
 			{
@@ -137,7 +137,7 @@ public class PushDB
 			return array_list;
 		}
 		
-		return null;
+		return array_list;
 	}
 
 	// query single entry
@@ -147,6 +147,8 @@ public class PushDB
 		{ KEY_ROWID, KEY_TITLE, KEY_ITEM, KEY_CREATED, KEY_TimeDetail,
 				KEY_CHECK ,KEY_IMAGE,KEY_ADDRESS }, KEY_ROWID + " = ?", new String[]
 		{ "" + rowId + "" }, null, null, null, null);
+		
+		Bundle bundle = new Bundle();
 
 		if ( mCursor.getCount() != 0)
 		{
@@ -160,8 +162,6 @@ public class PushDB
 			String check = mCursor.getString(5);
 			String image = mCursor.getString(6);
 			String address = mCursor.getString(7);
-			
-			Bundle bundle = new Bundle();
 
 			bundle.putLong("ID", SelectID);
 			bundle.putString("Title", title);
@@ -177,7 +177,7 @@ public class PushDB
 			return bundle;
 		}
 		
-		return null;
+		return bundle;
 	}
 
 	// add an entry

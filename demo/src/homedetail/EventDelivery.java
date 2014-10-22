@@ -331,6 +331,8 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 											}
 											if (resString)
 											{
+												PageUtil mSysUtil = new PageUtil(EventDelivery.this);
+												mSysUtil.exit(0);
 												finish();
 											}
 										}

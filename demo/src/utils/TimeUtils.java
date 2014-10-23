@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class TimeUtils
 {
 	public static int getTimeGap(String day) throws ParseException
@@ -33,5 +34,16 @@ public class TimeUtils
 		int b = new Integer(sec.toString());
 		
 		return b;
+	}
+
+	public static String getNowTime()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		
+		Date dt=new Date();
+		
+		String dts=sdf.format(dt);
+		
+		return dts;
 	}
 }

@@ -6,6 +6,7 @@
     <string name="Register2">ClubCloud/userServer/Register/Register2.php</string>
     <string name="pushRollCall">ClubCloud/userServer/UserCategory/pushRollCall.php</string>
     <string name="Login">ClubCloud/userServer/Login/Login.php</string>
+    <string name="PullLogin">ClubCloud/userServer/Login/pull_data.php</string>
     <string name="uploadUserImage">ClubCloud/userServer/Register/User_upload.php</string>
     <string name="downloadUserImage">ClubCloud/userServer/Register/userphoto/</string>
     <string name="Request">ClubCloud/userServer/Request/Request.php</string>

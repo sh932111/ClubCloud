@@ -349,35 +349,73 @@ public class DBTools
 		}
 	}
 	
-	public static void savePushData(Context context ,Bundle bundle)
+	public static void savePushData(Context context ,Object object)
 	{
-		String _id = bundle.getString("data_id");
+		if (object instanceof Bundle)
+		{
+			Bundle bundle = (Bundle)object;
+			
+			String _id = bundle.getString("data_id");
 
-		String title = bundle.getString("title");
+			String title = bundle.getString("title");
 
-		String detail = bundle.getString("detail"); // getString(R.string.gcm_message);
+			String detail = bundle.getString("detail"); // getString(R.string.gcm_message);
 
-		String time = bundle.getString("time");
+			String time = bundle.getString("time");
 
-		String time_detail = bundle.getString("time_detail"); // getString(R.string.gcm_message);
+			String time_detail = bundle.getString("time_detail"); // getString(R.string.gcm_message);
 
-		String image = bundle.getString("image");
+			String image = bundle.getString("image");
 
-//		if(image.equals("0"))
-//		{
-//			image = "3";
-//		}
-		
-		String address = bundle.getString("city")
-				+ bundle.getString("area") + bundle.getString("address");
+			String address = bundle.getString("city")
+					+ bundle.getString("area") + bundle.getString("address");
 
-		PushDB mDbHelper = new PushDB(context);
+			PushDB mDbHelper = new PushDB(context);
 
-		mDbHelper.open();
+			mDbHelper.open();
 
-		mDbHelper.create(Long.parseLong(_id), title, detail, time,
-				time_detail, "1", image, address);
+			mDbHelper.create(Long.parseLong(_id), title, detail, time,
+					time_detail, "1", image, address);
 
-		mDbHelper.close();
+			mDbHelper.close();
+		}
+		else if (object instanceof JSONObject)
+		{
+			JSONObject bundle = (JSONObject)object;
+			
+			String _id = "";
+			String title = "";
+			String detail = "";
+			String time= "";
+			String time_detail= "";
+			String image= "";
+			String address= "";
+			
+			try
+			{
+				_id = bundle.getString("data_id");
+				title = bundle.getString("title");
+				detail = bundle.getString("detail");
+				time = bundle.getString("time");
+				time_detail = bundle.getString("time_detail");
+				image = bundle.getString("image");
+				address = bundle.getString("address_city")
+							+ bundle.getString("address_area") + bundle.getString("address");
+			}
+			catch (JSONException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			PushDB mDbHelper = new PushDB(context);
+
+			mDbHelper.open();
+
+			mDbHelper.create(Long.parseLong(_id), title, detail, time,
+					time_detail, "1", image, address);
+
+			mDbHelper.close();
+		}
 	}
 }

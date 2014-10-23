@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utils.TimeUtils;
+
 import com.candroidsample.R;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -149,7 +151,7 @@ public class LoginPage extends Activity
 	public void post(String user_name ,String pass_word)
 	{
 		userName = user_name;
-		
+
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
 		parems.add(new BasicNameValuePair("username", user_name));
@@ -273,8 +275,10 @@ public class LoginPage extends Activity
 													city_id,
 													city_detail_id,
 													cellphone);
+											
 											pullData();
-
+											pullUserData(city_id,city_detail_id);
+											
 											PageUtil mSysUtil = new PageUtil(
 													LoginPage.this);
 
@@ -295,7 +299,6 @@ public class LoginPage extends Activity
 	public void pullData()
 	{
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
-
 		parems.add(new BasicNameValuePair("username", userName));
 
 		SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)
@@ -311,7 +314,7 @@ public class LoginPage extends Activity
 						@SuppressWarnings("unchecked")
 						HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle
 								.getSerializable("resultData");
-
+						
 						final JSONObject result = (JSONObject) resultData
 								.get("Data");
 
@@ -336,24 +339,27 @@ public class LoginPage extends Activity
 							try
 							{
 								JSONObject res = list.getJSONObject(i);
-								DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
-										res.getString("data_id"),
-										LoginPage.this, "pushphoto",
-										getResources().getString(
-												R.string.downloadRequestImage),
-										new DownloadImageRunnable.Callback()
-										{
-											@Override
-											public void service_result()
+								
+								if(res.getString("image").equals("1"))
+								{
+									DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
+											res.getString("data_id"),
+											LoginPage.this, "pushphoto",
+											getResources().getString(
+													R.string.downloadRequestImage),
+											new DownloadImageRunnable.Callback()
 											{
-												// TODO
-												// Auto-generated
-												// method stub
+												@Override
+												public void service_result()
+												{
+													// TODO
+													// Auto-generated
+													// method stub
 
-											}
-										});
-								dImageRunnable.downLoadImage();
-
+												}
+											});
+									dImageRunnable.downLoadImage();
+								}
 								DBTools.saveEventData(LoginPage.this, res,
 										"event");
 							}
@@ -371,6 +377,91 @@ public class LoginPage extends Activity
 
 		t.start();
 	}
+	public void pullUserData(String city_id,String area_id)
+	{
+		String send_time = TimeUtils.getNowTime();
+		
+		List<NameValuePair> parems = new ArrayList<NameValuePair>();
+
+		parems.add(new BasicNameValuePair("username", userName));
+		parems.add(new BasicNameValuePair("send_time", send_time));
+		parems.add(new BasicNameValuePair("city_id", city_id));
+		parems.add(new BasicNameValuePair("area_id", area_id));
+
+		SendPostRunnable post = new SendPostRunnable(getString(R.string.IP)
+				+ getString(R.string.PullLogin), parems,
+				new SendPostRunnable.Callback()
+				{
+					@Override
+					public void service_result(Message msg)
+					{
+						// TODO Auto-generated method stub
+						Bundle countBundle = msg.getData();
+						
+						@SuppressWarnings("unchecked")
+						HashMap<String, Object> resultData = (HashMap<String, Object>) countBundle
+								.getSerializable("resultData");
+
+						final JSONObject result = (JSONObject) resultData
+								.get("Data");
+						
+						JSONArray list = null;
+						int num = 0;
+
+						try
+						{
+							list = result.getJSONArray("data");
+							num = result.getInt("num");
+						}
+						catch (JSONException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						for (int i = 0; i < num; i++)
+						{
+							try
+							{
+								JSONObject res = list.getJSONObject(i);
+
+								if (res.getString("image").equals("1"))
+								{
+									DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
+											res.getString("id"),
+											LoginPage.this, "pushphoto",
+											getResources().getString(
+													R.string.downloadRequestImage),
+											new DownloadImageRunnable.Callback()
+											{
+												@Override
+												public void service_result()
+												{
+													// TODO
+													// Auto-generated
+													// method stub
+
+												}
+											});
+									dImageRunnable.downLoadImage();
+								}
+								
+								DBTools.savePushData(LoginPage.this, res);
+							}
+							catch (JSONException e)
+							{
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				});
+
+		Thread t = new Thread(post);
+
+		t.start();
+	}
+	
 	protected void onActivityResult(int rsquestCode, int resultCode, Intent data)
 	{
 		Session.getActiveSession().onActivityResult(this, rsquestCode,

@@ -15,6 +15,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utils.TimeUtils;
+
 import com.candroidsample.R;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -220,7 +222,8 @@ public class Register2 extends Activity
 															LinearLayout layout2 = (LinearLayout)findViewById(R.id.linear2);
 															layout1.setVisibility(View.GONE);
 															layout2.setVisibility(View.GONE);
-
+															
+															getIcon();
 														}
 														catch (JSONException e)
 														{
@@ -232,60 +235,6 @@ public class Register2 extends Activity
 													}
 												}
 											}).executeAsync();
-									
-									Bundle params = new Bundle();
-									params.putBoolean("redirect", false);
-									params.putString("height", "200");
-									params.putString("type", "normal");
-									params.putString("width", "200");
-									/* make the API call */
-									new Request(
-									    session,
-									    "/me/picture",
-									    params,
-									    HttpMethod.GET,
-										    new Request.Callback() {
-										        public void onCompleted(Response response) {
-										            /* handle the result */
-										        	
-										        	JSONObject jsonObject = response.getGraphObject().getInnerJSONObject();
-
-										        	try
-													{
-
-										        		JSONObject data = jsonObject.getJSONObject("data");
-										        		
-										        		String url = data.getString("url");
-										        		
-										        		DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
-																edit_text2.getText().toString(),
-																Register2.this,
-																"userphoto",
-																url,
-																new DownloadImageRunnable.Callback()
-																{
-																	@Override
-																	public void service_result()
-																	{
-																		ImageFunction get_image = new ImageFunction();
-
-																		String app_path = getExternalFilesDir(null).getAbsolutePath()
-																				+ "/" + "userphoto" + "/" + edit_text2.getText().toString() + ".png";
-																		resImage = get_image.getBitmapFromSDCard(app_path);
-																		mImg.setImageBitmap(resImage);
-																	}
-																});
-														dImageRunnable.downLoadImage2();
-													}
-													catch (JSONException e)
-													{
-														// TODO Auto-generated catch block
-														e.printStackTrace();
-													}
-										        }
-										    }
-										).executeAsync();
-									
 									
 								}
 								
@@ -307,6 +256,80 @@ public class Register2 extends Activity
 		return true;
 	}
 
+	public void getIcon()
+	{
+		Session.openActiveSession(Register2.this, true,
+				new Session.StatusCallback()
+				{
+					// callback when session changes state
+					@Override
+					public void call(Session session,
+							SessionState state, Exception exception)
+					{
+						if (session.isOpened())
+						{
+							Bundle params = new Bundle();
+							params.putBoolean("redirect", false);
+							params.putString("height", "200");
+							params.putString("type", "normal");
+							params.putString("width", "200");
+							/* make the API call */
+							new Request(
+							    session,
+							    "/me/picture",
+							    params,
+							    HttpMethod.GET,
+								    new Request.Callback() {
+								        public void onCompleted(Response response) {
+								            /* handle the result */
+								        	
+								        	JSONObject jsonObject = response.getGraphObject().getInnerJSONObject();
+
+								        	try
+											{
+
+								        		JSONObject data = jsonObject.getJSONObject("data");
+								        		
+								        		String url = data.getString("url");
+								        		
+								        		DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
+														edit_text2.getText().toString(),
+														Register2.this,
+														"userphoto",
+														url,
+														new DownloadImageRunnable.Callback()
+														{
+															@Override
+															public void service_result()
+															{
+																ImageFunction get_image = new ImageFunction();
+
+																String app_path = getExternalFilesDir(null).getAbsolutePath()
+																		+ "/" + "userphoto" + "/" + edit_text2.getText().toString() + ".png";
+																resImage = get_image.getBitmapFromSDCard(app_path);
+																mImg.setImageBitmap(resImage);
+															}
+														});
+												dImageRunnable.downLoadImage2();
+											}
+											catch (JSONException e)
+											{
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+								        }
+								    }
+								).executeAsync();
+							
+							
+						}
+						
+					}
+					
+				});
+
+	}
+	
 	protected void onActivityResult(int rsquestCode, int resultCode, Intent data)
 	{
 		if ((CAMERA == rsquestCode || Album == rsquestCode) && data != null)
@@ -433,6 +456,8 @@ public class Register2 extends Activity
 	public void postImageAndData(String str1, String str2, String str3,
 			String cellphone)
 	{
+		String now = TimeUtils.getNowTime();
+
 		pd = ProgressDialog.show(Register2.this, "請稍後", "載入中，請稍後...");
 
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
@@ -448,6 +473,7 @@ public class Register2 extends Activity
 		parems.add(new BasicNameValuePair("city_id", city_id));
 		parems.add(new BasicNameValuePair("city_detail_id", citydetail_id));
 		parems.add(new BasicNameValuePair("cellphone", cellphone));
+		parems.add(new BasicNameValuePair("send_time", now));
 
 		image_path = this.getExternalFilesDir(null).getAbsolutePath()
 				+ "/userphoto/" + str2 + ".png";

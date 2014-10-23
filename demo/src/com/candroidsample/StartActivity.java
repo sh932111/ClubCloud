@@ -3,6 +3,7 @@ package com.candroidsample;
 import java.io.IOException;
 
 import getfunction.*;
+import homedetail.EmergencyReport;
 import startprogram.LoginPage;
 import startprogram.Register1;
 
@@ -11,6 +12,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import static com.candroidsample.CommonUtilities.DISPLAY_MESSAGE_ACTION;
 //import static com.candroidsample.CommonUtilities.EXTRA_MESSAGE;
 import static com.candroidsample.CommonUtilities.SENDER_ID;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,8 +29,9 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class StartActivity extends Activity
+public class StartActivity extends Activity implements LocationListener
 {
 	public static final String PREF = "get_pref";
 	public static final String GET_ID = "get_id";
@@ -38,6 +43,10 @@ public class StartActivity extends Activity
 	private Context context;
 	private String strRegId;
 
+	private LocationManager lms;
+	private String bestProvider = LocationManager.GPS_PROVIDER;
+
+
 	//public DBManager dbHelper;
 
 	@Override
@@ -45,6 +54,21 @@ public class StartActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
+		
+		LocationManager status = (LocationManager) (this
+				.getSystemService(StartActivity.this.LOCATION_SERVICE));
+		if (status.isProviderEnabled(LocationManager.GPS_PROVIDER)
+				|| status.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+		{
+			// 如果GPS或網路定位開啟，呼叫locationServiceInitial()更新位置
+			locationServiceInitial();
+		} else
+		{
+			Toast.makeText(this, "請開啟定位服務", Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(
+					android.provider.Settings.ACTION_WIFI_SETTINGS);
+			startActivity(intent);
+		}
 		
 		buildFolder();
 
@@ -222,4 +246,49 @@ public class StartActivity extends Activity
 		return true;
 	}
 
+	@Override
+	public void onLocationChanged(Location location)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String provider)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	private void locationServiceInitial()
+	{
+		lms = (LocationManager) getSystemService(LOCATION_SERVICE); // 取得系統定位服務
+		Location location = null;
+		
+		if (lms.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		{
+			location = lms.getLastKnownLocation(LocationManager.GPS_PROVIDER); // 使用GPS定位座標
+		} 
+		else if (lms.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+		{
+			location = lms
+					.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); // 使用GPS定位座標
+		}
+		// Criteria criteria = new Criteria(); //資訊提供者選取標準
+		// bestProvider = lms.getBestProvider(criteria, true); //選擇精準度最高的提供者
+		// Location location = lms.getLastKnownLocation(bestProvider);
+	}
 }

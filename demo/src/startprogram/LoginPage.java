@@ -339,11 +339,16 @@ public class LoginPage extends Activity
 							try
 							{
 								JSONObject res = list.getJSONObject(i);
+
+								DBTools.saveEventData(LoginPage.this, res,
+										"event");
+								
+								final Long id = res.getLong("data_id");
 								
 								if(res.getString("image").equals("1"))
 								{
 									DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
-											res.getString("data_id"),
+											String.valueOf(id),
 											LoginPage.this, "pushphoto",
 											getResources().getString(
 													R.string.downloadRequestImage),
@@ -355,13 +360,10 @@ public class LoginPage extends Activity
 													// TODO
 													// Auto-generated
 													// method stub
-
 												}
 											});
 									dImageRunnable.downLoadImage();
 								}
-								DBTools.saveEventData(LoginPage.this, res,
-										"event");
 							}
 							catch (JSONException e)
 							{
@@ -424,11 +426,15 @@ public class LoginPage extends Activity
 							try
 							{
 								JSONObject res = list.getJSONObject(i);
-
+								
+								final Long id = res.getLong("data_id");
+								
+								DBTools.savePushData(LoginPage.this, res);
+								
 								if (res.getString("image").equals("1"))
 								{
 									DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
-											res.getString("id"),
+											String.valueOf(id),
 											LoginPage.this, "pushphoto",
 											getResources().getString(
 													R.string.downloadRequestImage),
@@ -440,13 +446,12 @@ public class LoginPage extends Activity
 													// TODO
 													// Auto-generated
 													// method stub
-
+													DBTools.updatePushDBImage(LoginPage.this, id);
 												}
 											});
 									dImageRunnable.downLoadImage();
 								}
 								
-								DBTools.savePushData(LoginPage.this, res);
 							}
 							catch (JSONException e)
 							{

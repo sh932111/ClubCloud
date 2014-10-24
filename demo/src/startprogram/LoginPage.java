@@ -64,7 +64,7 @@ public class LoginPage extends Activity
 		Bundle bundle = intent.getExtras();
 
 		device_token = bundle.getString("device_token");
-
+		
 		usernameText = (EditText) findViewById(R.id.user);
 		passwordText = (EditText) findViewById(R.id.pass);
 
@@ -74,9 +74,7 @@ public class LoginPage extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				pd = ProgressDialog.show(LoginPage.this, "請稍後", "載入中，請稍後...");
 				// TODO Auto-generated method stub
-				
 				post(usernameText.getText().toString(),passwordText.getText().toString());
 			}
 
@@ -116,7 +114,6 @@ public class LoginPage extends Activity
 																	.getString(
 																			"id");
 
-															pd = ProgressDialog.show(LoginPage.this, "請稍後", "載入中，請稍後...");
 															post(id,"fb");
 
 														}
@@ -153,7 +150,9 @@ public class LoginPage extends Activity
 		userName = user_name;
 
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
-
+		
+		pd = ProgressDialog.show(LoginPage.this, "請稍後", "載入中，請稍後...");
+		
 		parems.add(new BasicNameValuePair("username", user_name));
 		parems.add(new BasicNameValuePair("password", pass_word));
 		parems.add(new BasicNameValuePair("device_token", device_token));

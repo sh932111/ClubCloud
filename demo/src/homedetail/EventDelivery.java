@@ -213,8 +213,6 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 	
 	public void post()
 	{
-		pd = ProgressDialog.show(EventDelivery.this, "請稍後", "載入中，請稍後...");
-		
 		String image_check = "0";
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -222,26 +220,6 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 		Date now = new Date();
 
 		Long id = Long.parseLong(sdf.format(now.getTime()));
-
-		if (resImage != null)
-		{
-			String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"pushphoto"+"/" + id + ".png";
-
-			boolean check = FolderFunction.saveImage(resImage,  app_path);	
-			
-			if (check)
-			{
-				UploadImage uploadImage = new UploadImage(getString(R.string.IP)
-						+ getString(R.string.Request_upload), app_path,
-						String.valueOf(id));
-
-				Thread t2 = new Thread(uploadImage);
-
-				t2.start();
-
-				image_check = "1";
-			}
-		}
 
 		ArrayList<String> array_list = DBTools.getUserAllData(EventDelivery.this);
 
@@ -257,6 +235,29 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 				&& post_time.length() > 0 && address.length() > 0 
 				&& CITY.length() > 0 && DETAILCITY.length() > 0)
 		{
+
+			if (resImage != null)
+			{
+				String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"pushphoto"+"/" + id + ".png";
+
+				boolean check = FolderFunction.saveImage(resImage,  app_path);	
+				
+				if (check)
+				{
+					UploadImage uploadImage = new UploadImage(getString(R.string.IP)
+							+ getString(R.string.Request_upload), app_path,
+							String.valueOf(id));
+
+					Thread t2 = new Thread(uploadImage);
+
+					t2.start();
+
+					image_check = "1";
+				}
+			}
+			
+			pd = ProgressDialog.show(EventDelivery.this, "請稍後", "載入中，請稍後...");
+			
 			List<NameValuePair> parems = new ArrayList<NameValuePair>();
 
 			parems.add(new BasicNameValuePair("id", String.valueOf(id)));

@@ -23,6 +23,7 @@ import com.google.android.gcm.GCMRegistrar;
 
 import android.content.Context;
 import android.util.Log;
+import getfunction.DBTools;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -50,11 +51,17 @@ public final class ServerUtilities {
 	 * @return whether the registration succeeded or not.
 	 */
 	static boolean register(final Context context, final String regId) {
-		Log.i(TAG, "registering device (regId = " + regId + ")");
-
+		int count = DBTools.getUserData(context);
+		String username = "";
+		if (count != 0)
+		{
+			username = DBTools.getUserName(context);
+		}
+		
 		String serverUrl = SERVER_URL + "/gcm_register.php";
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("regId", regId);
+		params.put("username", username);
 		long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
 		// Once GCM returns a registration id, we need to register it in the
 		// demo server. As the server might be down, we will retry it a couple
@@ -101,9 +108,10 @@ public final class ServerUtilities {
 	 */
 	static void unregister(final Context context, final String regId) {
 		Log.i(TAG, "unregistering device (regId = " + regId + ")");
-		String serverUrl = SERVER_URL + "/unregister";
+		String serverUrl = SERVER_URL + "/gcm_register";
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("regId", regId);
+		params.put("username", "");
 		try {
 			post(serverUrl, params);
 			GCMRegistrar.setRegisteredOnServer(context, false);

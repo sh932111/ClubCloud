@@ -7,6 +7,7 @@ import java.util.List;
 
 import adapter.EventAdpter;
 import android.app.Activity;
+import android.app.ProgressDialog;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -17,6 +18,7 @@ import getfunction.DBTools;
 import getfunction.DialogShow;
 import getfunction.PageUtil;
 import httpfunction.SendPostRunnable;
+import startprogram.LoginPage;
 import uifunction.ShowToolbar;
 
 import com.candroidsample.R;
@@ -42,6 +44,7 @@ public class EmergencyReport extends Activity implements LocationListener
 	String Latitude;
 	String Longitude;
 	private boolean getService = false;
+	private ProgressDialog pd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -138,6 +141,8 @@ public class EmergencyReport extends Activity implements LocationListener
 	{
 		// 22.901640, 120.306044
 
+		pd = ProgressDialog.show(EmergencyReport.this, "請稍後", "載入中，請稍後...");
+		
 		List<NameValuePair> parems = new ArrayList<NameValuePair>();
 		Long id = mArrayList.get(index).getLong("ID");
 
@@ -155,6 +160,8 @@ public class EmergencyReport extends Activity implements LocationListener
 					@Override
 					public void service_result(Message msg)
 					{
+						pd.dismiss();
+
 						// TODO Auto-generated method stub
 						Bundle countBundle = msg.getData();
 

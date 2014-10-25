@@ -25,7 +25,9 @@ import android.content.Context;
 import android.util.Log;
 import getfunction.DBTools;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -60,6 +62,7 @@ public final class ServerUtilities {
 		
 		String serverUrl = SERVER_URL + "/gcm_register.php";
 		Map<String, String> params = new HashMap<String, String>();
+		System.out.println("username:"+username +"id:"+regId);
 		params.put("regId", regId);
 		params.put("username", username);
 		long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
@@ -164,6 +167,7 @@ public final class ServerUtilities {
 		byte[] bytes = body.getBytes();
 		HttpURLConnection conn = null;
 		try {
+			System.out.println("conn?");
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setUseCaches(false);
@@ -180,7 +184,18 @@ public final class ServerUtilities {
 			if (status != 200) {
 				throw new IOException("Post failed with error code " + status);
 			}
-		} finally {
+			InputStreamReader in = new InputStreamReader(conn.getInputStream());  
+            // 为输出创建BufferedReader  
+            BufferedReader buffer = new BufferedReader(in);
+            String inputLine = "";  
+            String resultData = "";
+            while (((inputLine = buffer.readLine()) != null))  
+            {  
+            	resultData += inputLine + "\n";  
+            }  
+            System.out.println("resultData:"+resultData);
+		} 
+		finally {
 			if (conn != null) {
 				conn.disconnect();
 			}

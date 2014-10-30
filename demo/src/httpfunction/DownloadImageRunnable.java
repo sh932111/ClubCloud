@@ -20,6 +20,7 @@ public class DownloadImageRunnable
 	public interface Callback
 	{
 		public abstract void service_result();
+		public abstract void err_service_result();
 	}
 	
 
@@ -95,9 +96,16 @@ public class DownloadImageRunnable
 					{
 						boolean check = FolderFunction.saveImage(loadPic.getImg(),  app_path);	
 
-						if (mCallback != null && check)
+						if (mCallback != null)
 						{
-							mCallback.service_result();
+							if (check)
+							{
+								mCallback.service_result();
+							}
+							else 
+							{
+								mCallback.err_service_result();
+							}
 						}
 					}
 					
@@ -106,8 +114,6 @@ public class DownloadImageRunnable
 				super.handleMessage(msg);
 			}
 		};
-		
-		System.out.println(IP);
 		
 		loadPic.handleWebPic(IP,
 				mHandler);

@@ -36,6 +36,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -330,6 +331,13 @@ public class PersonalInformation extends CloudActivity
 																// method stub
 
 															}
+
+															@Override
+															public void err_service_result()
+															{
+																// TODO Auto-generated method stub
+																
+															}
 														});
 												dImageRunnable.downLoadImage();
 											}
@@ -473,5 +481,16 @@ public class PersonalInformation extends CloudActivity
 			}
 		}
 		return null;
+	}
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) 
+		{
+			finish();
+             
+			return true;
+		}
+
+	  return super.onKeyDown(keyCode, event);
 	}
 }

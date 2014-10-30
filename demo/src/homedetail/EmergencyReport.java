@@ -36,7 +36,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 
-public class EmergencyReport extends Activity implements LocationListener
+public class EmergencyReport extends CloudActivity implements LocationListener
 {
 	private ListView listView;
 	TextView nodata;

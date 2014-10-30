@@ -122,7 +122,7 @@ public class UserDB
 			return array_list;
 		}
 
-		return null;
+		return array_list;
 	}
 
 	public long create(String username, String password, String name,

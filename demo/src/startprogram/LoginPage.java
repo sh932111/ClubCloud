@@ -1,7 +1,10 @@
 package startprogram;
 
 import getfunction.DBTools;
+import getfunction.ImageFunction;
 import getfunction.PageUtil;
+import homedetail.PersonalInformation;
+import homedetail.ShowPushDetail;
 import httpfunction.DownloadImageRunnable;
 import httpfunction.SendPostRunnable;
 
@@ -18,6 +21,7 @@ import org.json.JSONObject;
 import utils.TimeUtils;
 
 import com.candroidsample.R;
+import com.candroidsample.StartActivity;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -113,7 +117,7 @@ public class LoginPage extends Activity
 																	.getInnerJSONObject()
 																	.getString(
 																			"id");
-
+															
 															post(id,"fb");
 
 														}
@@ -182,6 +186,8 @@ public class LoginPage extends Activity
 						try
 						{
 							messageString = result.getString("Message");
+						
+							System.out.println(result);
 						}
 						catch (JSONException e)
 						{
@@ -253,16 +259,37 @@ public class LoginPage extends Activity
 
 										if (resString)
 										{
+
 											DownloadImageRunnable dImageRunnable = new DownloadImageRunnable(
 													username,
-													LoginPage.this,
-													"userphoto",
-													getResources()
-															.getString(
-																	R.string.downloadUserImage));
-											dImageRunnable
-													.downLoadImage();
+													LoginPage.this, "userphoto", getResources()
+															.getString(R.string.downloadUserImage),
+													new DownloadImageRunnable.Callback()
+													{
+														@Override
+														public void service_result()
+														{
 
+															Intent intent = new Intent();
+															intent.setClass(LoginPage.this, PersonalInformation.class);
+															startActivity(intent);
+														}
+
+														@Override
+														public void err_service_result()
+														{
+															// TODO Auto-generated method stub
+
+															Intent intent = new Intent();
+															intent.setClass(LoginPage.this, PersonalInformation.class);
+															startActivity(intent);
+														}
+													});
+											dImageRunnable.downLoadImage();
+											
+											pullData();
+											pullUserData(city_id,city_detail_id);
+											
 											DBTools.creatUserData(
 													LoginPage.this,
 													username, password,
@@ -275,14 +302,7 @@ public class LoginPage extends Activity
 													city_detail_id,
 													cellphone);
 											
-											pullData();
-											pullUserData(city_id,city_detail_id);
-											
-											PageUtil mSysUtil = new PageUtil(
-													LoginPage.this);
-
-											mSysUtil.exit(0);
-
+										
 										}
 									}
 								});
@@ -350,17 +370,7 @@ public class LoginPage extends Activity
 											String.valueOf(id),
 											LoginPage.this, "pushphoto",
 											getResources().getString(
-													R.string.downloadRequestImage),
-											new DownloadImageRunnable.Callback()
-											{
-												@Override
-												public void service_result()
-												{
-													// TODO
-													// Auto-generated
-													// method stub
-												}
-											});
+													R.string.downloadRequestImage));
 									dImageRunnable.downLoadImage();
 								}
 							}
@@ -446,6 +456,13 @@ public class LoginPage extends Activity
 													// Auto-generated
 													// method stub
 													DBTools.updatePushDBImage(LoginPage.this, id);
+												}
+
+												@Override
+												public void err_service_result()
+												{
+													// TODO Auto-generated method stub
+													
 												}
 											});
 									dImageRunnable.downLoadImage();

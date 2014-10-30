@@ -14,7 +14,6 @@
 
     <uses-permission android:name="com.candroidsample.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -55,16 +54,12 @@
                 <category android:name="com.candroidsample" />
             </intent-filter>
         </receiver>
-	
-         <receiver
+        <receiver
             android:name="getfunction.AlarmReceiver"
-            android:process=":remote" 
-            />
-         
+            android:process=":remote" />
+
         <service android:name=".GCMIntentService" />
 
-        <activity android:name=".HomePage" >
-        </activity>
         <activity android:name="startprogram.Register1" >
         </activity>
         <activity android:name="startprogram.Register2" >
@@ -95,6 +90,9 @@
         <activity android:name="homedetail.AddTravelDetail" >
         </activity>
         <activity android:name="homedetail.EmergencyReport" >
+        </activity>
+        <activity
+            android:name="homedetail.NotEditActivity">
         </activity>
     </application>
 

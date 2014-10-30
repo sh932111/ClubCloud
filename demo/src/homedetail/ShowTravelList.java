@@ -203,7 +203,7 @@ public class ShowTravelList extends CloudActivity
 				if (list_index == 1)
 				{
 					Intent intent = new Intent(ShowTravelList.this,
-							ShowTravelDetail.class);
+							NotEditActivity.class);
 
 					intent.putExtras(bundle);
 

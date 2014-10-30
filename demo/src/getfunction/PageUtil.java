@@ -6,7 +6,7 @@ import homedetail.PersonalInformation;
 import homedetail.ShowTravelList;
 
 import com.candroidsample.CaldroidSampleActivity;
-import com.candroidsample.HomePage;
+//import com.candroidsample.HomePage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,9 +34,10 @@ public class PageUtil
 		
 		if (i == 0)
 		{
-			mIntent.setClass(mContext, HomePage.class);
+			mIntent.setClass(mContext, PersonalInformation.class);
 			mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			mIntent.putExtra("flag", EXIT_APPLICATION0);
+			
 		}
 		else if (i == 1)
 		{

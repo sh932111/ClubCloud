@@ -30,7 +30,6 @@ public class ShowPushDetail extends Activity
 {
 	Long id;
 	ShowScrollView showScrollView;
-	private Facebook facebook = new Facebook("719363708136980");
 	private UiLifecycleHelper uiHelper;
 
 	@Override
@@ -59,14 +58,11 @@ public class ShowPushDetail extends Activity
 		float s_size = 350 / h_size;
 
 		showScrollView = new ShowScrollView();
-		showScrollView.showView(
+		showScrollView.showNotEditView(
 				(LinearLayout) findViewById(R.id.LinearLayout1), this,
 				get_bundle, getResources().getDisplayMetrics().heightPixels
 						- getResources().getDisplayMetrics().widthPixels
 						/ ShowToolbar.getMenuNum(this) - (int) s_size);
-
-		showScrollView.titleView.setEnabled(false);
-		showScrollView.listView.setEnabled(false);
 		showScrollView.chooseDayBt.setVisibility(View.INVISIBLE);
 		showScrollView.chooseImgBt.setVisibility(View.INVISIBLE);
 		showScrollView.chooseTimeBt.setVisibility(View.INVISIBLE);
@@ -98,8 +94,16 @@ public class ShowPushDetail extends Activity
 
 							DBTools.updatePushDBImage(ShowPushDetail.this, id);
 						}
+
+						@Override
+						public void err_service_result()
+						{
+							// TODO Auto-generated method stub
+							
+						}
 					});
 			dImageRunnable.downLoadImage();
+			
 		} else if (Integer.parseInt(image_check) == 2)
 		{
 			ImageFunction get_image = new ImageFunction();
@@ -210,9 +214,9 @@ public class ShowPushDetail extends Activity
 					FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
 							ShowPushDetail.this)
 							.setLink("https://developers.facebook.com/android")
-							.setName(showScrollView.titleView.getText().toString())
+							.setName(showScrollView.titleView2.getText().toString())
 							.setCaption(showScrollView.timeView.getText().toString())
-							.setDescription(showScrollView.listView.getText().toString())
+							.setDescription(showScrollView.listView2.getText().toString())
 							.setPicture(app_path)
 							.build();
 					uiHelper.trackPendingDialogCall(shareDialog.present());

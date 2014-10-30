@@ -282,6 +282,8 @@ public class DBTools
 	
 	public static void saveEventData(Context context ,Object object ,String type)
 	{
+		System.out.println(object);
+		
 		if (object instanceof Bundle)
 		{
 			Bundle bundle = (Bundle)object;

@@ -309,6 +309,13 @@ public class Register2 extends Activity
 																resImage = get_image.getBitmapFromSDCard(app_path);
 																mImg.setImageBitmap(resImage);
 															}
+
+															@Override
+															public void err_service_result()
+															{
+																// TODO Auto-generated method stub
+																
+															}
 														});
 												dImageRunnable.downLoadImage2();
 											}

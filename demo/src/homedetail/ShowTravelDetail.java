@@ -138,6 +138,13 @@ public class ShowTravelDetail extends Activity
 											.getBitmapFromSDCard(app_path));
 							DBTools.updateTravelImage(ShowTravelDetail.this, id);
 						}
+
+						@Override
+						public void err_service_result()
+						{
+							// TODO Auto-generated method stub
+							
+						}
 					});
 			dImageRunnable.downLoadImage();
 		}
@@ -175,19 +182,6 @@ public class ShowTravelDetail extends Activity
 					}
 				});
 		
-		Button cancel = (Button) findViewById(R.id.cancel);
-		
-		cancel.setOnClickListener(new Button.OnClickListener()
-		{
-			@Override
-			public void onClick(View arg0)
-			{
-				DBTools.deleteDB(ShowTravelDetail.this, id, 2);
-				
-				finish();
-			}
-		});
-
 		Button check = (Button) findViewById(R.id.check);
 
 		check.setOnClickListener(new Button.OnClickListener()
@@ -196,6 +190,17 @@ public class ShowTravelDetail extends Activity
 			public void onClick(View arg0)
 			{
 				updateDB(id);
+				
+				Intent intent = new Intent();
+				
+				Bundle bundle = new Bundle();
+				
+				bundle.putLong("ID", id);
+
+				intent.putExtras(bundle);
+				
+				setResult(Activity.RESULT_OK, intent);
+				
 				finish();
 			}
 		});

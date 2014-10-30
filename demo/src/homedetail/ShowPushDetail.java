@@ -286,6 +286,24 @@ public class ShowPushDetail extends Activity
 					{
 						// Log.e("Activity", String.format("Error: %s",
 						// error.toString()));
+						DialogShow dialogShow = new DialogShow();
+						dialogShow.showStyle1(ShowPushDetail.this, "訊息", "訊息以傳送失敗！請確認帳戶狀況！", "確定！", new DialogShow.Callback()
+						{
+							
+							@Override
+							public void work()
+							{
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void cancel()
+							{
+								// TODO Auto-generated method stub
+								
+							}
+						});
 					}
 
 					@Override
@@ -293,6 +311,24 @@ public class ShowPushDetail extends Activity
 							FacebookDialog.PendingCall pendingCall, Bundle data)
 					{
 						// Log.i("Activity", "Success!");
+						DialogShow dialogShow = new DialogShow();
+						dialogShow.showStyle1(ShowPushDetail.this, "訊息", "訊息以傳送成功！", "確定！", new DialogShow.Callback()
+						{
+							
+							@Override
+							public void work()
+							{
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void cancel()
+							{
+								// TODO Auto-generated method stub
+								
+							}
+						});
 					}
 				});
 	}

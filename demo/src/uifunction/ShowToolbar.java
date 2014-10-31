@@ -1,5 +1,7 @@
 package uifunction;
 
+import com.candroidsample.R;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.Gravity;
@@ -12,6 +14,8 @@ import android.widget.LinearLayout;
 public class ShowToolbar
 {
 	private Callback mCallback;
+	
+	private int[] img = {R.drawable.button_information,R.drawable.button_calendar,R.drawable.button_news,R.drawable.button_message,R.drawable.button_warning};
 	
 	public interface Callback
 	{
@@ -48,15 +52,11 @@ public class ShowToolbar
 
 		ladderParams.gravity = Gravity.BOTTOM;
 
-		Resources res = context.getResources();
-
-		String[] array = res.getStringArray(com.candroidsample.R.array.MENU);
-
-		for (int i = 0; i < array.length; i++)
+		for (int i = 0; i < img.length; i++)
 		{
 			Button b1 = new Button(context);
-
-			b1.setText(array[i]);
+			
+			b1.setBackgroundResource(img[i]);
 
 			setBt(b1,i);
 			
@@ -91,6 +91,7 @@ public class ShowToolbar
 			}
 
 		});
+		
 	}
 	
 	

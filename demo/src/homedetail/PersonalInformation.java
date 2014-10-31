@@ -73,12 +73,6 @@ public class PersonalInformation extends CloudActivity
 
 		userImage = (ImageView) findViewById(R.id.userImage);
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-				getResources().getDisplayMetrics().widthPixels / 3,
-				getResources().getDisplayMetrics().heightPixels / 4);
-
-		userImage.setLayoutParams(layoutParams);
-
 		Button button01 = (Button) findViewById(R.id.openQR);
 
 		button01.setOnClickListener(new Button.OnClickListener()
@@ -175,15 +169,15 @@ public class PersonalInformation extends CloudActivity
 		{
 			setImage(array_list.get(0));
 			TextView usernameTextView = (TextView) findViewById(R.id.username);
-			usernameTextView.setText("帳號：" + array_list.get(0));
+			usernameTextView.setText(array_list.get(0));
 			TextView userTextView = (TextView) findViewById(R.id.user);
-			userTextView.setText("名字：" + array_list.get(2));
+			userTextView.setText(array_list.get(2));
 			TextView phoneTextView = (TextView) findViewById(R.id.phone);
-			phoneTextView.setText("手機：" + array_list.get(10));
+			phoneTextView.setText(array_list.get(10));
 			TextView cityTextView = (TextView) findViewById(R.id.city);
-			cityTextView.setText("縣市：" + array_list.get(6));
+			cityTextView.setText(array_list.get(6));
 			TextView areaTextView = (TextView) findViewById(R.id.area);
-			areaTextView.setText("區域：" + array_list.get(7));
+			areaTextView.setText(array_list.get(7));
 		}
 	}
 

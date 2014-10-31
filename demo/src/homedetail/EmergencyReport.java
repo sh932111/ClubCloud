@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import adapter.EventAdpter;
-import android.app.Activity;
 import android.app.ProgressDialog;
 
 import org.apache.http.NameValuePair;
@@ -18,7 +17,6 @@ import getfunction.DBTools;
 import getfunction.DialogShow;
 import getfunction.PageUtil;
 import httpfunction.SendPostRunnable;
-import startprogram.LoginPage;
 import uifunction.ShowToolbar;
 
 import com.candroidsample.R;

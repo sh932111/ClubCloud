@@ -44,13 +44,21 @@ public class ShowToolbar
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 
 		layoutParams.weight = 1.0f;
-
+		
 		lLayour.setLayoutParams(layoutParams);
 
+		LinearLayout lLayour2 = new LinearLayout(context);
+
+		LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				getH+20);
+		layoutParams2.gravity = Gravity.BOTTOM;
+		lLayour2.setLayoutParams(layoutParams2);
+		
 		LinearLayout.LayoutParams ladderParams = new LinearLayout.LayoutParams(
 				getH, getH);
 
-		ladderParams.gravity = Gravity.BOTTOM;
+		ladderParams.gravity = Gravity.CENTER;
 
 		for (int i = 0; i < img.length; i++)
 		{
@@ -62,7 +70,7 @@ public class ShowToolbar
 			
 			b1.setLayoutParams(ladderParams);
 
-			lLayour.addView(b1);
+			lLayour2.addView(b1);
 			
 			AnimationSet animation = new AnimationSet(true);
 			
@@ -75,6 +83,8 @@ public class ShowToolbar
 			b1.startAnimation(animation);
 		}
 
+		lLayour2.setBackgroundResource(R.drawable.background_2);
+		lLayour.addView(lLayour2);
 		layout.addView(lLayour);
 	}
 	

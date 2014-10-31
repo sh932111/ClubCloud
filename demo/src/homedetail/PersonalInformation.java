@@ -44,6 +44,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class PersonalInformation extends CloudActivity
@@ -55,7 +56,8 @@ public class PersonalInformation extends CloudActivity
 	private final static int Album = 67;
 	Bitmap resImage = null;
 	private Calendar m_Calendar = Calendar.getInstance();
-
+	ScrollView scrollview;
+	
 	boolean check;
 
 	private int myYear, myMonth, myDay;
@@ -66,6 +68,9 @@ public class PersonalInformation extends CloudActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_information);
+		
+		scrollview = (ScrollView) findViewById(R.id.backgroundScrollView);
+		
 		check = true;
 		mPhone = new DisplayMetrics();
 
@@ -150,6 +155,18 @@ public class PersonalInformation extends CloudActivity
 						finish();
 					}
 				});
+		
+		float h_size = 1920 / getResources().getDisplayMetrics().heightPixels;
+
+		float s_size = 390 / h_size;
+		
+		LinearLayout.LayoutParams scrollviewParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				getResources().getDisplayMetrics().heightPixels
+				- getResources().getDisplayMetrics().widthPixels
+				/ ShowToolbar.getMenuNum(this) - (int) s_size);
+		
+		scrollview.setLayoutParams(scrollviewParams);
 	}
 
 	@Override

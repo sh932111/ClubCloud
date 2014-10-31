@@ -232,8 +232,7 @@
                     <EditText
                         android:id="@+id/editText5"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword" >
+                        android:layout_height="wrap_content" >
                     </EditText>
                 </LinearLayout>
             </LinearLayout>

@@ -26,8 +26,6 @@ public class DBTools
 		
 		Cursor mCursor = dbManager.get(arrayList.get(0).getString("city_id"));
 		
-		System.out.println(mCursor.getCount());
-		
 		dbManager.closeDatabase();
 		
 		return arrayList;
@@ -277,6 +275,18 @@ public class DBTools
 		userDB.close();
 
 		return array_list.get(0);
+	}
+	public static String getPassWord(Context context)
+	{
+		UserDB userDB = new UserDB(context);
+
+		userDB.open();
+
+		ArrayList<String> array_list = userDB.getAllDate();
+
+		userDB.close();
+
+		return array_list.get(1);
 	}
 	
 	

@@ -40,8 +40,45 @@ public class ShowPushDetail extends Activity
 
 		uiHelper = new UiLifecycleHelper(this, null);
 		uiHelper.onCreate(savedInstanceState);
+		
+		Button fbButton = (Button) findViewById(R.id.fbbutton);
+		fbButton.setOnClickListener(new Button.OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				if (FacebookDialog.canPresentShareDialog(
+						getApplicationContext(),
+						FacebookDialog.ShareDialogFeature.SHARE_DIALOG))
+				{
+					// Publish the post using the Share Dialog
+					String app_path = getResources().getString(R.string.IP) +getResources().getString(R.string.downloadRequestImage) 
+							+ id + ".png";
+					
+					FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
+							ShowPushDetail.this)
+							.setLink("https://developers.facebook.com/android")
+							.setName(showScrollView.titleView2.getText().toString())
+							.setCaption(showScrollView.timeView.getText().toString())
+							.setDescription(showScrollView.listView2.getText().toString())
+							.setPicture(app_path)
+							.build();
+					uiHelper.trackPendingDialogCall(shareDialog.present());
 
-		initFb();
+				} else
+				{
+					// Fallback. For example, publish the post using the Feed
+					// Dialog
+				}
+			}
+		});
+
+		fbButton.setVisibility(View.GONE);
+		if (DBTools.getPassWord(ShowPushDetail.this).equals("fb"))
+		{
+			initFb();
+			fbButton.setVisibility(View.VISIBLE);
+		}
 
 		Intent intent = this.getIntent();
 
@@ -197,37 +234,6 @@ public class ShowPushDetail extends Activity
 			}
 		});
 
-		Button fbButton = (Button) findViewById(R.id.fbbutton);
-		fbButton.setOnClickListener(new Button.OnClickListener()
-		{
-			@Override
-			public void onClick(View arg0)
-			{
-				if (FacebookDialog.canPresentShareDialog(
-						getApplicationContext(),
-						FacebookDialog.ShareDialogFeature.SHARE_DIALOG))
-				{
-					// Publish the post using the Share Dialog
-					String app_path = getResources().getString(R.string.IP) +getResources().getString(R.string.downloadRequestImage) 
-							+ id + ".png";
-					
-					FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
-							ShowPushDetail.this)
-							.setLink("https://developers.facebook.com/android")
-							.setName(showScrollView.titleView2.getText().toString())
-							.setCaption(showScrollView.timeView.getText().toString())
-							.setDescription(showScrollView.listView2.getText().toString())
-							.setPicture(app_path)
-							.build();
-					uiHelper.trackPendingDialogCall(shareDialog.present());
-
-				} else
-				{
-					// Fallback. For example, publish the post using the Feed
-					// Dialog
-				}
-			}
-		});
 
 	}
 

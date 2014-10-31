@@ -100,7 +100,7 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 
 		float h_size = 1920 / getResources().getDisplayMetrics().heightPixels;
 
-		float s_size = 850 / h_size;
+		float s_size = 700 / h_size;
 
 		showScrollView = new ShowScrollView();
 		showScrollView.showView(
@@ -152,6 +152,8 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 
+		lp.topMargin = 15;
+		
 		post_bt.setText("傳送");
 
 		post_bt.setLayoutParams(lp);
@@ -236,8 +238,10 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 				&& CITY.length() > 0 && DETAILCITY.length() > 0)
 		{
 
+			pd = ProgressDialog.show(EventDelivery.this, "請稍後", "載入中，請稍後...");
+		
 			if (resImage != null)
-			{
+			{	
 				String app_path = getExternalFilesDir(null).getAbsolutePath() + "/"+"pushphoto"+"/" + id + ".png";
 
 				boolean check = FolderFunction.saveImage(resImage,  app_path);	
@@ -255,8 +259,6 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 					image_check = "1";
 				}
 			}
-			
-			pd = ProgressDialog.show(EventDelivery.this, "請稍後", "載入中，請稍後...");
 			
 			List<NameValuePair> parems = new ArrayList<NameValuePair>();
 

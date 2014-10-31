@@ -104,8 +104,7 @@ public class ChooseCityDailog extends DialogFragment
 								chooseCityListener listener = (chooseCityListener) getActivity();
 								listener.onChooseCityComplete(bundle);
 							}
-						})
-		.setNegativeButton("Close", null);
+						});
 		
 		return builder.create();
 	}

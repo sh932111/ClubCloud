@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import uifunction.ShowEventDailog;
 import uifunction.ShowToolbar;
+import utils.DatePickerUtil;
 import getfunction.DBTools;
 import getfunction.FolderFunction;
 import getfunction.ImageFunction;
@@ -23,6 +24,7 @@ import httpfunction.UploadImage;
 
 import com.candroidsample.R;
 
+import android.R.color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -117,12 +119,15 @@ public class PersonalInformation extends CloudActivity
 			public void onClick(View arg0)
 			{
 				// TODO Auto-generated method stub
-				DatePickerDialog dialog = new DatePickerDialog(
-						PersonalInformation.this, myDateSetListener, m_Calendar
-								.get(Calendar.YEAR), m_Calendar
-								.get(Calendar.MONTH), m_Calendar
-								.get(Calendar.DAY_OF_MONTH));
+				DatePickerUtil dialog = new DatePickerUtil(
+						PersonalInformation.this, 
+						myDateSetListener
+						, m_Calendar.get(Calendar.YEAR)
+						, m_Calendar.get(Calendar.MONTH)
+						, m_Calendar.get(Calendar.DAY_OF_MONTH));
+				dialog.setPermanentTitle("選擇日期");
 				dialog.show();
+				
 				DatePicker dp = findDatePicker((ViewGroup) dialog.getWindow()
 						.getDecorView());
 				if (dp != null)
@@ -158,7 +163,7 @@ public class PersonalInformation extends CloudActivity
 		
 		float h_size = 1920 / getResources().getDisplayMetrics().heightPixels;
 
-		float s_size = 390 / h_size;
+		float s_size = 250 / h_size;
 		
 		LinearLayout.LayoutParams scrollviewParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,

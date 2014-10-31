@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     tools:context=".PersonalInformation" >
 
     <LinearLayout
@@ -21,7 +22,8 @@
     <ScrollView
         android:id="@+id/backgroundScrollView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+		>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -93,12 +95,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="名字："
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/user"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -111,12 +115,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="帳號："
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/username"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -136,6 +142,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="手機："
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -143,6 +150,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -155,6 +163,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="縣市："
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -162,6 +171,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -174,6 +184,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="區域："
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
 
                             <TextView
@@ -181,6 +192,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
+                                android:textColor="#000000"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>

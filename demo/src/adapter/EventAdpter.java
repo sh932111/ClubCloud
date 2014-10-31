@@ -1,9 +1,8 @@
 package adapter;
 
-
-import getfunction.ImageFunction;
-
 import java.util.ArrayList;
+
+import utils.ViewHolder;
 
 import com.candroidsample.R;
 
@@ -16,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import utils.LoadImageAsyncTask;
 
 public class EventAdpter extends BaseAdapter
 {
@@ -73,11 +73,11 @@ public class EventAdpter extends BaseAdapter
 	{
 		if (Type == 1)
 		{
-			ViewTag viewTag;
+			ViewHolder viewTag;
 			if(convertView == null)
 			{
 				convertView = myInflater.inflate(R.layout.eventlist, null);
-				viewTag = new ViewTag(
+				viewTag = new ViewHolder(
 						(ImageView)convertView.findViewById(R.id.list_image),
 						(TextView) convertView.findViewById(R.id.list_title),
 						(TextView) convertView.findViewById(R.id.list_detail),
@@ -88,7 +88,7 @@ public class EventAdpter extends BaseAdapter
 			}
 			else
 			{
-				viewTag = (ViewTag) convertView.getTag();
+				viewTag = (ViewHolder) convertView.getTag();
 			}
 			
 			viewTag.mTitie.setText(mArrayList.get(position).getString("Title"));
@@ -97,15 +97,10 @@ public class EventAdpter extends BaseAdapter
 			
 			if (mArrayList.get(position).getString("Image").equals("1"))
 			{
-				ImageFunction get_image = new ImageFunction();
-
 				String app_path = appPath + mArrayList.get(position).getLong("ID") + ".png";
 				
-				System.out.println("appPath:"+app_path);
-				
-				viewTag.mIcon.setImageBitmap(get_image
-								.getBitmapFromSDCard(app_path));
-				
+				viewTag.img_path = app_path;
+				new LoadImageAsyncTask().execute(viewTag);
 			}
 			else 
 			{
@@ -153,28 +148,11 @@ public class EventAdpter extends BaseAdapter
 					mCallback.responseHelp(point);
 				}
 			});
-			
-			
 			return convertView;
 		}
 		
 	}
 
-	class ViewTag
-	{
-		ImageView mIcon;
-		TextView mTitie;
-		TextView mDetail;
-		TextView mTime;
-		
-		public ViewTag(ImageView icon, TextView title, TextView text,TextView time)
-		{
-			this.mIcon = icon;
-			this.mTitie = title;
-			this.mDetail = text;
-			this.mTime = time;
-		}
-	}
 	class EmergencyViewTag
 	{
 		TextView mTitie;

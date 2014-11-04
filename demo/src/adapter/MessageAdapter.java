@@ -86,11 +86,11 @@ public class MessageAdapter extends BaseAdapter
 		
 		if (v == 0) 
 		{
-			viewTag.icon.setBackgroundColor(Color.YELLOW);
+			viewTag.icon.setImageResource(R.drawable.star_unread);
 		}
 		else if (v == 1) 
 		{
-			viewTag.icon.setBackgroundColor(Color.RED);
+			viewTag.icon.setImageResource(R.drawable.star_read);
 		}
 		
 		return convertView;

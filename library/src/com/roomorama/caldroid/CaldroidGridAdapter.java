@@ -225,7 +225,6 @@ public class CaldroidGridAdapter extends BaseAdapter {
 	 */
 	protected void customizeTextView(int position, TextView cellView) {
 		cellView.setTextColor(Color.BLACK);
-
 		// Get dateTime of this cell
 		DateTime dateTime = this.datetimeList.get(position);
 

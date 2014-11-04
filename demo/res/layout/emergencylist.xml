@@ -9,39 +9,41 @@
         android:id="@+id/list_title2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#00FF00"
-        android:textSize="18dp" />
+            android:layout_marginLeft="5dp"
+        android:textSize="28dp" />
 
     <TextView
         android:id="@+id/list_time2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#00FF00"
-        android:textSize="14dp" />
+            android:layout_marginLeft="5dp"
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/list_detail2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#00FF00"
-        android:textSize="16dp" />
+            android:layout_marginLeft="5dp"
+        android:textSize="24dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/responsebt1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/response" />
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:background="@drawable/button_return"  />
         
         <Button
             android:id="@+id/responsebt2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/needhelp" />
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_help" />
         
     </LinearLayout>
 

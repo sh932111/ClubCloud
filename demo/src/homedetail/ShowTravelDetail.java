@@ -26,16 +26,19 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TimePicker;
 
 public class ShowTravelDetail extends Activity
 {
 	ShowScrollView showScrollView;
-
+	ScrollView scrollview;
+	
 	Long id;
 
 	private DisplayMetrics mPhone;
@@ -57,7 +60,8 @@ public class ShowTravelDetail extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_travel_detail2);
-
+		scrollview = (ScrollView) findViewById(R.id.backgroundScrollView);
+		
 		mPhone = new DisplayMetrics();
 
 		getWindowManager().getDefaultDisplay().getMetrics(mPhone);
@@ -84,9 +88,19 @@ public class ShowTravelDetail extends Activity
 
 		float s_size = 350 / h_size;
 
+		LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout2);
+		LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(
+				getResources().getDisplayMetrics().widthPixels - 100,
+				getResources().getDisplayMetrics().heightPixels
+				- getResources().getDisplayMetrics().widthPixels
+				/ ShowToolbar.getMenuNum(this) - (int) s_size);
+		layout_params.gravity=Gravity.CENTER;
+		layout_params.topMargin = 20;
+		layout.setLayoutParams(layout_params);
+		
 		showScrollView = new ShowScrollView();
 		showScrollView.showView(
-				(LinearLayout) findViewById(R.id.LinearLayout1), this,
+				(LinearLayout) findViewById(R.id.LinearLayout2), this,
 				get_bundle, getResources().getDisplayMetrics().heightPixels
 						- getResources().getDisplayMetrics().widthPixels
 						/ ShowToolbar.getMenuNum(this) - (int) s_size);
@@ -204,6 +218,15 @@ public class ShowTravelDetail extends Activity
 				finish();
 			}
 		});
+		float s_size2 = 250 / h_size;
+
+		LinearLayout.LayoutParams scrollviewParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				getResources().getDisplayMetrics().heightPixels
+				- getResources().getDisplayMetrics().widthPixels
+				/ ShowToolbar.getMenuNum(this) - (int) s_size2);
+		
+		scrollview.setLayoutParams(scrollviewParams);
 	}
 
 	@Override

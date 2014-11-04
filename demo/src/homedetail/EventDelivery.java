@@ -45,12 +45,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.LinearLayout.LayoutParams;
@@ -80,7 +82,7 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 
 	String CITY_id="";
 	String DETAILCITY_id="";
-
+	
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -89,7 +91,7 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 		setContentView(R.layout.activity_event_delivery);
 
 		mPhone = new DisplayMetrics();
-
+		
 		getWindowManager().getDefaultDisplay().getMetrics(mPhone);
 
 		final Calendar c = Calendar.getInstance();
@@ -100,11 +102,21 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 
 		float h_size = 1920 / getResources().getDisplayMetrics().heightPixels;
 
-		float s_size = 700 / h_size;
+		float s_size = 400 / h_size;
 
+		LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout2);
+		LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(
+				getResources().getDisplayMetrics().widthPixels - 100,
+				getResources().getDisplayMetrics().heightPixels
+				- getResources().getDisplayMetrics().widthPixels
+				/ ShowToolbar.getMenuNum(this) - (int) s_size);
+		layout_params.gravity=Gravity.CENTER;
+		layout_params.topMargin = 20;
+		layout.setLayoutParams(layout_params);
+		
 		showScrollView = new ShowScrollView();
 		showScrollView.showView(
-				(LinearLayout) findViewById(R.id.LinearLayout1), this, null,
+				(LinearLayout) findViewById(R.id.LinearLayout2), this, null,
 				getResources().getDisplayMetrics().heightPixels
 						- getResources().getDisplayMetrics().widthPixels
 						/ ShowToolbar.getMenuNum(this) - (int) s_size);
@@ -147,17 +159,10 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 		showScrollView.addressTitleView.setVisibility(View.INVISIBLE);
 		showScrollView.addressView.setVisibility(View.INVISIBLE);
 
-		Button post_bt = new Button(this);
+		Button post_bt = (Button)findViewById(R.id.post);
 
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-
-		lp.topMargin = 15;
+		post_bt.setBackgroundResource(R.drawable.button_convey);
 		
-		post_bt.setText("傳送");
-
-		post_bt.setLayoutParams(lp);
-
 		post_bt.setOnClickListener(new Button.OnClickListener()
 		{
 			@Override
@@ -178,10 +183,6 @@ public class EventDelivery extends CloudActivity implements chooseCityListener
 			}
 
 		});
-
-		LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout1);
-
-		layout.addView(post_bt);
 
 		ShowToolbar showToolbar = new ShowToolbar();
 		showToolbar.showToolbar(

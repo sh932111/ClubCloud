@@ -43,7 +43,7 @@ public class CaldroidSampleCustomAdapter extends CaldroidGridAdapter
 		int leftPadding = cellView.getPaddingLeft();
 		int bottomPadding = cellView.getPaddingBottom();
 		int rightPadding = cellView.getPaddingRight();
-
+		
 		TextView tv1 = (TextView) cellView.findViewById(R.id.tv1);
 		TextView tv2 = (TextView) cellView.findViewById(R.id.tv2);
 

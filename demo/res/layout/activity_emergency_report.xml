@@ -6,11 +6,17 @@
     android:orientation="vertical"
     tools:context=".EmergencyReport" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_emergency_report"
-        android:textSize="20sp"  />
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/event_title" />
+    </LinearLayout>
     <TextView
          android:id="@+id/noData"
         android:layout_width="wrap_content"

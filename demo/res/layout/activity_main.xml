@@ -5,11 +5,18 @@
     android:id="@+id/LinearLayout1"
     android:orientation="vertical" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_caldroid"
-        android:textSize="30sp" />
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/title" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/calendar1"

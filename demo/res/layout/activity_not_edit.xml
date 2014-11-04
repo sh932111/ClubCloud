@@ -8,54 +8,67 @@
     android:orientation="vertical"
     tools:context=".NotEditActivity" >
 
-	<LinearLayout
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
         android:orientation="horizontal" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_activity_show_detail"
-                android:textSize="30sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <Button
-                android:id="@+id/check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:text="編輯" />
-        </LinearLayout>
-
-        <LinearLayout
+        <ImageView
             android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/title" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/backgroundScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/cancel"
+            <LinearLayout
+                android:id="@+id/LinearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="3.0dip"
-                android:text="@string/delete" />
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/background_1"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/check"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/button_edit_activity" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/button_delete_activity" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-    
+    </ScrollView>
 
 </LinearLayout>

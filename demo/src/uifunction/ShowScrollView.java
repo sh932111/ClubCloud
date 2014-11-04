@@ -1,10 +1,9 @@
 package uifunction;
 
 
+import android.R;
 import android.content.Context;
 import android.os.Bundle;
-
-
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +21,7 @@ public class ShowScrollView
 	public static TextView listView2;
 	public static TextView dateView;
 	public static TextView timeView;
+	public static TextView addressView2;
 	public static Button chooseTimeBt;
 	public static Button chooseDayBt;
 	public static Button chooseImgBt;
@@ -54,6 +54,7 @@ public class ShowScrollView
 				height);
 
 		scrollView.setLayoutParams(layoutParams);
+		scrollView.setPadding(40,40,40,40);
 		
 		LinearLayout lLayour = new LinearLayout(context);
 		
@@ -132,14 +133,14 @@ public class ShowScrollView
 				
 				chooseDayBt = new Button(context);
 				
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);  
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300,100);  
 
 				lp.gravity = Gravity.RIGHT;  
 				
 				chooseDayBt.setLayoutParams(lp);
 				
-				chooseDayBt.setText("選擇日期");
-
+				chooseDayBt.setBackgroundResource(com.candroidsample.R.drawable.button_date);
+				
 				textlayout.addView(title_view);
 				textlayout.addView(dateView);
 
@@ -167,13 +168,13 @@ public class ShowScrollView
 				
 				chooseTimeBt = new Button(context);
 				
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);  
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300,100);  
 
 				lp.gravity = Gravity.RIGHT;  
 				
 				chooseTimeBt.setLayoutParams(lp);
 				
-				chooseTimeBt.setText("選擇時間");
+				chooseTimeBt.setBackgroundResource(com.candroidsample.R.drawable.button_time);
 				
 				textlayout.addView(title_view);
 				textlayout.addView(timeView);
@@ -233,17 +234,19 @@ public class ShowScrollView
 		
 		showImageView.setLayoutParams(img_layout_params);
 
-		lLayour.addView(showImageView);
-		
 		chooseImgBt = new Button(context);
 		
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);  
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300,100);  
+
+		lp.gravity = Gravity.RIGHT;  
 		
 		chooseImgBt.setLayoutParams(lp);
-
-		chooseImgBt.setText("選擇圖片");
 		
+		chooseImgBt.setBackgroundResource(com.candroidsample.R.drawable.button_photo);
+
 		lLayour.addView(chooseImgBt);
+
+		lLayour.addView(showImageView);
 		
 		scrollView.addView(lLayour);
 		
@@ -274,6 +277,7 @@ public class ShowScrollView
 				height);
 
 		scrollView.setLayoutParams(layoutParams);
+		scrollView.setPadding(40,40,40,40);
 		
 		LinearLayout lLayour = new LinearLayout(context);
 		
@@ -419,14 +423,14 @@ public class ShowScrollView
 				
 				addressTitleView.setText(com.candroidsample.R.string.input_address);
 
-				addressView  = new EditText(context);
+				addressView2  = new TextView(context);
 				
-				addressView.setText(Address);
+				addressView2.setText(Address);
 				
-				addressView.setTextSize(20);
+				addressView2.setTextSize(20);
 				
 				textlayout.addView(addressTitleView);
-				textlayout.addView(addressView);
+				textlayout.addView(addressView2);
 				//此處相當於布局文件中的Android:layout_gravity屬性  
 				
 				LinearLayout linear = new LinearLayout(context);  
@@ -434,7 +438,7 @@ public class ShowScrollView
 						LinearLayout.LayoutParams.FILL_PARENT,
 						LinearLayout.LayoutParams.WRAP_CONTENT);
 
-				addressView.setLayoutParams(title_layout_params);
+				addressView2.setLayoutParams(title_layout_params);
 				
 				//注意，對於LinearLayout布局來說，設置橫向還是縱向是必須的！否則就看不到效果了。  
 				linear.setOrientation(LinearLayout.VERTICAL);  
@@ -453,8 +457,6 @@ public class ShowScrollView
 		
 		showImageView.setLayoutParams(img_layout_params);
 
-		lLayour.addView(showImageView);
-		
 		chooseImgBt = new Button(context);
 		
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);  
@@ -464,10 +466,11 @@ public class ShowScrollView
 		chooseImgBt.setText("選擇圖片");
 		
 		lLayour.addView(chooseImgBt);
+
+		lLayour.addView(showImageView);
 		
 		scrollView.addView(lLayour);
 		
 		layout.addView(scrollView);
 	}
-	
 }

@@ -6,6 +6,32 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/LinearLayoutImg1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/new_msg_title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutImg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/title" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -33,9 +59,9 @@
                 android:id="@+id/addbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:text="+"
-                android:textSize="30sp"        
-                android:layout_gravity="right"/>
+                android:textSize="30sp" />
         </LinearLayout>
     </LinearLayout>
 

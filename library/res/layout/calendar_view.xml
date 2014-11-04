@@ -26,7 +26,8 @@
             android:layout_toRightOf="@+id/calendar_left_arrow"
             android:gravity="center_horizontal"
             android:textIsSelectable="true"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/calendar_right_arrow"

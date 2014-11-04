@@ -13,10 +13,12 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 public class NotEditActivity extends Activity
 {
@@ -25,7 +27,8 @@ public class NotEditActivity extends Activity
 	Long id;
 
 	Bitmap resImage = null;
-
+	ScrollView scrollview;
+	
 	String image_path;
 
 	@Override
@@ -41,7 +44,8 @@ public class NotEditActivity extends Activity
 		id = bundle.getLong("ID");
 
 		Bundle get_bundle = DBTools.getTravelDetail(NotEditActivity.this, id);
-
+		scrollview = (ScrollView) findViewById(R.id.backgroundScrollView);
+		
 		String image_check = get_bundle.getString("Image");
 
 		DBTools.updateTravelLook(NotEditActivity.this, id);
@@ -50,9 +54,19 @@ public class NotEditActivity extends Activity
 
 		float s_size = 350 / h_size;
 
+		LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout2);
+		LinearLayout.LayoutParams layout_params = new LinearLayout.LayoutParams(
+				getResources().getDisplayMetrics().widthPixels - 100,
+				getResources().getDisplayMetrics().heightPixels
+				- getResources().getDisplayMetrics().widthPixels
+				/ ShowToolbar.getMenuNum(this) - (int) s_size);
+		layout_params.gravity=Gravity.CENTER;
+		layout_params.topMargin = 20;
+		layout.setLayoutParams(layout_params);
+		
 		showScrollView = new ShowScrollView();
 		showScrollView.showNotEditView(
-				(LinearLayout) findViewById(R.id.LinearLayout1), this,
+				(LinearLayout) findViewById(R.id.LinearLayout2), this,
 				get_bundle, getResources().getDisplayMetrics().heightPixels
 						- getResources().getDisplayMetrics().widthPixels
 						/ ShowToolbar.getMenuNum(this) - (int) s_size);
@@ -152,6 +166,16 @@ public class NotEditActivity extends Activity
 				startActivityForResult(intent, 0);
 			}
 		});
+
+		float s_size2 = 250 / h_size;
+
+		LinearLayout.LayoutParams scrollviewParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				getResources().getDisplayMetrics().heightPixels
+				- getResources().getDisplayMetrics().widthPixels
+				/ ShowToolbar.getMenuNum(this) - (int) s_size2);
+		
+		scrollview.setLayoutParams(scrollviewParams);
 	}
 
 	@Override
@@ -192,7 +216,7 @@ public class NotEditActivity extends Activity
 			showScrollView.listView2.setText(Detail);
 			showScrollView.dateView.setText(Date);
 			showScrollView.timeView.setText(Time);
-			showScrollView.addressView.setText(Address);
+			showScrollView.addressView2.setText(Address);
 			
 			ImageFunction get_image = new ImageFunction();
 

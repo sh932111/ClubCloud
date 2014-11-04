@@ -17,6 +17,7 @@ import com.roomorama.caldroid.CaldroidListener;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -141,7 +142,7 @@ public class CaldroidSampleActivity extends FragmentActivity
 			{
 				if (caldroidFragment.getLeftArrowButton() != null)
 				{
-
+					
 				}
 			}
 
@@ -159,6 +160,19 @@ public class CaldroidSampleActivity extends FragmentActivity
 
 	private void setCustomResourceForDates()
 	{
+		if (caldroidFragment != null)
+		{
+			Calendar cal = Calendar.getInstance();
+
+			cal.add(Calendar.DATE, 0);
+			Date blueDate = cal.getTime();
+
+			caldroidFragment.setBackgroundResourceForDate(
+					R.color.orange, blueDate);
+
+			caldroidFragment.setTextColorForDate(R.color.white,
+					blueDate);
+		}
 		ArrayList<Bundle> array_list = DBTools.getTravelDBAll(CaldroidSampleActivity.this);
 
 		if (array_list != null)
@@ -225,7 +239,6 @@ public class CaldroidSampleActivity extends FragmentActivity
 				}
 			}
 		}
-
 	}
 
 	public int daysOfTwo(Calendar befor, Calendar after)

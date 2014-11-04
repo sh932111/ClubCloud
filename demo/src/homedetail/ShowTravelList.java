@@ -46,6 +46,9 @@ public class ShowTravelList extends CloudActivity
 
 		setContentView(R.layout.activity_show_travel_list);
 
+		LinearLayout layout1 = (LinearLayout)findViewById(R.id.LinearLayoutImg1);
+		LinearLayout layout2 = (LinearLayout)findViewById(R.id.LinearLayoutImg2);
+		
 		list_index = 0;
 
 		Intent intent = this.getIntent();
@@ -64,10 +67,11 @@ public class ShowTravelList extends CloudActivity
 			time_string = Y +"/"+M+"/"+D;
 
 			txt_1.setText(time_string);
+			layout1.setVisibility(View.GONE);
 		}
 		else
 		{
-			txt_1.setText(getString(R.string.title_activity_show_push_list));
+			layout2.setVisibility(View.GONE);
 		}
 
 		Button bt = (Button) findViewById(R.id.addbutton);
@@ -175,12 +179,27 @@ public class ShowTravelList extends CloudActivity
 	{
 		listView = (ListView) findViewById(R.id.listView);
 
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT, getResources()
-						.getDisplayMetrics().heightPixels
-						- getResources().getDisplayMetrics().heightPixels / 3);
+		if (list_index == 1)
+		{
 
-		listView.setLayoutParams(layoutParams);
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, getResources()
+							.getDisplayMetrics().heightPixels
+							- getResources().getDisplayMetrics().heightPixels / 3 - 200);
+
+			listView.setLayoutParams(layoutParams);
+		}
+		else 
+		{
+
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, getResources()
+							.getDisplayMetrics().heightPixels
+							- getResources().getDisplayMetrics().heightPixels / 3);
+
+			listView.setLayoutParams(layoutParams);
+		}
+		
 
 		loadData();
 
